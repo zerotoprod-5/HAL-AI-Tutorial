@@ -49,20 +49,22 @@ Coloured boxes guide reading: **teal** = new word, **green** = what the cell did
 
 ## Distributing to the lab
 
-**Recommended (one click): the Colab badges above.**
-Each badge in the "What's in the box" table opens that notebook straight from GitHub in Colab — no
-download, no upload. Participants click, sign in with any Google account, and run top to bottom with
-**Shift + Enter**. Share this README (or just the badge links) with the lab.
+This repo is **private**, so the Colab badges above open one-click only for you and anyone added as
+a collaborator. Colab cannot read a private repo's notebooks for people without access, so for the
+participants use upload.
 
-**Fallback (no internet to GitHub, or a locked-down network): upload.**
+**For attendees (works on a private repo): upload.**
 1. Each participant opens [colab.research.google.com](https://colab.research.google.com) and signs in.
 2. `File → Upload notebook` → pick the `.ipynb` for the current module.
 3. Run top to bottom with **Shift + Enter**.
 
 Share the six `.ipynb` files however is easiest in the lab (USB, shared drive, intranet link, email).
 
-The badges point at the `main` branch of this repo; if you fork or rename it, update the
-`github/<owner>/<repo>` segment in the badge URLs.
+**For you / collaborators:** the Colab badges in the table above open each notebook straight from
+GitHub — handy when demoing from your own machine.
+
+If you later make the repo public (Settings → change visibility), the badges become one-click for
+everyone and the upload step is no longer needed.
 
 ---
 
