@@ -1,4 +1,4 @@
-import sys; sys.path.insert(0, "/tmp")
+import os, sys; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from nbbuild import *
 
 # ---------------------------------------------------------------------------
@@ -61,8 +61,8 @@ md("## How to use this notebook\n\n"
    "- To run a cell: click it, then press **Shift + Enter** (or the &#9654; play button on its left).\n"
    "- Run them **in order** &mdash; each cell builds on the one above it.\n"
    "- If anything looks stuck, use the menu: **Runtime &rarr; Restart and run all**, then start again.\n\n"
-   "This is the **last** notebook of the six. It is also the only one that needs a one-time setup &mdash; the very first "
-   "code cell below installs two extra tools and takes about a minute. After that, everything runs as usual."),
+   "This notebook needs a one-time setup &mdash; the very first code cell below installs two extra speech tools and takes "
+   "about a minute. After that, everything runs as usual."),
 
 # ---- Big idea + scenario -------------------------------------------------
 md(bigidea(
@@ -163,6 +163,70 @@ md(watchout("ASR is not perfect. With a clear voice and no background noise &mda
             "will read less cleanly than this quiet studio-style one. Honest expectations beat magical ones.")),
 
 # ---- Step 4: build the text classifier (self-contained, validated) -------
+md(section("How honest is that transcript? Measure it with WER")),
+md(vocab("Word Error Rate (WER)",
+   "How do we put a number on how well speech-to-text did? <b>WER</b> compares the transcript with a correct reference and counts "
+   "three kinds of slip &mdash; <b>wrong</b> words (substitutions), <b>missing</b> words (deletions) and <b>extra</b> words "
+   "(insertions) &mdash; divided by the number of reference words. 0% is perfect. It is simply the speech version of the "
+   "<i>accuracy</i> idea from the earlier sessions.")),
+code(
+   "# A tiny, self-contained WER (word-level edit distance). No model or internet needed --\n"
+   "# we compare a known-correct sentence against what an ASR system might have heard.\n"
+   "def wer(reference, heard):\n"
+   "    r, h = reference.lower().split(), heard.lower().split()\n"
+   "    d = [[0]*(len(h)+1) for _ in range(len(r)+1)]\n"
+   "    for i in range(len(r)+1): d[i][0] = i\n"
+   "    for j in range(len(h)+1): d[0][j] = j\n"
+   "    for i in range(1, len(r)+1):\n"
+   "        for j in range(1, len(h)+1):\n"
+   "            cost = 0 if r[i-1] == h[j-1] else 1\n"
+   "            d[i][j] = min(d[i-1][j] + 1, d[i][j-1] + 1, d[i-1][j-1] + cost)\n"
+   "    return d[-1][-1] / max(1, len(r))\n"
+   "\n"
+   "reference = 'replace hydraulic actuator part number MS21042 dash four on the main landing gear'\n"
+   "heard = {\n"
+   "    'clean studio voice':       'replace hydraulic actuator part number MS21042 dash four on the main landing gear',\n"
+   "    'some shop-floor noise':    'replace the hydraulic actuator part number MS21042 dash four on main landing gear',\n"
+   "    'misheard the part number': 'replace hydraulic actuator part number MS21052 dash four on the main landing gear',\n"
+   "}\n"
+   "print(f'{\"scenario\":26s} {\"WER\":>6}   part number correct?')\n"
+   "for name, said in heard.items():\n"
+   "    part_ok = 'MS21042' in said.upper()\n"
+   "    print(f'{name:26s} {wer(reference, said)*100:5.1f}%   {\"yes\" if part_ok else \"NO  <-- wrong part!\"}')"),
+md(did("Read the three lines. The noisy transcript scores a <b>worse</b> WER (~15%) but every important word survived &mdash; harmless. "
+       "The third scores a <b>better</b> WER (~8%) yet quietly turned <b>MS21042</b> into <b>MS21052</b> &mdash; the one word that "
+       "matters, now wrong. <b>A low error rate does not mean the transcript is safe.</b>")),
+md(watchout("WER weighs every word equally &mdash; mishearing \"the\" counts the same as mishearing a part number, a callsign or a "
+            "torque value. So for anything safety- or traceability-critical the rule is simple and non-negotiable: a human verifies the "
+            "numbers and serials. Speech-to-text is a fast first draft, not the final record.")),
+
+md(section("When you only need a few words: keyword spotting")),
+md(vocab("Keyword spotting",
+   "Often you do not need a full transcript &mdash; only to know whether one of a few <b>commands</b> was spoken (\"start log\", "
+   "\"flag defect\"). <b>Keyword spotting</b> listens for just a small fixed vocabulary. Because the job is so much narrower, it is far "
+   "more <b>robust to noise and accents</b> than open-ended transcription &mdash; the right tool when reliability matters more than detail.")),
+code(
+   "# Listen for a tiny fixed command vocabulary inside messy, real-world transcripts.\n"
+   "COMMANDS = ['start log', 'flag defect', 'pressure low', 'engine fire']\n"
+   "\n"
+   "noisy_transcripts = [\n"
+   "    'uh start log please',                   # command buried in filler\n"
+   "    'the the flag defect on number two',     # stutter + extra words\n"
+   "    'cabin pressure low warning came on',    # command inside a sentence\n"
+   "    'replace the oil filter next service',   # no command at all\n"
+   "]\n"
+   "for t in noisy_transcripts:\n"
+   "    hits = [c for c in COMMANDS if c in t.lower()]\n"
+   "    print(f'{t:42s} -> {hits if hits else \"(no command detected)\"}')"),
+md(did("Even with stutters, filler words and whole surrounding sentences, the small vocabulary is spotted reliably &mdash; and the line "
+       "with no command is correctly left alone. This is why hands-free shop-floor tools lean on a handful of wake-words rather than "
+       "full dictation: a 10-word target is dramatically easier to get right than every word a person might say.")),
+md(note("<b>Hard by default, strong with domain data.</b> Out of the box, ASR struggles with accents, heavy jargon and radio noise. "
+        "But it can be <b>trained on a specific domain</b>: the EU <b>HAAWAII</b> project built speech recognition for air-traffic "
+        "control that reached over <b>95%</b> word recognition for controllers and over <b>90%</b> for pilots after domain training, "
+        "and about <b>97%</b> on aircraft callsigns once the audio was combined with radar context. Open ATC speech datasets &mdash; "
+        "<b>ATCOSIM</b> (clean) and <b>ATCO2</b> (noisy) &mdash; are where teams practise exactly this.")),
+
 md(section("Teach the computer the three teams (text analytics)", 4)),
 md("Now we rebuild the Notebook 4 idea, self-contained right here. We give the computer a small set of past spoken-style "
    "reports, each already labelled with the team that handled it. From those examples it learns which words point to which team. "
@@ -303,28 +367,20 @@ md(recap("What we learned in Notebook 5", [
    "<b>Be honest about ASR:</b> clear speech transcribes beautifully, but accents and shop-floor noise can cause mis-hearings.",
 ])),
 
-# ---- CLOSING: wrap-up for the whole series -------------------------------
-md(section("That is the whole session", None)),
+# ---- CLOSING: wrap Session 3, hand off to the Session 4 finale -----------
+md(section("Wrapping up Session 3", None)),
 md(bigidea(
-   "Look back at everything you ran today. The data kept changing shape &mdash; first <b>numbers</b> (machine hours, temperature, "
-   "vibration, repair cost), then written <b>text</b>, and finally <b>speech</b>. But underneath, it was <b>the same single idea every "
-   "single time</b>:<br><br>"
-   "<b>Learn the pattern from past examples, then make a call on a new case you have never seen.</b><br><br>"
-   "That is the whole of predictive AI. A spoken oil-leak report and a table of machine vibrations are, to the computer, the same kind "
-   "of problem once you reduce them to examples and a pattern.")),
-
-md(SERIES_TABLE),
-
-md(bigidea(
-   "So is predictive AI magic? No &mdash; you watched every step, and there was no magic anywhere, just past examples and a learned "
-   "pattern. Is it nonsense or hype? Also no &mdash; you saw it correctly route a spoken report, score a machine's service risk, and "
-   "estimate a repair cost, all on cases it had never seen.<br><br>"
-   "It is a <b>practical tool</b> &mdash; one you can now reason about, question, and judge. When someone shows you an AI claim, you have "
-   "the right questions: <i>What past examples did it learn from? How was it tested on cases it had not seen? How confident is it, and "
-   "where does it get things wrong?</i> That instinct &mdash; not any single line of code &mdash; is what you take back to the floor.<br><br>"
-   "<b>Thank you for spending the day with us.</b> You came in thinking AI was either magic or nonsense. You leave knowing it is neither &mdash; "
-   "it is an honest, understandable tool, and now it is one of yours.")),
+   "Step back and look at the pipeline you just ran: a <b>spoken</b> report became <b>text</b>, and that text became a "
+   "<b>decision</b> &mdash; the very same words-to-numbers method from the text sessions, with one new front end (listening). "
+   "And you saw it <b>honestly</b>: speech-to-text is excellent on clear speech and measurable with <b>WER</b>, but a low error "
+   "rate can still miss the one word that matters &mdash; which is why a small fixed vocabulary (keyword spotting) is so much more "
+   "reliable when the stakes are high, and why critical numbers always get a human's eyes.")),
+md(nextup(
+   "<b>Session 4 &mdash; predicting from the sound itself.</b> So far the sound only mattered for the <i>words</i> inside it. "
+   "Next we throw the words away entirely and ask a bolder question: can a computer <b>hear a failing bearing</b> &mdash; diagnose a "
+   "machine fault from its raw sound, the way a seasoned technician can? That is the finale, and it is the same idea one last time: "
+   "turn it into numbers, learn the pattern, judge the new case.")),
 ]
 
-build(cells, "/Users/flam/Desktop/HAL_AI/notebooks/05_speech_analytics.ipynb",
+build(cells, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "notebooks", "05_speech_analytics.ipynb"),
       title="Predictive AI 05 - Speech Analytics")
