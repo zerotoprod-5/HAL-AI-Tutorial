@@ -26,14 +26,14 @@ No internet or PowerPoint needed; works in any browser, offline. **Keep `slides.
 
 ## What's in the box
 
-| # | Notebook | What it teaches | Live result |
-|---|----------|-----------------|-------------|
-| 00 | `00_intro_predictive_ai.ipynb` | The mindset + core vocabulary (dataset, label column, train/test split, accuracy) on a tiny equipment example | Decision tree, ~87% on unseen machines |
-| 01 | `01_classification.ipynb` | Sorting into categories; the **accuracy trap**; confusion matrix; precision & recall | 93% acc, catches rare rejects |
-| 02 | `02_regression_forecasting.ipynb` | Predicting **numbers** (regression) and **trends over time** (forecasting) | Cost ±₹1,100; 6-month demand forecast |
-| 03 | `03_predictive_maintenance.ipynb` | Capstone: catch failures early, **feature importance**, and **anomaly detection** without labels | Flags failures, ranks the sensors |
-| 04 | `04_text_analytics.ipynb` | Turning written reports into predictions (words → numbers, TF-IDF) | Auto-routes reports to the right team |
-| 05 | `05_speech_analytics.ipynb` | **Speak → transcribe → predict** pipeline (Whisper ASR + text analytics) | Spoken note → category, live |
+| # | Notebook | What it teaches | Live result | Open |
+|---|----------|-----------------|-------------|------|
+| 00 | `00_intro_predictive_ai.ipynb` | The mindset + core vocabulary (dataset, label column, train/test split, accuracy) on a tiny equipment example | Decision tree, ~87% on unseen machines | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/VinayakRai5/HAL-AI/blob/main/notebooks/00_intro_predictive_ai.ipynb) |
+| 01 | `01_classification.ipynb` | Sorting into categories; the **accuracy trap**; confusion matrix; precision & recall | 93% acc, catches rare rejects | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/VinayakRai5/HAL-AI/blob/main/notebooks/01_classification.ipynb) |
+| 02 | `02_regression_forecasting.ipynb` | Predicting **numbers** (regression) and **trends over time** (forecasting) | Cost ±₹1,100; 6-month demand forecast | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/VinayakRai5/HAL-AI/blob/main/notebooks/02_regression_forecasting.ipynb) |
+| 03 | `03_predictive_maintenance.ipynb` | Capstone: catch failures early, **feature importance**, and **anomaly detection** without labels | Flags failures, ranks the sensors | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/VinayakRai5/HAL-AI/blob/main/notebooks/03_predictive_maintenance.ipynb) |
+| 04 | `04_text_analytics.ipynb` | Turning written reports into predictions (words → numbers, TF-IDF) | Auto-routes reports to the right team | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/VinayakRai5/HAL-AI/blob/main/notebooks/04_text_analytics.ipynb) |
+| 05 | `05_speech_analytics.ipynb` | **Speak → transcribe → predict** pipeline (Whisper ASR + text analytics) | Spoken note → category, live | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/VinayakRai5/HAL-AI/blob/main/notebooks/05_speech_analytics.ipynb) |
 
 All six are **self-contained**: synthetic/in-cell data, fixed random seeds (everyone sees the
 same numbers), scikit-learn only, no downloads, no API keys, no file uploads. Maths is shown
@@ -49,18 +49,20 @@ Coloured boxes guide reading: **teal** = new word, **green** = what the cell did
 
 ## Distributing to the lab
 
-**Recommended (zero setup): upload.**
+**Recommended (one click): the Colab badges above.**
+Each badge in the "What's in the box" table opens that notebook straight from GitHub in Colab — no
+download, no upload. Participants click, sign in with any Google account, and run top to bottom with
+**Shift + Enter**. Share this README (or just the badge links) with the lab.
+
+**Fallback (no internet to GitHub, or a locked-down network): upload.**
 1. Each participant opens [colab.research.google.com](https://colab.research.google.com) and signs in.
 2. `File → Upload notebook` → pick the `.ipynb` for the current module.
 3. Run top to bottom with **Shift + Enter**.
 
 Share the six `.ipynb` files however is easiest in the lab (USB, shared drive, intranet link, email).
 
-**Optional (one-click badges): host on GitHub.**
-Push the `notebooks/` folder to a repo, then a *Open in Colab* link is:
-```
-https://colab.research.google.com/github/<org>/<repo>/blob/main/notebooks/00_intro_predictive_ai.ipynb
-```
+The badges point at the `main` branch of this repo; if you fork or rename it, update the
+`github/<owner>/<repo>` segment in the badge URLs.
 
 ---
 
