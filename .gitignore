@@ -1,0 +1,17 @@
+# Private, local-only session context — never publish
+CLAUDE.md
+CLAUDE_*.md
+claude_backup.txt
+.claude/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# OS / editor
+.DS_Store
+*.swp
+.idea/
+.vscode/
