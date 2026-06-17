@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Predictive AI — Hands-on Lab · HAL Core Engineering</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --ink:#10191f;          /* deepest background        */
+    --ink2:#16222e;         /* panel base                */
+    --panel:#1b2a38;        /* card surface              */
+    --panel-2:#21333f;      /* card surface raised       */
+    --line:rgba(125,182,196,.14);
+    --line-2:rgba(125,182,196,.28);
+    --paper:#e7eef3;        /* primary text              */
+    --muted:#86a0b1;        /* secondary text            */
+    --faint:#5d7689;
+    --teal:#36b6c9;         /* primary accent            */
+    --teal-deep:#0b6e7a;
+    --amber:#e7a657;        /* warm accent               */
+    --green:#56c08a;        /* validated / go            */
+    --red:#d4756b;
+    --radius:14px;
+    --maxw:1180px;
+    --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+    --sans:'IBM Plex Sans',-apple-system,system-ui,sans-serif;
+    --disp:'Archivo',var(--sans);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--sans);
+    color:var(--paper);
+    background:var(--ink);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  /* ---- blueprint grid + atmosphere ---- */
+  body::before{
+    content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+    background-image:
+      linear-gradient(var(--line) 1px,transparent 1px),
+      linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:46px 46px;
+    -webkit-mask-image:radial-gradient(ellipse 120% 90% at 50% 0%,#000 35%,transparent 78%);
+            mask-image:radial-gradient(ellipse 120% 90% at 50% 0%,#000 35%,transparent 78%);
+  }
+  body::after{
+    content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:
+      radial-gradient(900px 520px at 78% -8%,rgba(54,182,201,.16),transparent 60%),
+      radial-gradient(760px 480px at 8% 4%,rgba(11,110,122,.18),transparent 62%);
+  }
+  .wrap{position:relative;z-index:1;max-width:var(--maxw);margin:0 auto;padding:0 28px}
+
+  /* ---- top status strip ---- */
+  .strip{
+    border-bottom:1px solid var(--line);
+    font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--muted);
+    background:rgba(8,14,18,.55);backdrop-filter:blur(6px);
+    position:sticky;top:0;z-index:5;
+  }
+  .strip .wrap{display:flex;justify-content:space-between;align-items:center;height:42px;gap:18px;flex-wrap:wrap}
+  .strip b{color:var(--teal);font-weight:600}
+  .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);
+    box-shadow:0 0 0 0 rgba(86,192,138,.6);animation:pulse 2.6s infinite;margin-right:7px;vertical-align:middle}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(86,192,138,.55)}70%{box-shadow:0 0 0 7px rgba(86,192,138,0)}100%{box-shadow:0 0 0 0 rgba(86,192,138,0)}}
+
+  /* ---- hero ---- */
+  header.hero{padding:74px 0 30px}
+  .kicker{
+    font-family:var(--mono);font-size:12.5px;letter-spacing:.34em;text-transform:uppercase;
+    color:var(--teal);display:flex;align-items:center;gap:14px;margin-bottom:26px;
+    animation:rise .7s both .05s;
+  }
+  .kicker::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--line-2),transparent);max-width:340px}
+  h1{
+    font-family:var(--disp);font-weight:900;letter-spacing:-.03em;line-height:.94;
+    font-size:clamp(52px,9vw,118px);
+    background:linear-gradient(180deg,#ffffff 0%,#b9d3dd 130%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    animation:rise .8s both .12s;
+  }
+  h1 .em{
+    display:block;
+    background:linear-gradient(92deg,var(--teal) 0%,#7fdbe7 60%,var(--amber) 130%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .lede{
+    max-width:680px;margin-top:30px;font-size:19px;color:#cdddE6;
+    animation:rise .8s both .2s;
+  }
+  .lede .hl{color:var(--paper);font-weight:600;border-bottom:2px solid var(--teal-deep);padding-bottom:1px}
+  .mindset{
+    max-width:660px;margin-top:18px;font-size:15.5px;color:var(--muted);
+    animation:rise .8s both .26s;
+  }
+  .stats{display:flex;gap:14px;flex-wrap:wrap;margin-top:36px;animation:rise .8s both .34s}
+  .stat{
+    border:1px solid var(--line-2);border-radius:11px;padding:14px 20px;background:rgba(27,42,56,.5);
+    min-width:128px;
+  }
+  .stat .n{font-family:var(--disp);font-weight:800;font-size:30px;color:var(--paper);line-height:1}
+  .stat .l{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-top:8px}
+  .stat .n .u{font-size:15px;color:var(--teal);font-weight:600}
+
+  /* ---- section heading ---- */
+  .sec{padding:58px 0 8px;display:flex;align-items:baseline;gap:18px}
+  .sec .idx{font-family:var(--mono);font-size:13px;color:var(--teal);letter-spacing:.1em}
+  .sec h2{font-family:var(--disp);font-weight:800;font-size:clamp(24px,3.4vw,34px);letter-spacing:-.01em}
+  .sec .rule{flex:1;height:1px;background:var(--line);align-self:center}
+
+  /* ---- run steps ---- */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px}
+  .step{
+    border:1px solid var(--line);border-radius:var(--radius);padding:22px;background:linear-gradient(180deg,var(--panel),var(--ink2));
+    position:relative;overflow:hidden;
+  }
+  .step .sn{font-family:var(--mono);font-size:12px;color:var(--teal);letter-spacing:.18em}
+  .step h3{font-family:var(--disp);font-weight:700;font-size:17px;margin:12px 0 8px}
+  .step p{font-size:14px;color:var(--muted)}
+  .step code{font-family:var(--mono);font-size:12.5px;color:var(--amber);background:rgba(231,166,87,.09);padding:1px 6px;border-radius:5px}
+  .note-line{
+    margin-top:18px;font-family:var(--mono);font-size:12.5px;color:var(--muted);
+    border-left:3px solid var(--amber);padding:10px 16px;background:rgba(231,166,87,.06);border-radius:0 8px 8px 0;
+  }
+  .note-line b{color:var(--amber);font-weight:600}
+
+  /* ---- module cards ---- */
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:26px}
+  .card{
+    position:relative;border:1px solid var(--line-2);border-radius:var(--radius);
+    background:linear-gradient(165deg,var(--panel-2) 0%,var(--ink2) 100%);
+    padding:26px 26px 22px;overflow:hidden;
+    transition:transform .28s cubic-bezier(.2,.7,.3,1),border-color .28s,box-shadow .28s;
+    animation:rise .7s both;
+  }
+  .card::before{ /* corner module number, ghosted */
+    content:attr(data-n);position:absolute;top:-18px;right:6px;
+    font-family:var(--disp);font-weight:900;font-size:120px;letter-spacing:-.04em;
+    color:rgba(125,182,196,.06);line-height:1;pointer-events:none;
+  }
+  .card::after{ /* top accent line */
+    content:"";position:absolute;left:0;top:0;height:3px;width:100%;
+    background:linear-gradient(90deg,var(--teal),var(--teal-deep) 60%,transparent);
+    opacity:.7;transition:opacity .28s;
+  }
+  .card:hover{transform:translateY(-6px);border-color:var(--teal);box-shadow:0 22px 50px -28px rgba(54,182,201,.55)}
+  .card:hover::after{opacity:1}
+  .card .mod{font-family:var(--mono);font-size:12px;letter-spacing:.2em;color:var(--teal);text-transform:uppercase}
+  .card h3{font-family:var(--disp);font-weight:800;font-size:23px;margin:10px 0 10px;letter-spacing:-.01em;position:relative;z-index:1}
+  .card p{font-size:14.5px;color:var(--muted);position:relative;z-index:1;min-height:44px}
+  .tags{display:flex;flex-wrap:wrap;gap:7px;margin:16px 0 0}
+  .tag{font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:#bcd3dd;
+    border:1px solid var(--line-2);border-radius:20px;padding:4px 11px;background:rgba(54,182,201,.06)}
+  .meta{display:flex;justify-content:space-between;align-items:center;margin-top:20px;
+    padding-top:15px;border-top:1px dashed var(--line-2);font-family:var(--mono);font-size:11.5px}
+  .meta .metric{color:var(--green)}
+  .meta .metric .tk{color:var(--green);margin-right:6px}
+  .meta .file{color:var(--faint)}
+
+  /* ---- glossary ---- */
+  .gloss{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px;margin-bottom:10px}
+  .term{border:1px solid var(--line);border-radius:11px;padding:16px 18px;background:rgba(22,34,46,.6)}
+  .term .t{font-family:var(--disp);font-weight:700;font-size:15px;color:var(--paper)}
+  .term .d{font-size:13px;color:var(--muted);margin-top:5px}
+  .term .src{font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--teal);margin-top:9px;text-transform:uppercase}
+
+  /* ---- footer ---- */
+  footer{margin-top:64px;border-top:1px solid var(--line);padding:34px 0 70px}
+  footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
+  footer .f-mono{font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:var(--muted)}
+  footer .f-mono b{color:var(--teal)}
+  .pill{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--line-2);border-radius:30px;
+    padding:9px 16px;font-family:var(--mono);font-size:12px;color:var(--paper);background:rgba(86,192,138,.07)}
+
+  @keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+  @media (max-width:860px){
+    .steps{grid-template-columns:1fr}
+    .grid{grid-template-columns:1fr}
+    .gloss{grid-template-columns:1fr 1fr}
+    .strip .wrap{height:auto;padding:9px 28px}
+  }
+  @media (max-width:560px){.gloss{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="strip">
+  <div class="wrap">
+    <span><b>HAL</b> · CORE ENGINEERING</span>
+    <span><span class="dot"></span>SESSION BRIEF — PREDICTIVE AI · 6 MODULES · HANDS-ON</span>
+    <span>NO-CODE LAB // GOOGLE COLAB</span>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">Predictive &amp; Analytics Track — Full-day Lab</div>
+    <h1>Predictive AI<span class="em">for engineers.</span></h1>
+    <p class="lede">Six hands-on notebooks that take one idea all the way through:
+      <span class="hl">learn the pattern from past examples, then predict the next case</span> —
+      from tables of sensor numbers, to written reports, to the spoken word.</p>
+    <p class="mindset">Not the AI that <i>writes</i> essays. This is the older, quieter workhorse that has run
+      inside banks, factories and airlines for decades — and it is neither magic nor hype. You will watch it work, step by step,
+      and leave able to reason about what it can and cannot do.</p>
+    <div class="stats">
+      <div class="stat"><div class="n">06</div><div class="l">Notebooks</div></div>
+      <div class="stat"><div class="n">0<span class="u"> lines</span></div><div class="l">You write</div></div>
+      <div class="stat"><div class="n">100<span class="u">%</span></div><div class="l">In the browser</div></div>
+      <div class="stat"><div class="n">3<span class="u"> kinds</span></div><div class="l">Numbers · Text · Speech</div></div>
+    </div>
+  </div>
+</header>
+
+<section class="wrap">
+  <div class="sec"><span class="idx">A.</span><h2>Open a notebook in Colab</h2><span class="rule"></span></div>
+  <div class="steps">
+    <div class="step">
+      <div class="sn">RUN / 01</div>
+      <h3>Go to Colab</h3>
+      <p>Open <code>colab.research.google.com</code> and sign in with any Google account. Nothing to install.</p>
+    </div>
+    <div class="step">
+      <div class="sn">RUN / 02</div>
+      <h3>Upload the notebook</h3>
+      <p>Choose <code>File &rarr; Upload notebook</code> and pick the <code>.ipynb</code> for the module you are on.</p>
+    </div>
+    <div class="step">
+      <div class="sn">RUN / 03</div>
+      <h3>Run, top to bottom</h3>
+      <p>Click a cell and press <code>Shift + Enter</code>. Read the coloured boxes. Re-run after each <code>Your turn</code>.</p>
+    </div>
+  </div>
+  <div class="note-line"><b>Only Module 05 (Speech)</b> installs anything — its first cell pulls two libraries and takes about a minute. Every other notebook runs instantly with no setup, no keys, no downloads.</div>
+</section>
+
+<section class="wrap">
+  <div class="sec"><span class="idx">B.</span><h2>The six modules</h2><span class="rule"></span></div>
+  <div class="grid">
+
+    <article class="card" data-n="00" style="animation-delay:.04s">
+      <div class="mod">Module 00 · Foundation</div>
+      <h3>What is Predictive AI?</h3>
+      <p>The mindset, and every word everyone keeps using — taught on one tiny equipment example.</p>
+      <div class="tags"><span class="tag">dataset</span><span class="tag">label column</span><span class="tag">train / test split</span><span class="tag">accuracy</span></div>
+      <div class="meta"><span class="metric"><span class="tk">&#10003;</span>tree model · 87% on unseen machines</span><span class="file">00_intro_predictive_ai.ipynb</span></div>
+    </article>
+
+    <article class="card" data-n="01" style="animation-delay:.1s">
+      <div class="mod">Module 01 · Supervised</div>
+      <h3>Classification</h3>
+      <p>Sorting cases into categories — and why a high accuracy score can still be completely useless.</p>
+      <div class="tags"><span class="tag">classes</span><span class="tag">confusion matrix</span><span class="tag">precision / recall</span><span class="tag">the accuracy trap</span></div>
+      <div class="meta"><span class="metric"><span class="tk">&#10003;</span>93% acc · catches the rare rejects</span><span class="file">01_classification.ipynb</span></div>
+    </article>
+
+    <article class="card" data-n="02" style="animation-delay:.16s">
+      <div class="mod">Module 02 · Supervised</div>
+      <h3>Regression &amp; Forecasting</h3>
+      <p>Predicting numbers and trends, not just yes / no — fit a line, then forecast forward in time.</p>
+      <div class="tags"><span class="tag">line of best fit</span><span class="tag">error (MAE)</span><span class="tag">trend</span><span class="tag">seasonality</span></div>
+      <div class="meta"><span class="metric"><span class="tk">&#10003;</span>cost &plusmn;&#8377;1,100 · 6-month forecast</span><span class="file">02_regression_forecasting.ipynb</span></div>
+    </article>
+
+    <article class="card" data-n="03" style="animation-delay:.22s">
+      <div class="mod">Module 03 · Capstone</div>
+      <h3>Predictive Maintenance</h3>
+      <p>Catch failures before they happen — then ask the model which signal mattered most, and meet AI with no labels at all.</p>
+      <div class="tags"><span class="tag">random forest</span><span class="tag">recall</span><span class="tag">feature importance</span><span class="tag">anomaly detection</span></div>
+      <div class="meta"><span class="metric"><span class="tk">&#10003;</span>flags failures · ranks the sensors</span><span class="file">03_predictive_maintenance.ipynb</span></div>
+    </article>
+
+    <article class="card" data-n="04" style="animation-delay:.28s">
+      <div class="mod">Module 04 · Language</div>
+      <h3>Text Analytics</h3>
+      <p>Teaching the computer to read free-text maintenance reports and route each one to the right team.</p>
+      <div class="tags"><span class="tag">words &rarr; numbers</span><span class="tag">bag of words</span><span class="tag">TF-IDF</span><span class="tag">auto-routing</span></div>
+      <div class="meta"><span class="metric"><span class="tk">&#10003;</span>sorts reports by team, with reasons</span><span class="file">04_text_analytics.ipynb</span></div>
+    </article>
+
+    <article class="card" data-n="05" style="animation-delay:.34s">
+      <div class="mod">Module 05 · Finale</div>
+      <h3>Speech Analytics</h3>
+      <p>Speak a report aloud; the computer transcribes it and routes it — the speak &rarr; transcribe &rarr; predict pipeline, live.</p>
+      <div class="tags"><span class="tag">speech-to-text (ASR)</span><span class="tag">Whisper</span><span class="tag">pipeline</span><span class="tag">numbers&rarr;text&rarr;speech</span></div>
+      <div class="meta"><span class="metric"><span class="tk">&#10003;</span>spoken note &rarr; category, in seconds</span><span class="file">05_speech_analytics.ipynb</span></div>
+    </article>
+
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="sec"><span class="idx">C.</span><h2>Vocabulary you will own by the end</h2><span class="rule"></span></div>
+  <div class="gloss">
+    <div class="term"><div class="t">Dataset</div><div class="d">A table. Rows are cases, columns are what we measured.</div><div class="src">Module 00</div></div>
+    <div class="term"><div class="t">Label column</div><div class="d">The single column holding the answer we want to predict.</div><div class="src">Module 00</div></div>
+    <div class="term"><div class="t">Train / test split</div><div class="d">Learn from one part, judge honestly on a hidden part.</div><div class="src">Module 00</div></div>
+    <div class="term"><div class="t">Confusion matrix</div><div class="d">True hits, false alarms, and the dangerous missed faults.</div><div class="src">Module 01</div></div>
+    <div class="term"><div class="t">Precision &amp; recall</div><div class="d">How often a flag is real vs. how many real cases we caught.</div><div class="src">Module 01</div></div>
+    <div class="term"><div class="t">Regression</div><div class="d">Predicting a number on a scale, not a category.</div><div class="src">Module 02</div></div>
+    <div class="term"><div class="t">Forecasting</div><div class="d">Predicting how a value moves forward in time.</div><div class="src">Module 02</div></div>
+    <div class="term"><div class="t">Feature importance</div><div class="d">Which signal the model leaned on most — insight, not just a verdict.</div><div class="src">Module 03</div></div>
+    <div class="term"><div class="t">Anomaly detection</div><div class="d">Finding the unusual cases with no labels at all.</div><div class="src">Module 03</div></div>
+    <div class="term"><div class="t">Vectorizing (TF-IDF)</div><div class="d">Turning words into numbers a model can work with.</div><div class="src">Module 04</div></div>
+    <div class="term"><div class="t">Speech-to-text (ASR)</div><div class="d">Turning the spoken word into text, automatically.</div><div class="src">Module 05</div></div>
+    <div class="term"><div class="t">Supervised vs. unsupervised</div><div class="d">Learning with answers vs. finding structure without them.</div><div class="src">Modules 00–03</div></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="f-mono">PREDICTIVE AI &mdash; HANDS-ON LAB · <b>scikit-learn</b> · conceptual + visual, no heavy maths<br>Built for HAL Core Engineering · all six notebooks validated end-to-end</div>
+    <span class="pill"><span class="dot"></span>6 / 6 notebooks verified &middot; runs on free Colab</span>
+  </div>
+</footer>
+
+</body>
+</html>
