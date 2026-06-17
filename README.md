@@ -4,8 +4,15 @@ A full-day, no-code lab that introduces **predictive AI** to core engineers with
 background. Six Google Colab notebooks take a single idea — *learn the pattern from past
 examples, then predict the next case* — across three kinds of data: numbers, text, and speech.
 
+**For the presenter:**
 - `slides.html` — the **presentation deck** (open fullscreen in a browser to present).
+- `SPEAKER_NOTES.md` — printable per-slide presenter script (also built into the deck; press **S**).
 - `index.html` — the session **landing page** (a one-screen overview to project or share).
+
+**For the participants (take-home):**
+- `Predictive-AI-Field-Guide.pdf` — a **12-page illustrated reference** to keep: the ideas, the
+  charts, a glossary, and "where to use this" notes. Rendered from `reference_guide.html`.
+- `handout.html` — a one-page quick-reference cheat-sheet (print it).
 
 ### Presenting the deck (`slides.html`)
 

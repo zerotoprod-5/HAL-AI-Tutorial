@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Predictive AI — A Field Guide for Engineers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --ink:#1f2d3d; --teal:#0b6e7a; --teal2:#0a5a64; --amber:#b26a00; --green:#2e7d32; --red:#b3433a;
+    --muted:#56657a; --line:#d7dee5; --soft:#f4f7f9; --bg:#ffffff;
+    --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+    --sans:'IBM Plex Sans',-apple-system,system-ui,Arial,sans-serif;
+    --disp:'Archivo',var(--sans);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--sans);color:#222b34;background:#e9edf1;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .page{max-width:820px;margin:22px auto;background:var(--bg);padding:40px 48px;
+    box-shadow:0 10px 40px -18px rgba(0,0,0,.4);border-radius:5px;position:relative}
+
+  /* type */
+  h1{font-family:var(--disp);font-weight:900;letter-spacing:-.02em;line-height:1;color:var(--ink)}
+  h2{font-family:var(--disp);font-weight:800;font-size:25px;letter-spacing:-.01em;color:var(--ink);
+    margin:0 0 4px;display:flex;align-items:baseline;gap:12px}
+  h2 .tag{font-family:var(--mono);font-size:12px;letter-spacing:.16em;color:var(--teal);font-weight:600;text-transform:uppercase}
+  h3{font-family:var(--disp);font-weight:800;font-size:16px;color:var(--ink);margin:18px 0 6px}
+  p{margin:9px 0;font-size:14.5px}
+  .lead{font-size:16px;color:#2c3742}
+  .eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--teal);font-weight:600;margin-bottom:14px}
+  .rule{height:3px;background:var(--ink);margin:10px 0 20px;border-radius:2px}
+  b,strong{color:var(--ink)}
+  code{font-family:var(--mono);font-size:.86em;background:var(--soft);padding:1px 5px;border-radius:4px;color:var(--teal2)}
+  .muted{color:var(--muted)}
+
+  /* callouts */
+  .idea{background:var(--soft);border-left:5px solid var(--teal);border-radius:0 8px 8px 0;padding:15px 19px;margin:16px 0}
+  .idea .h{font-family:var(--disp);font-weight:800;font-size:17px;color:var(--ink);margin-bottom:4px}
+  .take{background:#fbf3e6;border-left:5px solid var(--amber);border-radius:0 8px 8px 0;padding:11px 16px;margin:12px 0;font-size:14px}
+  .take b{color:var(--amber)}
+  .use{border:1px dashed var(--line);border-radius:8px;padding:11px 16px;margin:12px 0;font-size:13.5px;color:#39444f;background:#fcfdfe}
+  .use b{color:var(--teal2)}
+
+  /* figures */
+  figure{margin:18px 0;border:1px solid var(--line);border-radius:10px;padding:16px;background:#fff;break-inside:avoid}
+  figure img{width:100%;height:auto;display:block}
+  figcaption{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-top:10px;text-align:center}
+  .diagram{display:flex;justify-content:center;margin:6px 0}
+
+  /* glossary */
+  .gloss{display:grid;grid-template-columns:1fr 1fr;gap:7px 26px;margin-top:10px}
+  .term{padding:6px 0;border-bottom:1px dotted var(--line);break-inside:avoid}
+  .term .t{font-family:var(--disp);font-weight:700;color:var(--teal2);font-size:14px}
+  .term .d{font-size:12.8px;color:#39444f}
+
+  /* module cards mini */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:8px}
+  .limit{background:var(--soft);border-radius:8px;padding:13px 15px;break-inside:avoid}
+  .limit .h{font-family:var(--disp);font-weight:800;font-size:14px;color:var(--ink);margin-bottom:3px}
+  .limit .d{font-size:12.8px;color:#39444f}
+
+  /* cover */
+  .cover{min-height:78vh;display:flex;flex-direction:column;justify-content:center}
+  .cover h1{font-size:62px;background:linear-gradient(180deg,#1f2d3d,#0b6e7a);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .cover .em{color:var(--teal)}
+  .cover .sub{font-size:19px;color:#33414f;max-width:30ch;margin-top:18px}
+  .cover .meta{font-family:var(--mono);font-size:12px;letter-spacing:.12em;color:var(--muted);margin-top:34px;border-top:1px solid var(--line);padding-top:16px}
+  .cover .chips{display:flex;gap:8px;margin-top:20px;flex-wrap:wrap}
+  .chip{font-family:var(--mono);font-size:11.5px;border:1px solid var(--line);border-radius:20px;padding:5px 13px;color:var(--teal2);background:var(--soft)}
+
+  footer.pf{margin-top:26px;border-top:1px solid var(--line);padding-top:10px;
+    font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);display:flex;justify-content:space-between}
+
+  /* inline-svg diagram helpers */
+  .flow{display:flex;align-items:stretch;gap:10px;margin:14px 0}
+  .fnode{flex:1;border:1px solid var(--line);border-radius:10px;padding:14px 10px;text-align:center;background:#fff}
+  .fnode.hot{border-color:var(--teal);background:#eef6f7}
+  .fnode .ic{width:34px;height:34px;color:var(--teal);margin:0 auto 7px}
+  .fnode .k{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .fnode .v{font-family:var(--disp);font-weight:800;font-size:13.5px;color:var(--ink);margin-top:3px}
+  .farr{align-self:center;font-family:var(--disp);font-weight:900;color:var(--teal);font-size:22px}
+  .split{display:flex;height:62px;border-radius:8px;overflow:hidden;border:1px solid var(--line);margin:14px 0}
+  .split .s{display:flex;flex-direction:column;justify-content:center;padding:0 18px;color:#fff}
+  .split .learn{flex:3;background:var(--teal)}
+  .split .test{flex:1;background:var(--amber)}
+  .split .pc{font-family:var(--disp);font-weight:900;font-size:18px}
+  .split .lb{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;opacity:.92}
+  .cm{display:grid;grid-template-columns:auto 1fr 1fr;gap:5px;margin:12px 0;max-width:430px;font-size:12px}
+  .cm .c{border-radius:6px;padding:9px 11px;font-family:var(--sans)}
+  .cm .hd{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;justify-content:center;text-align:center}
+  .cm .good{background:#e3f1e6;border:1px solid #bcdcc4}
+  .cm .bad{background:#f7e0dc;border:1px solid #e6bdb5}
+  .cm .c .t{font-family:var(--disp);font-weight:800;display:block;color:var(--ink)}
+  .pipe{display:flex;align-items:center;gap:8px;margin:14px 0;flex-wrap:wrap}
+  .pstep{border:1px solid var(--line);border-radius:9px;padding:10px 12px;background:#fff;text-align:center;flex:1;min-width:120px}
+  .pstep .ic{width:30px;height:30px;color:var(--teal);margin:0 auto 6px}
+  .pstep .v{font-family:var(--disp);font-weight:700;font-size:13px;color:var(--ink)}
+  .pstep .d{font-size:10.5px;color:var(--muted)}
+
+  @media print{
+    body{background:#fff}
+    .page{box-shadow:none;margin:0;max-width:100%;padding:0;border-radius:0;page-break-after:always}
+    .page:last-child{page-break-after:auto}
+    @page{size:A4;margin:15mm 16mm}
+    figure,.idea,.take,.use,.limit,.term,.flow,.pipe{break-inside:avoid}
+    h2,h3{break-after:avoid}
+  }
+</style>
+</head>
+<body>
+
+<!-- icon defs -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <g id="r-table" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="9" width="34" height="30" rx="3"/><line x1="7" y1="19" x2="41" y2="19"/><line x1="18" y1="9" x2="18" y2="39"/><line x1="29" y1="19" x2="29" y2="39"/></g>
+  <g id="r-net" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="24" r="3.2"/><circle cx="24" cy="11" r="3.2"/><circle cx="24" cy="37" r="3.2"/><circle cx="37" cy="17" r="3.2"/><circle cx="37" cy="31" r="3.2"/><line x1="13.6" y1="22.4" x2="21.4" y2="12.6"/><line x1="13.6" y1="25.6" x2="21.4" y2="35.4"/><line x1="26.5" y1="12.6" x2="34.5" y2="16"/><line x1="26.5" y1="35.4" x2="34.5" y2="32"/></g>
+  <g id="r-target" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="15"/><circle cx="24" cy="24" r="8.5"/><circle cx="24" cy="24" r="2" fill="currentColor" stroke="none"/></g>
+  <g id="r-doc" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="11" y="7" width="26" height="34" rx="3"/><line x1="16" y1="16" x2="32" y2="16"/><line x1="16" y1="22" x2="32" y2="22"/><line x1="16" y1="28" x2="27" y2="28"/></g>
+  <g id="r-wave" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><line x1="10" y1="20" x2="10" y2="28"/><line x1="16" y1="15" x2="16" y2="33"/><line x1="22" y1="9" x2="22" y2="39"/><line x1="28" y1="16" x2="28" y2="32"/><line x1="34" y1="12" x2="34" y2="36"/><line x1="40" y1="19" x2="40" y2="29"/></g>
+  <g id="r-mic" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="18" y="6" width="12" height="22" rx="6"/><path d="M13 24a11 11 0 0 0 22 0"/><line x1="24" y1="35" x2="24" y2="42"/></g>
+  <g id="r-tag" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M24 8H10v14l16 16 14-14z"/><circle cx="16" cy="16" r="2.4" fill="currentColor" stroke="none"/></g>
+  <g id="r-gauge" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 32a15 15 0 0 1 30 0"/><line x1="24" y1="32" x2="33" y2="21"/><circle cx="24" cy="32" r="2.2" fill="currentColor" stroke="none"/></g>
+</defs></svg>
+
+<!-- ============ COVER ============ -->
+<div class="page">
+  <div class="cover">
+    <div class="eyebrow">HAL Core Engineering · Predictive &amp; Analytics Track</div>
+    <h1>Predictive AI<br><span class="em">a field guide.</span></h1>
+    <div class="sub">A keep-it reference to everything you ran in the hands-on lab — the ideas, the
+      pictures, and where they fit your work.</div>
+    <div class="chips"><span class="chip">Numbers</span><span class="chip">Text</span><span class="chip">Speech</span><span class="chip">No maths to memorise</span></div>
+    <div class="meta">One idea, three kinds of data · six worked examples · written for engineers, not programmers</div>
+  </div>
+  <footer class="pf"><span>Predictive AI — Field Guide</span><span>Cover</span></footer>
+</div>
+
+<!-- ============ 1. THE ONE IDEA + WORKFLOW ============ -->
+<div class="page">
+  <div class="eyebrow">Part 1 · The whole idea on one page</div>
+  <h2><span class="tag">01</span> What predictive AI actually is</h2>
+  <div class="rule"></div>
+
+  <p class="lead">Strip away the buzzwords and predictive AI is one sentence:</p>
+  <div class="idea">
+    <div class="h">Learn the pattern from past examples, then predict the next case.</div>
+    A model studies many records where the answer is already known, finds the pattern that connects
+    the inputs to the answer, and uses that pattern to make a call on a new case it has never seen.
+    Like a seasoned technician who has inspected thousands of machines and can spot a bad one — not
+    magic, just <b>pattern from experience</b>.
+  </div>
+
+  <h3>The five-step rhythm behind every example</h3>
+  <p>Every notebook you ran — whether the data was numbers, text, or speech — followed the same loop.</p>
+  <div class="flow">
+    <div class="fnode"><div class="ic"><svg viewBox="0 0 48 48"><use href="#r-table"/></svg></div><div class="k">Step 1</div><div class="v">Past records</div></div>
+    <div class="farr">&rarr;</div>
+    <div class="fnode hot"><div class="ic"><svg viewBox="0 0 48 48"><use href="#r-net"/></svg></div><div class="k">Step 2 · learning</div><div class="v">Find the pattern</div></div>
+    <div class="farr">&rarr;</div>
+    <div class="fnode"><div class="ic"><svg viewBox="0 0 48 48"><use href="#r-target"/></svg></div><div class="k">Step 3</div><div class="v">Predict + check</div></div>
+  </div>
+
+  <h3>The words that sound scary (and what they really mean)</h3>
+  <div class="gloss">
+    <div class="term"><span class="t">Dataset</span> <span class="d">— a table; rows are cases, columns are measurements.</span></div>
+    <div class="term"><span class="t">Feature</span> <span class="d">— an input column; a clue the model gets to see.</span></div>
+    <div class="term"><span class="t">Label / label column</span> <span class="d">— the answer we want, and the column that holds it.</span></div>
+    <div class="term"><span class="t">Model</span> <span class="d">— the pattern-finder; "training" is when it learns.</span></div>
+  </div>
+
+  <h3>Why we hide some data — the train/test split</h3>
+  <p>We never judge a model on the data it studied — that would be like grading a student on the exact
+  exam paper they revised from. We hold back a slice and score the model only on those unseen cases.</p>
+  <div class="split">
+    <div class="s learn"><span class="pc">75%</span><span class="lb">Training set — the model learns from this</span></div>
+    <div class="s test"><span class="pc">25%</span><span class="lb">Test set — hidden, for an honest score</span></div>
+  </div>
+  <p class="muted" style="font-size:13px"><b>Accuracy</b> is then simply: out of those hidden cases, how
+  many did it get right? A model that scores 100% on real data is usually cheating, not winning.</p>
+
+  <footer class="pf"><span>Predictive AI — Field Guide</span><span>Part 1 · The idea</span></footer>
+</div>
+
+<!-- ============ 2. SEEING THE PATTERN ============ -->
+<div class="page">
+  <div class="eyebrow">Part 2 · What "finding the pattern" looks like</div>
+  <h2><span class="tag">02</span> A model draws a boundary</h2>
+  <div class="rule"></div>
+
+  <p class="lead">Here is the single most useful picture from the day. Each dot is a past machine; its
+  colour says whether it eventually needed service. Plotting temperature against vibration, the two
+  colours fall in different regions — and the model's whole job is to find the line between them.</p>
+
+  <figure>
+    <img src="figs/pattern_scatter_light.svg" alt="Scatter of machines with a learned decision boundary" />
+    <figcaption>Green = worked fine · Red = needed service. The shaded split is the boundary the model learned.</figcaption>
+  </figure>
+
+  <p>When a brand-new machine arrives, the model simply checks <b>which side of the boundary</b> its
+  numbers fall on. Hotter and shakier (top-right) → it predicts trouble. Cool and smooth (bottom-left)
+  → it predicts fine. That is all a "trained classifier" is doing under the hood.</p>
+
+  <div class="take"><b>Takeaway:</b> the model isn't memorising machines — it's learning a rule that
+  separates good from bad, so it can judge cases it has never seen.</div>
+
+  <footer class="pf"><span>Predictive AI — Field Guide</span><span>Part 2 · The pattern</span></footer>
+</div>
+
+<!-- ============ 3. THE SIX MODULES ============ -->
+<div class="page">
+  <div class="eyebrow">Part 3 · The six things you ran</div>
+  <h2><span class="tag">00</span> Foundation — the workflow</h2>
+  <div class="rule"></div>
+  <p><b>Scenario:</b> predict whether a machine will need servicing from three numbers — hours used,
+  temperature, vibration.</p>
+  <p><b>What it showed:</b> the full loop — load a table, split features from the label, hold back a
+  test set, train a small <b>decision tree</b>, and check its accuracy. The tree even printed the
+  if-then rules it invented on its own (e.g. "if vibration is high and the machine is old → needs
+  service"). Nobody wrote those rules; it learned them from the records.</p>
+  <div class="take"><b>Takeaway:</b> "machine learning" is this five-step rhythm. Once you've seen it
+  once, every other example is a variation on it.</div>
+  <div class="use"><b>Where it fits:</b> any place you keep records of cases with a known outcome —
+  inspections, test results, pass/fail logs — is a place this loop could learn from.</div>
+
+  <h2 style="margin-top:30px"><span class="tag">01</span> Classification — sorting into categories</h2>
+  <div class="rule"></div>
+  <p><b>Scenario:</b> a final quality check — predict whether a finished part is <b>PASS</b> or
+  <b>REJECT</b> from a few measurements.</p>
+  <p><b>What it showed:</b> the most important honesty lesson of the day. When rejects are rare, a lazy
+  model that always says "PASS" can score 80% accuracy while catching <i>zero</i> bad parts. So we
+  look deeper than accuracy, at the <b>confusion matrix</b>:</p>
+  <div class="cm">
+    <div class="c hd"></div><div class="c hd">Model said FINE</div><div class="c hd">Model said BAD</div>
+    <div class="c hd">Truly fine</div><div class="c good"><span class="t">Correct</span>good part passed</div><div class="c bad"><span class="t">False alarm</span>good part rejected</div>
+    <div class="c hd">Truly bad</div><div class="c bad"><span class="t">Missed fault</span>bad part passed</div><div class="c good"><span class="t">Correct</span>bad part caught</div>
+  </div>
+  <p><b>Precision</b> asks "when it flags BAD, is it right?" <b>Recall</b> asks "of all the truly bad
+  parts, how many did it catch?" For safety, the <b>missed fault</b> (bottom-left) is the dangerous
+  box — so recall usually matters most.</p>
+  <div class="take"><b>Takeaway:</b> a high accuracy can hide a useless model. Always ask what it
+  <i>misses</i>, not just how often it's right.</div>
+  <div class="use"><b>Where it fits:</b> any yes/no call from measurements — accept/reject, healthy/faulty,
+  flag-for-inspection or not.</div>
+
+  <footer class="pf"><span>Predictive AI — Field Guide</span><span>Part 3 · Modules 00–01</span></footer>
+</div>
+
+<div class="page">
+  <h2><span class="tag">02</span> Regression &amp; Forecasting — predicting numbers</h2>
+  <div class="rule"></div>
+  <p><b>Scenario A — regression:</b> predict a machine's monthly running cost from its load and age.
+  The answer is a <b>number</b>, not a category. The model fits the straight <b>line of best fit</b>
+  that sits as close as possible to all the points.</p>
+  <figure>
+    <img src="figs/regression_line_light.svg" alt="Regression line of best fit through cost vs age" />
+    <figcaption>Older machines cost more to run; the amber line is the relationship the model learned.</figcaption>
+  </figure>
+  <p><b>Scenario B — forecasting:</b> predict spare-parts demand for the months ahead. The model learns
+  the <b>trend</b> (slowly rising) and the repeating <b>seasonal</b> bumps, then continues the line
+  into the future.</p>
+  <figure>
+    <img src="figs/forecast_light.svg" alt="Demand history with a forecast continuing past today" />
+    <figcaption>Solid = what happened · dashed = the forecast. The further out, the less certain.</figcaption>
+  </figure>
+  <p>Instead of accuracy, we measure <b>error</b>: on average, how far off is the prediction? (e.g.
+  "typically within ±₹1,100").</p>
+  <div class="take"><b>Takeaway:</b> prediction isn't only yes/no — it can be a quantity or a trend.
+  Honest forecasts come with a margin, especially far ahead.</div>
+  <div class="use"><b>Where it fits:</b> estimating a cost, a wear figure, or next quarter's demand to
+  plan stock and staffing.</div>
+
+  <footer class="pf"><span>Predictive AI — Field Guide</span><span>Part 3 · Module 02</span></footer>
+</div>
+
+<div class="page">
+  <h2><span class="tag">03</span> Predictive Maintenance — catch failures early</h2>
+  <div class="rule"></div>
+  <p><b>Scenario:</b> from a fleet of sensor-monitored machines, predict which will fail soon, so they
+  get serviced <i>before</i> they break down rather than after.</p>
+  <p><b>What it showed:</b> a <b>random forest</b> (many small decision trees voting together) flags the
+  at-risk machines. But the part engineers value most is <b>feature importance</b> — the model tells
+  you <i>which signal</i> drove its decision, not just the verdict.</p>
+  <figure>
+    <img src="figs/feature_importance_light.svg" alt="Feature importance — vibration leads" />
+    <figcaption>The model leaned hardest on vibration — matching the intuition that a shaking machine is in trouble.</figcaption>
+  </figure>
+  <p>It also met the <b>unsupervised</b> side: when there are no failure labels at all, an
+  <b>anomaly detector</b> can still flag the machines that look unusual compared with the normal
+  crowd — the ones worth a human inspection.</p>
+  <div class="take"><b>Takeaway:</b> good predictive AI gives a <i>reason</i>, not just an answer — and
+  it can find "odd ones out" even with no labelled history.</div>
+  <div class="use"><b>Where it fits:</b> condition monitoring, prioritising which equipment to inspect
+  first, spotting readings that drift away from normal.</div>
+
+  <footer class="pf"><span>Predictive AI — Field Guide</span><span>Part 3 · Module 03</span></footer>
+</div>
+
+<div class="page">
+  <h2><span class="tag">04</span> Text Analytics — reading written reports</h2>
+  <div class="rule"></div>
+  <p><b>Scenario:</b> a pile of free-text maintenance reports ("oil leaking near the gearbox",
+  "display flickers on startup") — sort each one to the right team automatically.</p>
+  <p><b>The one new idea:</b> computers can't read words, only numbers. So we first turn each report
+  into a count of which words it contains (ignoring filler words like "the"). After that, it's the
+  same classification you already know.</p>
+  <div class="diagram" style="flex-direction:column;align-items:stretch">
+    <div class="pipe">
+      <div class="pstep"><div class="ic"><svg viewBox="0 0 48 48"><use href="#r-doc"/></svg></div><div class="v">"Oil leak near pump"</div><div class="d">the written report</div></div>
+      <div class="farr">&rarr;</div>
+      <div class="pstep"><div class="ic"><svg viewBox="0 0 48 48"><use href="#r-table"/></svg></div><div class="v">oil:1 · pump:1 · leak:1</div><div class="d">words become numbers</div></div>
+      <div class="farr">&rarr;</div>
+      <div class="pstep"><div class="ic"><svg viewBox="0 0 48 48"><use href="#r-tag"/></svg></div><div class="v">Hydraulic</div><div class="d">predicted team</div></div>
+    </div>
+  </div>
+  <p>The trained model even told us which words pointed to which team — oil, pressure, fluid → Hydraulic;
+  panel, wiring, circuit → Electrical — which is exactly how a human would sort them.</p>
+  <div class="take"><b>Takeaway:</b> free-text logs are data too. Turn words into numbers and the same
+  predictive tools apply.</div>
+  <div class="use"><b>Where it fits:</b> routing complaints, tagging defect reports, finding themes in
+  thousands of comments no one has time to read.</div>
+
+  <h2 style="margin-top:30px"><span class="tag">05</span> Speech Analytics — from spoken word to decision</h2>
+  <div class="rule"></div>
+  <p><b>Scenario:</b> a technician speaks a quick status report instead of typing it. The computer
+  listens, writes it down, and routes it — hands-free.</p>
+  <div class="pipe">
+    <div class="pstep"><div class="ic"><svg viewBox="0 0 48 48"><use href="#r-mic"/></svg></div><div class="v">Spoken report</div><div class="d">the voice note</div></div>
+    <div class="farr">&rarr;</div>
+    <div class="pstep"><div class="ic"><svg viewBox="0 0 48 48"><use href="#r-doc"/></svg></div><div class="v">Transcribe (ASR)</div><div class="d">speech → text</div></div>
+    <div class="farr">&rarr;</div>
+    <div class="pstep"><div class="ic"><svg viewBox="0 0 48 48"><use href="#r-tag"/></svg></div><div class="v">Classify</div><div class="d">text → team</div></div>
+  </div>
+  <p>Speech analytics is just two familiar steps chained: <b>speech-to-text</b> (ASR) followed by the
+  text analytics from Module 04. It can mis-hear words with strong accents or background noise — a real
+  limit to keep in mind.</p>
+  <div class="take"><b>Takeaway:</b> speech = speech-to-text + text analytics. The same one idea, now
+  reaching the spoken word.</div>
+  <div class="use"><b>Where it fits:</b> verbal handovers, inspection notes, call logs — information
+  that today is spoken and then lost.</div>
+
+  <footer class="pf"><span>Predictive AI — Field Guide</span><span>Part 3 · Modules 04–05</span></footer>
+</div>
+
+<!-- ============ 4. LIMITS + GLOSSARY + NEXT ============ -->
+<div class="page">
+  <div class="eyebrow">Part 4 · Keeping it honest</div>
+  <h2><span class="tag">04</span> Powerful, not magic</h2>
+  <div class="rule"></div>
+  <p>The most useful thing you can take away is a clear sense of where this technology helps and where
+  it doesn't. Three limits worth remembering:</p>
+  <div class="grid2">
+    <div class="limit"><div class="h">Only as good as the data</div><div class="d">It learns from the records you feed it. Biased or thin history gives biased or thin predictions.</div></div>
+    <div class="limit"><div class="h">Never perfect</div><div class="d">Real data surprises. We measure the gap honestly — missed faults, fuzzy forecasts — rather than hide it.</div></div>
+    <div class="limit"><div class="h">It assists; you decide</div><div class="d">It ranks and flags <i>with a reason</i>. The engineer still makes the call.</div></div>
+    <div class="limit"><div class="h">Predict, not create</div><div class="d">This is the predictive half of AI. The "generative" half (ChatGPT-style) is a different tool for a different job.</div></div>
+  </div>
+
+  <h3 style="margin-top:24px">Full glossary</h3>
+  <div class="gloss">
+    <div class="term"><span class="t">Dataset</span> <span class="d">— a table of cases (rows) and measurements (columns).</span></div>
+    <div class="term"><span class="t">Feature</span> <span class="d">— an input column the model uses as a clue.</span></div>
+    <div class="term"><span class="t">Label column</span> <span class="d">— the column holding the answer to predict.</span></div>
+    <div class="term"><span class="t">Training set</span> <span class="d">— the rows the model learns from.</span></div>
+    <div class="term"><span class="t">Test set</span> <span class="d">— hidden rows kept for an honest score.</span></div>
+    <div class="term"><span class="t">Accuracy</span> <span class="d">— fraction of unseen cases it gets right.</span></div>
+    <div class="term"><span class="t">Classification</span> <span class="d">— predicting a category (pass/fail).</span></div>
+    <div class="term"><span class="t">Regression</span> <span class="d">— predicting a number on a scale.</span></div>
+    <div class="term"><span class="t">Forecasting</span> <span class="d">— predicting a value forward in time.</span></div>
+    <div class="term"><span class="t">Confusion matrix</span> <span class="d">— the table of hits, false alarms, missed faults.</span></div>
+    <div class="term"><span class="t">Precision / recall</span> <span class="d">— how often a flag is right / how many real cases caught.</span></div>
+    <div class="term"><span class="t">Feature importance</span> <span class="d">— which signal the model leaned on most.</span></div>
+    <div class="term"><span class="t">Anomaly detection</span> <span class="d">— finding unusual cases with no labels.</span></div>
+    <div class="term"><span class="t">Supervised / unsupervised</span> <span class="d">— learning with answers / finding structure without them.</span></div>
+    <div class="term"><span class="t">TF-IDF (vectorising)</span> <span class="d">— turning words into numbers a model can use.</span></div>
+    <div class="term"><span class="t">Speech-to-text (ASR)</span> <span class="d">— turning the spoken word into text.</span></div>
+  </div>
+
+  <h3 style="margin-top:24px">Run it again — and what to try</h3>
+  <p>Every notebook opens in <b>Google Colab</b> from a web browser, with nothing to install. Ask the
+  facilitator for the link, or open <code>colab.research.google.com</code> and use
+  <code>File &rarr; Upload notebook</code>. The best way to build intuition is to <b>change one number
+  and re-run</b> — edit a new machine's readings, or hide more of the data — and watch the prediction
+  move. Bring a problem from your own work: if you can describe it as "from these inputs, predict that
+  outcome," it may be a predictive-AI problem.</p>
+
+  <footer class="pf"><span>Predictive AI — Field Guide</span><span>Part 4 · Reference</span></footer>
+</div>
+
+</body>
+</html>
