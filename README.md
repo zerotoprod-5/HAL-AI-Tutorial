@@ -153,6 +153,42 @@ thing — *learned the pattern from past examples, then predicted the next case.
 
 ---
 
+## Lab troubleshooting (when a cell misbehaves)
+
+With ~30 non-IT participants on Colab, small hiccups are normal. **One reset fixes almost everything:
+`Runtime → Restart and run all`.** Keep that on a slide or say it often. Specific cases:
+
+| Symptom | Cause | Fix |
+|---------|-------|-----|
+| `NameError: 'X' is not defined` | Cells run out of order, or one was skipped | `Runtime → Restart and run all`, then go top to bottom |
+| A cell shows a spinning circle and never finishes | Stuck cell, or waiting on a long step | `Runtime → Interrupt execution`, then re-run the cell |
+| No chart appears | The imports cell (or the cell above) didn't run | Re-run from the top of that section |
+| "Your session crashed / reconnect" | Idle disconnect (not memory — the data here is tiny) | Click **Reconnect**, then `Runtime → Run all` |
+| Module 05 install is slow or errors | First cell downloads gTTS + Whisper over the network | Wait ~1 min; if the network blocks it, demo from your own pre-run copy and move on |
+| Can't sign in to Colab | Corporate Google account restrictions | Use a personal Google account, or the upload method |
+| Edited a number, results look wrong | Stale state from earlier runs | `Runtime → Restart and run all` |
+
+Have one **pre-run copy of each notebook open on your own machine** as a backup, so if a participant's
+cell breaks you can show the expected output and keep moving rather than debugging live.
+
+## Prompts to get the room talking
+
+The brief is conversational and application-oriented — these engineers know their machines far better
+than we do, so let them connect each idea to their own work. One prompt per module:
+
+- **After 00 (workflow):** "What records does your team already keep that look like this table — rows of cases, columns of measurements?"
+- **After 01 (classification):** "Where do you make a yes/no call from a few measurements today? What would a *missed fault* cost you versus a *false alarm*?"
+- **After 02 (regression/forecasting):** "What number would be useful to know a month ahead — a demand, a cost, a wear figure?"
+- **After 03 (predictive maintenance):** "Which signals do you already watch that hint a machine is heading for trouble? Would knowing *which sensor mattered* change how you act?"
+- **After 04 (text):** "How much useful information sits in free-text logs and reports that no one has time to read?"
+- **After 05 (speech):** "Where do people *speak* information that never gets written down — handovers, inspections, calls?"
+- **Closing:** "Pick one place from today where *learn from the past, predict the next case* could help. What data would you need to start?"
+
+## Speaker notes
+
+`SPEAKER_NOTES.md` is a printable script of the per-slide presenter cues, in deck order — handy as a
+paper copy at the podium. The same notes are built into the deck (press **S** to show them on screen).
+
 ## Rebuilding / editing the notebooks
 
 The notebooks are generated from small Python scripts that share one design system
