@@ -1,8 +1,12 @@
 # Predictive AI — Hands-on Lab (Instructor Guide)
 
 A full-day, no-code lab that introduces **predictive AI** to core engineers with no IT
-background. Six Google Colab notebooks take a single idea — *learn the pattern from past
+background. Seven Google Colab notebooks take a single idea — *learn the pattern from past
 examples, then predict the next case* — across three kinds of data: numbers, text, and speech.
+
+> **Running the text + speech day?** `LESSON_PLAN.md` is the detailed **four-session (4 × 90 min)**
+> teaching plan — per-session timings, demos, case studies (with honest caveats and sources),
+> discussion prompts and skeptic-handling — rendered to **`Predictive-AI-Lesson-Plan.pdf`** for sharing.
 
 **For the presenter:**
 - `slides.html` — the **presentation deck** (open fullscreen in a browser to present).
@@ -40,11 +44,13 @@ No internet or PowerPoint needed; works in any browser, offline. **Keep `slides.
 | 02 | `02_regression_forecasting.ipynb` | Predicting **numbers** (regression) and **trends over time** (forecasting) | Cost ±₹1,100; 6-month demand forecast | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/zerotoprod-5/HAL-AI-Tutorial/blob/main/notebooks/02_regression_forecasting.ipynb) |
 | 03 | `03_predictive_maintenance.ipynb` | Capstone: catch failures early, **feature importance**, and **anomaly detection** without labels | Flags failures, ranks the sensors | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/zerotoprod-5/HAL-AI-Tutorial/blob/main/notebooks/03_predictive_maintenance.ipynb) |
 | 04 | `04_text_analytics.ipynb` | Turning written reports into predictions (words → numbers, TF-IDF) | Auto-routes reports to the right team | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/zerotoprod-5/HAL-AI-Tutorial/blob/main/notebooks/04_text_analytics.ipynb) |
+| 04b | `04b_text_predict_extract.ipynb` | **(Text Session 2)** Predict urgency (class) & downtime (regression); recurring-fault detection; part-number extraction; LDA topics; the header-trap | Similarity heatmap flags the same chronic fault, worded 5 ways | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/zerotoprod-5/HAL-AI-Tutorial/blob/main/notebooks/04b_text_predict_extract.ipynb) |
 | 05 | `05_speech_analytics.ipynb` | **Speak → transcribe → predict** pipeline (Whisper ASR + text analytics) | Spoken note → category, live | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/zerotoprod-5/HAL-AI-Tutorial/blob/main/notebooks/05_speech_analytics.ipynb) |
 
-All six are **self-contained**: synthetic/in-cell data, fixed random seeds (everyone sees the
-same numbers), scikit-learn only, no downloads, no API keys, no file uploads. Maths is shown
-**conceptually and visually** — never an equation to recall.
+All are **self-contained**: synthetic/in-cell data, fixed random seeds (everyone sees the
+same numbers), scikit-learn only — with one exception, `04b`, which can also fetch a small public
+corpus (20 Newsgroups, ~14 MB, one line) to prove the method holds on real data. No API keys, no
+file uploads. Maths is shown **conceptually and visually** — never an equation to recall.
 
 Every notebook follows the same rhythm so the audience learns the *shape* of an ML project once:
 > **scenario → run a cell → "what just happened" → vocabulary card → "your turn" knob → recap → what's next**
