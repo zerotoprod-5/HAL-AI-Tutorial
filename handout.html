@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Predictive AI — Take-home Sheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --ink:#1f2d3d; --teal:#0b6e7a; --teal2:#0a5a64; --amber:#b26a00; --green:#2e7d32;
+    --muted:#56657a; --line:#d7dee5; --bg:#ffffff; --soft:#f3f6f8;
+    --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+    --sans:'IBM Plex Sans',-apple-system,system-ui,Arial,sans-serif;
+    --disp:'Archivo',var(--sans);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--sans);color:#1c2630;background:#e9edf1;line-height:1.5;-webkit-font-smoothing:antialiased}
+  .sheet{max-width:880px;margin:24px auto;background:var(--bg);padding:34px 40px 30px;
+    box-shadow:0 10px 40px -18px rgba(0,0,0,.4);border-radius:6px}
+
+  header{border-bottom:3px solid var(--ink);padding-bottom:14px;margin-bottom:18px;
+    display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}
+  .kick{font-family:var(--mono);font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--teal);font-weight:600}
+  h1{font-family:var(--disp);font-weight:900;font-size:34px;letter-spacing:-.02em;line-height:1;margin-top:6px;color:var(--ink)}
+  .hsub{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.04em;text-align:right}
+
+  .idea{background:var(--soft);border-left:5px solid var(--teal);border-radius:0 8px 8px 0;
+    padding:14px 18px;margin-bottom:20px}
+  .idea b{color:var(--teal2)}
+  .idea .big{font-family:var(--disp);font-weight:800;font-size:19px;color:var(--ink);margin-bottom:3px}
+
+  h2{font-family:var(--disp);font-weight:800;font-size:15px;text-transform:uppercase;letter-spacing:.06em;
+    color:var(--ink);margin:0 0 10px;display:flex;align-items:center;gap:10px}
+  h2::after{content:"";flex:1;height:1px;background:var(--line)}
+  section{margin-bottom:20px}
+
+  .words{display:grid;grid-template-columns:1fr 1fr;gap:8px 22px}
+  .word{display:flex;gap:10px;align-items:baseline;padding:5px 0;border-bottom:1px dotted var(--line)}
+  .word .t{font-family:var(--disp);font-weight:700;color:var(--teal2);font-size:13.5px;min-width:118px}
+  .word .d{font-size:12.5px;color:#33414f}
+
+  .mods{display:grid;grid-template-columns:1fr 1fr;gap:9px 18px}
+  .mod{border:1px solid var(--line);border-radius:8px;padding:10px 13px}
+  .mod .n{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;color:var(--teal);text-transform:uppercase;font-weight:600}
+  .mod .h{font-family:var(--disp);font-weight:800;font-size:14.5px;color:var(--ink);margin:2px 0 3px}
+  .mod .d{font-size:12px;color:#3a4753}
+  .mod .k{font-size:11.5px;color:var(--amber);margin-top:5px;font-weight:600}
+
+  .limits{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .lim{background:var(--soft);border-radius:8px;padding:11px 13px}
+  .lim .h{font-family:var(--disp);font-weight:800;font-size:13px;color:var(--ink);margin-bottom:3px}
+  .lim .d{font-size:11.5px;color:#3a4753}
+
+  footer{border-top:2px solid var(--ink);margin-top:6px;padding-top:12px;
+    display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center}
+  footer .l{font-size:12.5px;color:#33414f;max-width:62ch}
+  footer .l b{color:var(--ink)}
+  .stamp{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);text-align:right}
+
+  @media print{
+    body{background:#fff}
+    .sheet{box-shadow:none;margin:0;max-width:100%;padding:0 6mm;border-radius:0}
+    @page{margin:12mm}
+    section,.mod,.lim,.idea{break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <header>
+    <div>
+      <div class="kick">HAL Core Engineering · Hands-on Lab</div>
+      <h1>Predictive AI — what you ran today</h1>
+    </div>
+    <div class="hsub">Take-home sheet<br>Numbers · Text · Speech</div>
+  </header>
+
+  <div class="idea">
+    <div class="big">The one idea behind all of it</div>
+    <b>Learn the pattern from past examples, then predict the next case.</b> Whether the data was
+    sensor numbers, written reports, or the spoken word — the computer always did the same thing.
+    Not magic, not nonsense: disciplined pattern-finding from records you already keep.
+  </div>
+
+  <section>
+    <h2>Five words you now own</h2>
+    <div class="words">
+      <div class="word"><span class="t">Dataset</span><span class="d">A table — rows are cases, columns are measurements.</span></div>
+      <div class="word"><span class="t">Feature</span><span class="d">An input column; a clue the model gets to see.</span></div>
+      <div class="word"><span class="t">Label column</span><span class="d">The single column holding the answer we predict.</span></div>
+      <div class="word"><span class="t">Train / test split</span><span class="d">Learn from most rows; judge honestly on hidden ones.</span></div>
+      <div class="word"><span class="t">Accuracy</span><span class="d">How often it is right on cases it never saw. 100% usually means cheating.</span></div>
+      <div class="word"><span class="t">Model</span><span class="d">The pattern-finder. "Training" (<code>.fit</code>) is the moment it learns.</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>The six things you ran</h2>
+    <div class="mods">
+      <div class="mod"><div class="n">00 · Foundation</div><div class="h">What is Predictive AI?</div><div class="d">The workflow and vocabulary on a tiny equipment example.</div><div class="k">Takeaway: the model wrote its own if-then rules.</div></div>
+      <div class="mod"><div class="n">01 · Classification</div><div class="h">Sorting into categories</div><div class="d">Pass vs reject; confusion matrix; precision &amp; recall.</div><div class="k">Takeaway: high accuracy can still miss every rare fault.</div></div>
+      <div class="mod"><div class="n">02 · Regression</div><div class="h">Predicting numbers &amp; trends</div><div class="d">A line of best fit, and a forecast into the future.</div><div class="k">Takeaway: prediction isn't only yes/no — it can be a number.</div></div>
+      <div class="mod"><div class="n">03 · Maintenance</div><div class="h">Catch failures early</div><div class="d">Flag at-risk machines; rank which sensor mattered.</div><div class="k">Takeaway: it gives a reason, not just a verdict.</div></div>
+      <div class="mod"><div class="n">04 · Text</div><div class="h">Reading written reports</div><div class="d">Turn words into numbers, then auto-route each report.</div><div class="k">Takeaway: free-text logs are data too.</div></div>
+      <div class="mod"><div class="n">05 · Speech</div><div class="h">From spoken word to decision</div><div class="d">Transcribe a spoken report, then classify it.</div><div class="k">Takeaway: speech = speech-to-text + text analytics.</div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Honest about the limits</h2>
+    <div class="limits">
+      <div class="lim"><div class="h">Only as good as the data</div><div class="d">Biased or thin records give biased or thin predictions.</div></div>
+      <div class="lim"><div class="h">Never perfect</div><div class="d">Real data surprises. We measure the gap, not hide it.</div></div>
+      <div class="lim"><div class="h">It assists, you decide</div><div class="d">It ranks and flags with a reason; the engineer makes the call.</div></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="l"><b>Want to run them again?</b> Each notebook opens in Google Colab from a web browser —
+    nothing to install. Ask the facilitator for the link, or open Colab and use <b>File → Upload notebook</b>.
+    Try changing a number and re-running to see the prediction move.</div>
+    <div class="stamp">Predictive &amp;<br>Analytics Track</div>
+  </footer>
+
+</div>
+</body>
+</html>
