@@ -1,371 +1,336 @@
-import sys; sys.path.insert(0, "/tmp")
-from nbbuild import *
-
-LEGEND = """
-<div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:14px;color:#333;line-height:1.7;">
-As you scroll, you will meet four kinds of coloured boxes:
-<br><b style="color:#0b6e7a;">Teal — Vocabulary:</b> a new word, in plain English.
-<br><b style="color:#2e7d32;">Green — What just happened:</b> what the cell above actually did.
-<br><b style="color:#b26a00;">Amber — Your turn:</b> a safe thing to change, then re-run.
-<br><b style="color:#5b2a86;">Purple — Recap / Coming up:</b> the big picture.
-</div>
 """
+Build the flagship "predict a machine fault from its SOUND" notebook (Part 4 of
+the text/speech day). Colab-safe: callouts are plain Markdown (emoji marker +
+bold label + blockquote), so they render in Colab/GitHub/Jupyter with nothing to
+run. Self-contained -- does not import the older nbbuild design system.
 
+    python3 build/nb_sound.py   ->  notebooks/sound_fault_prediction.ipynb
+"""
+import json, os
+HERE = os.path.dirname(os.path.abspath(__file__))
+
+# --- Colab-safe callout helpers (emoji + blockquote) ------------------------
+M_VOCAB, M_DID, M_TURN, M_RECAP = "🟦", "🟩", "🟧", "🟪"
+M_WARN, M_IDEA, M_STORY, M_NOTE = "⚠️", "💡", "📍", "ℹ️"
+
+def _q(body):  return "\n".join("> " + l for l in body.split("\n"))
+def _box(m, label, body):
+    head = f"> {m} **{label}**"
+    return head if not body else head + "\n>\n" + _q(body)
+def banner(kicker, title, sub=""):
+    tag = f"**{kicker}**" + (f" — {sub}" if sub else "")
+    return f"# {title}\n\n{tag}"
+def section(title, n=None):
+    return f"## Step {n} · {title}" if n is not None else f"## {title}"
+def bigidea(b):  return _box(M_IDEA,  "THE BIG IDEA", b)
+def story(b):    return _box(M_STORY, "THE SCENARIO", b)
+def vocab(t, b): return _box(M_VOCAB, f"VOCABULARY — {t}", b)
+def did(b):      return _box(M_DID,   "WHAT JUST HAPPENED", b)
+def turn(b):     return _box(M_TURN,  "YOUR TURN", b)
+def note(b):     return _box(M_NOTE,  "NOTE", b)
+def watchout(b): return _box(M_WARN,  "WATCH OUT", b)
+def recap(title, bullets):
+    return f"> {M_RECAP} **{title.upper()}**\n>\n" + "\n".join(f"> - {x}" for x in bullets)
+
+def _src(t):
+    lines = t.split("\n")
+    return [l + "\n" for l in lines[:-1]] + [lines[-1]]
+def md(t):   return {"cell_type": "markdown", "metadata": {}, "source": _src(t)}
+def code(t): return {"cell_type": "code", "metadata": {}, "execution_count": None,
+                     "outputs": [], "source": _src(t)}
+def build(cells, path, title):
+    nb = {"cells": cells, "metadata": {
+        "colab": {"name": title, "provenance": [], "toc_visible": True},
+        "kernelspec": {"display_name": "Python 3", "name": "python3"},
+        "language_info": {"name": "python"}},
+        "nbformat": 4, "nbformat_minor": 5}
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w") as f:
+        json.dump(nb, f, indent=1, ensure_ascii=False)
+    print("wrote", path, "(", len(cells), "cells )")
+
+# ---------------------------------------------------------------------------
 cells = [
-md(banner("Notebook 4 of 6", "Text Analytics: Teaching the Computer to Read Reports",
-   "Free-text maintenance and defect logs &mdash; sorted automatically, no human reading required")),
+md(banner("Speech & Audio Analytics · Session 4 of 4",
+          "Can a Computer Hear a Failing Machine?",
+          "Predicting a fault from a machine's sound alone — no words, no transcription")),
 
 md("## How to use this notebook\n\n"
-   "This is a **hands-on** notebook. You do not need to write any code. "
-   "You only **run** the cells, top to bottom, and read what comes out.\n\n"
-   "- To run a cell: click it, then press **Shift + Enter** (or the &#9654; play button on its left).\n"
-   "- Run them **in order**. Each cell builds on the one above it.\n"
-   "- If something looks broken, use the menu: **Runtime &rarr; Restart and run all**, then start again.\n\n"
-   + LEGEND),
+   "**Hands-on, but you write no code.** You only **run** the cells top to bottom "
+   "(click a cell, press **Shift + Enter**) and read what comes out. A few cells even "
+   "let you *listen*. If anything looks stuck: **Runtime → Restart and run all**.\n\n"
+   "As you scroll you'll meet four little callouts: 🟦 a new word, 🟩 what a cell just did, "
+   "🟧 something to try, 🟪 the recap."),
 
 md(bigidea(
-   "So far every example used neat <b>columns of numbers</b> &mdash; hours, temperature, vibration. "
-   "But a huge amount of real information at any workshop is not numbers at all. It is <b>written text</b>: "
-   "maintenance logs, defect reports, operator complaints, handwritten-then-typed notes.<br><br>"
-   "<b>Predictive AI can read that text and sort it automatically.</b> The trick is one new step: "
-   "first we turn the <i>words</i> into <i>numbers</i>. Once the words are numbers, it becomes the <b>exact same "
-   "classification workflow you already know</b> from the earlier notebooks &mdash; split, train, predict, measure. "
-   "Only the very first step is new. Everything after it will feel familiar.")),
+   "An experienced technician can often walk past a machine and say *\"that bearing is on its "
+   "way out\"* — just from the **sound**. The pitch is wrong, there's a whine that shouldn't be "
+   "there.\n\n"
+   "Can a computer learn to do the same? **Yes** — and it is the *exact same idea* as every "
+   "other predictive example: turn each thing into a few **numbers**, learn the pattern from "
+   "past labelled examples, then judge a new one. Here the \"thing\" is a sound. We will make "
+   "machine sounds, teach a model what *healthy*, *bearing fault* and *imbalance* sound like, "
+   "and then play it a brand-new recording and watch it call the fault.")),
 
 md(story(
-   "<b>Our running example: a busy maintenance desk.</b><br>"
-   "Every day a workshop receives dozens of short free-text reports &mdash; one or two lines each, typed in a hurry:<br>"
-   "<i>\"Oil leaking near the gearbox\"</i> &nbsp;·&nbsp; <i>\"Display flickers on startup\"</i> &nbsp;·&nbsp; "
-   "<i>\"Loud grinding noise from the bearing\"</i><br><br>"
-   "Right now a person reads each one and forwards it to the right team. That is slow, and at 3 a.m. it does not "
-   "happen at all. We want the computer to <b>auto-categorize</b> every report &mdash; Electrical, Mechanical, or "
-   "Hydraulic &mdash; so it lands in the correct queue instantly. No domain expertise required: the words themselves "
-   "carry the clue.")),
+   "**Our scenario.** A plant has machines that hum as they run. A healthy machine has a steady "
+   "low hum. A worn **bearing** adds a high-pitched whine that rattles. An **imbalance** adds a "
+   "heavy low rumble. We have recordings of past machines whose faults are known — and we want "
+   "the computer to listen to a *new* machine and tell us which of the three it is.")),
 
-md(section("Set up our tools", 1)),
-md(vocab("Library",
-   "A quick reminder from earlier: a <b>library</b> is a ready-made toolbox of code. "
-   "<code>pandas</code> handles tables, <code>scikit-learn</code> is the machine-learning toolbox. "
-   "The one new face today lives inside scikit-learn: <code>TfidfVectorizer</code>, the tool that turns words into numbers.")),
+md(section("Set up, and decide what a 'clip' is", 1)),
+md(vocab("Sample rate",
+   "A sound is just air pressure measured many times a second. The **sample rate** is how many "
+   "measurements per second — here **8000**. So a 0.6-second clip is really just a list of "
+   "**4800 numbers**. That's the whole trick: to a computer, a sound *is already numbers*.")),
 code(
-   "# Import the toolboxes we need. Running this cell produces no visible output -\n"
-   "# that is normal. It just makes the tools available below.\n"
    "import numpy as np\n"
    "import pandas as pd\n"
    "import matplotlib.pyplot as plt\n"
-   "\n"
-   "from sklearn.feature_extraction.text import TfidfVectorizer   # turns words into numbers\n"
+   "from sklearn.ensemble import RandomForestClassifier\n"
    "from sklearn.model_selection import train_test_split\n"
-   "from sklearn.linear_model import LogisticRegression\n"
-   "from sklearn.metrics import accuracy_score\n"
+   "from sklearn.metrics import accuracy_score, confusion_matrix\n"
+   "from IPython.display import Audio, display\n"
    "\n"
-   "print('Tools loaded. We are ready.')"),
-md(did("We loaded our toolboxes. Nothing dramatic happened on screen, and that is expected &mdash; "
-       "this cell only prepares the tools we use further down. Notice <code>TfidfVectorizer</code>: that is the "
-       "one genuinely new tool in this notebook.")),
+   "SR  = 8000          # measurements (samples) per second\n"
+   "DUR = 0.6           # seconds per clip\n"
+   "N   = int(SR * DUR) # so each clip is this many numbers\n"
+   "print('Ready. Each clip is', DUR, 'sec =', N, 'numbers.')"),
+md(did("We loaded our tools and set the clip length. Nothing visible happened beyond the "
+       "print — that's expected. The key idea is in the last line: **one clip = 4800 numbers**.")),
 
-md(section("Get the data — written reports", 2)),
-md(vocab("Text analytics  /  NLP",
-   "<b>Text analytics</b> &mdash; also called <b>NLP</b>, Natural Language Processing &mdash; simply means getting a "
-   "computer to make sense of human-written words. Reading a report and deciding which team it belongs to is a classic "
-   "text-analytics task. It is the same predictive idea as before; the input just happens to be sentences instead of numbers.")),
+md(section("Make the machine sounds", 2)),
+md("In real life these would be microphone recordings from the shop floor. To keep the notebook "
+   "self-contained — no files, no microphone — we *synthesise* them, with a fixed seed so everyone "
+   "hears exactly the same machines. Each kind of fault gets its own tell-tale sound."),
 code(
-   "# Our dataset is written by hand here so everyone has identical data.\n"
-   "# In real life these would be pulled straight from your maintenance log system.\n"
-   "# Each report is one short sentence; each has a category (the team it belongs to).\n"
+   "def make_sound(kind, rng):\n"
+   "    t = np.arange(N) / SR\n"
+   "    # every machine shares a base rotation hum around 50 Hz, plus a noise floor\n"
+   "    f0  = 50 + rng.normal(0, 3)\n"
+   "    sig = 0.5*np.sin(2*np.pi*f0*t) + 0.25*np.sin(2*np.pi*2*f0*t)\n"
+   "    sig += 0.17*rng.normal(0, 1, N)                     # background noise every machine has\n"
    "\n"
-   "reports = [\n"
-   "    # ---- Electrical ----\n"
-   "    ('Display flickers on startup',                       'Electrical'),\n"
-   "    ('Control panel lights are dim and unstable',         'Electrical'),\n"
-   "    ('Wiring near the switch is burnt and smells hot',    'Electrical'),\n"
-   "    ('Circuit breaker keeps tripping under load',         'Electrical'),\n"
-   "    ('Sensor gives no signal to the controller',          'Electrical'),\n"
-   "    ('Battery voltage drops and the unit shuts off',      'Electrical'),\n"
-   "    ('Fuse blew again on the lighting circuit',           'Electrical'),\n"
-   "    ('Motor controller throws an electrical fault code',  'Electrical'),\n"
-   "    ('Loose terminal connection causing a short',         'Electrical'),\n"
-   "    ('Touchscreen is unresponsive and the display blanks','Electrical'),\n"
-   "    ('Indicator lamp does not light when powered on',     'Electrical'),\n"
-   "    ('Cable insulation is frayed near the junction box',  'Electrical'),\n"
-   "    ('Power supply is overheating and the fan stopped',   'Electrical'),\n"
-   "    ('Relay clicks but no voltage reaches the motor',     'Electrical'),\n"
-   "    ('Grounding wire disconnected from the panel',        'Electrical'),\n"
-   "    ('Charger does not deliver current to the battery',   'Electrical'),\n"
+   "    if kind == 'healthy':\n"
+   "        # mostly hum -- but real machines aren't perfectly clean:\n"
+   "        if rng.random() < 0.5:\n"
+   "            sig += rng.uniform(0, 0.12)*np.sin(2*np.pi*rng.uniform(1800, 3200)*t)  # faint stray whine\n"
+   "        if rng.random() < 0.3:\n"
+   "            sig += rng.uniform(0, 0.18)*np.sin(2*np.pi*(f0*0.5)*t)                 # slight rumble\n"
+   "    elif kind == 'bearing':\n"
+   "        fb     = rng.uniform(2000, 3300)                # a high-pitched whine...\n"
+   "        rattle = 1 + 0.6*np.sin(2*np.pi*40*t)           # ...that rattles on and off\n"
+   "        sig   += rng.uniform(0.05, 0.20)*rattle*np.sin(2*np.pi*fb*t)  # sometimes only subtle\n"
+   "    elif kind == 'imbalance':\n"
+   "        sig += rng.uniform(0.18, 0.45)*np.sin(2*np.pi*(f0*0.5)*t)     # a heavy slow rumble\n"
    "\n"
-   "    # ---- Mechanical ----\n"
-   "    ('Loud grinding noise from the bearing',              'Mechanical'),\n"
-   "    ('Gearbox makes a knocking sound under load',         'Mechanical'),\n"
-   "    ('Belt is worn and slipping on the pulley',           'Mechanical'),\n"
-   "    ('Bearing is overheating and seized',                 'Mechanical'),\n"
-   "    ('Excessive vibration from the rotating shaft',       'Mechanical'),\n"
-   "    ('Coupling is loose and the gears rattle',            'Mechanical'),\n"
-   "    ('Cracked gear tooth found during inspection',        'Mechanical'),\n"
-   "    ('Fan blade is bent and scrapes the housing',         'Mechanical'),\n"
-   "    ('Chain is stretched and jumps off the sprocket',     'Mechanical'),\n"
-   "    ('Shaft alignment is off and the bearing wears fast', 'Mechanical'),\n"
-   "    ('Worn brake pads make a squealing noise',            'Mechanical'),\n"
-   "    ('Broken mounting bolt lets the motor shift',         'Mechanical'),\n"
-   "    ('Pulley wobbles and the belt keeps coming off',      'Mechanical'),\n"
-   "    ('Grinding metal sound when the gear engages',        'Mechanical'),\n"
-   "    ('Rotor is unbalanced causing heavy shaking',         'Mechanical'),\n"
-   "    ('Loose flywheel rattles at high speed',              'Mechanical'),\n"
+   "    return sig / np.max(np.abs(sig))                    # even out the volume\n"
    "\n"
-   "    # ---- Hydraulic ----\n"
-   "    ('Oil leaking near the gearbox',                      'Hydraulic'),\n"
-   "    ('Hydraulic pressure drops during operation',         'Hydraulic'),\n"
-   "    ('Fluid leak under the cylinder seal',                'Hydraulic'),\n"
-   "    ('Pump is not building enough pressure',              'Hydraulic'),\n"
-   "    ('Hose is cracked and dripping hydraulic oil',        'Hydraulic'),\n"
-   "    ('Cylinder moves slowly due to low fluid',            'Hydraulic'),\n"
-   "    ('Valve is stuck and pressure will not release',      'Hydraulic'),\n"
-   "    ('Oil level is low and the pump is noisy',            'Hydraulic'),\n"
-   "    ('Seal failure causes fluid to spray out',            'Hydraulic'),\n"
-   "    ('Hydraulic ram drifts down on its own',              'Hydraulic'),\n"
-   "    ('Contaminated oil clogs the hydraulic filter',       'Hydraulic'),\n"
-   "    ('Pressure gauge reads zero at the pump outlet',      'Hydraulic'),\n"
-   "    ('Leaking fitting sprays oil near the actuator',      'Hydraulic'),\n"
-   "    ('Reservoir is low and the system loses pressure',    'Hydraulic'),\n"
-   "    ('Hydraulic fluid is foaming and overheating',        'Hydraulic'),\n"
-   "    ('Cylinder seal weeps oil at full extension',         'Hydraulic'),\n"
-   "]\n"
-   "\n"
-   "df = pd.DataFrame(reports, columns=['report', 'category'])\n"
-   "print('Total reports:', len(df))\n"
-   "df.head(6)"),
-md(did("There is our <b>dataset</b>: 48 short written reports, one per row. The <code>report</code> column is the "
-       "raw text (our clue), and <code>category</code> is the answer we want to predict &mdash; the same idea as the "
-       "<b>label</b> in earlier notebooks, just a word instead of a 0 or 1.")),
+   "CLASSES, PER_CLASS = ['healthy', 'bearing', 'imbalance'], 100\n"
+   "rng = np.random.default_rng(0)\n"
+   "clips  = [make_sound(k, rng) for k in CLASSES for _ in range(PER_CLASS)]\n"
+   "labels = np.array([k for k in CLASSES for _ in range(PER_CLASS)])\n"
+   "print(len(clips), 'sound clips:', PER_CLASS, 'each of', CLASSES)"),
+md(did("We now have **300 machine recordings** — 100 of each condition — each tagged with its true "
+       "state. That tag is the **label**, exactly like "
+       "the answer column in the other notebooks; only the data is sound this time.")),
 
-md(section("Look at a few from each category", 3)),
-md("Good practice, exactly as before: look at the data first. Let us print a couple of reports from each "
-   "category so we can see, with our own eyes, that the wording really does differ by team."),
+md(section("Listen for yourself", 3)),
+md("Before any maths, use your own ears. Run this and press play on each bar — you should clearly "
+   "hear the steady hum, the high whine, and the low rumble. If *you* can tell them apart, the "
+   "computer has a fair chance too."),
 code(
-   "# How many reports per category? We want them roughly balanced.\n"
-   "print('Reports per category:')\n"
-   "print(df['category'].value_counts())\n"
-   "print()\n"
-   "\n"
-   "# Print three example reports from each category.\n"
-   "for cat in ['Electrical', 'Mechanical', 'Hydraulic']:\n"
-   "    print(f'--- {cat} ---')\n"
-   "    for text in df[df['category'] == cat]['report'].head(3):\n"
-   "        print('   ', text)\n"
-   "    print()"),
-md(did("Sixteen reports in each of the three categories &mdash; nicely <b>balanced</b>, so the computer will see plenty "
-       "of every kind. And the vocabulary clearly splits: Electrical reports talk about <i>voltage, circuit, wiring</i>; "
-       "Mechanical ones about <i>bearing, gear, belt</i>; Hydraulic ones about <i>oil, pressure, fluid</i>. Those words "
-       "are exactly the clues the computer will latch onto.")),
+   "for kind in CLASSES:\n"
+   "    i = list(labels).index(kind)\n"
+   "    print(kind.upper())\n"
+   "    display(Audio(clips[i], rate=SR))"),
+md(did("Three machines, three very different sounds. The model is about to get the same clips we "
+       "just heard — but it can't 'listen'. So first we have to turn each sound into numbers.")),
 
-md(section("The key idea — turning words into numbers", 4)),
-md(bigidea(
-   "Here is the one genuinely new concept in this whole notebook, so we will slow right down.<br><br>"
-   "<b>A computer cannot read words. It can only do arithmetic on numbers.</b> So before any machine learning can "
-   "happen, every report has to be converted into a row of numbers. The simplest honest way to do that is to "
-   "<b>count which words appear</b> in each report. That is the entire trick.")),
-md(vocab("Bag of words",
-   "Imagine emptying each report into a bag and just tallying the words inside, ignoring their order. "
-   "<i>\"Oil leaking near the gearbox\"</i> becomes the tally {oil:1, leaking:1, gearbox:1, ...}. "
-   "This is called the <b>bag-of-words</b> idea. Word order is thrown away &mdash; surprisingly, the words alone are "
-   "usually enough to tell which team a report belongs to.")),
-md(vocab("Vectorizing",
-   "<b>Vectorizing</b> is the act of turning each report into that row of word-counts &mdash; a <b>vector</b>, which is "
-   "just a fancy word for a list of numbers. Every distinct word in the whole collection becomes one column; "
-   "each report becomes one row of numbers. After this step, our text is a numeric table, exactly like the spreadsheets "
-   "from earlier notebooks.")),
-md(vocab("Stop words",
-   "Words like <b>the, and, is, on, a</b> appear in almost every sentence and carry almost no clue about the category. "
-   "These are called <b>stop words</b>, and we simply tell the tool to ignore them &mdash; they would only add noise.")),
+md(section("Turn each sound into a few numbers", 4)),
+md(vocab("Features (from a sound)",
+   "A model can't use 4800 raw numbers well — but it doesn't need to. We summarise each clip with "
+   "a handful of meaningful **features**: how *loud* it is, how much energy sits in the **low** "
+   "rumble band vs. the **high** whine band, its loudest **pitch**, and its overall **brightness**. "
+   "These five numbers capture what your ear noticed.")),
+md(note("The one line of maths here is the **FFT** — it takes a wobbly sound and tells you *which "
+        "pitches* it's made of. You don't need the formula; think of it as a prism splitting the "
+        "sound into its tones so we can measure them.")),
 code(
-   "# Let us SEE vectorizing happen on just two example sentences first,\n"
-   "# so the abstract idea becomes concrete.\n"
-   "example = [\n"
-   "    'Oil leaking near the gearbox',\n"
-   "    'Hydraulic pressure drops during operation',\n"
-   "]\n"
+   "def features(sig):\n"
+   "    spec  = np.abs(np.fft.rfft(sig * np.hanning(len(sig))))  # the pitches present\n"
+   "    freqs = np.fft.rfftfreq(len(sig), 1/SR)\n"
+   "    power = spec**2\n"
+   "    total = power.sum() + 1e-9\n"
+   "    return {\n"
+   "        'loudness':   float(np.sqrt(np.mean(sig**2))),           # overall loudness\n"
+   "        'low_share':  float(power[freqs < 200 ].sum() / total),  # energy in the LOW rumble band\n"
+   "        'high_share': float(power[freqs > 1500].sum() / total),  # energy in the HIGH whine band\n"
+   "        'dom_freq':   float(freqs[np.argmax(power)]),            # the single loudest pitch (Hz)\n"
+   "        'brightness': float((freqs*power).sum() / total),        # average pitch\n"
+   "    }\n"
    "\n"
-   "demo_vec = TfidfVectorizer(stop_words='english')   # 'english' = ignore common stop words\n"
-   "demo_matrix = demo_vec.fit_transform(example)\n"
-   "\n"
-   "# Show which words became columns (the 'vocabulary' the tool found).\n"
-   "print('Words that became columns (stop words like \"the\" were dropped):')\n"
-   "print(list(demo_vec.get_feature_names_out()))\n"
-   "print()\n"
-   "\n"
-   "# Show the two sentences as rows of numbers.\n"
-   "demo_table = pd.DataFrame(\n"
-   "    demo_matrix.toarray().round(2),\n"
-   "    columns=demo_vec.get_feature_names_out(),\n"
-   "    index=['sentence 1', 'sentence 2'],\n"
-   ")\n"
-   "demo_table"),
-md(did("Look closely at the table. Each <b>column is a word</b>, each <b>row is one sentence</b>, and the numbers say "
-       "whether that word appeared (a zero means the word was absent). The words <i>the, near, during</i> are gone &mdash; "
-       "those were <b>stop words</b>. <b>This is the whole magic:</b> two English sentences are now two rows of numbers "
-       "that a computer can do arithmetic on.")),
-md(vocab("TF-IDF",
-   "The tool is called <code>Tfidf</code>Vectorizer. In one plain line: instead of a raw count, it gives a word more "
-   "weight when that word is <b>common in THIS report but rare across all reports</b>. So a distinctive word like "
-   "<i>hydraulic</i> counts for more than a word like <i>noise</i> that shows up everywhere. No formula to memorise &mdash; "
-   "just \"rare, distinctive words matter more.\" That is why some numbers above are not whole counts.")),
+   "X = pd.DataFrame([features(c) for c in clips])\n"
+   "X.insert(0, 'true_condition', labels)\n"
+   "X.head(6)"),
+md(did("Every sound is now **one row of five numbers** — a tidy table, just like the spreadsheets "
+       "in the earlier notebooks. Glance down the columns: the bearing clips will show a high "
+       "`high_share`, the imbalance clips a high `low_share`. The pattern is already visible in the "
+       "numbers.")),
 
-md(section("Vectorize all the reports", 5)),
-md("Now we run the same vectorizing on the full set of 48 reports. The result is a numeric table the model can learn from."),
+md(section("See the pattern with our own eyes", 5)),
+md("Let's plot two of those features against each other — low-band energy across, high-band energy "
+   "up — and colour each dot by its true condition. If the sounds really differ, the colours should "
+   "land in different corners."),
 code(
-   "# Turn the report text into our clue table X, and the categories into the answers y.\n"
-   "vectorizer = TfidfVectorizer(stop_words='english')\n"
-   "\n"
-   "X = vectorizer.fit_transform(df['report'])   # the reports, now as rows of numbers\n"
-   "y = df['category']                            # the answers (the team for each report)\n"
-   "\n"
-   "print('X is now a numeric table:', X.shape[0], 'reports x', X.shape[1], 'word-columns')\n"
-   "print('Total distinct words the tool found:', len(vectorizer.get_feature_names_out()))\n"
-   "print()\n"
-   "print('A sample of the word-columns:')\n"
-   "print(list(vectorizer.get_feature_names_out())[:25])"),
-md(did("Every report is now a row of numbers across roughly 150 word-columns. <code>X</code> is our feature table "
-       "and <code>y</code> is our label &mdash; the same <b>X &rarr; y</b> setup from every earlier notebook. "
-       "From here on, nothing is new: it is ordinary classification.")),
-
-md(section("Split, then train the model", 6)),
-md(vocab("Train / test split  (reminder)",
-   "Same honest-exam idea as before: we learn from most of the reports (the <b>training set</b>) and hide a few "
-   "(the <b>test set</b>) to check the model on reports it has never read. We keep one report from each category in the "
-   "test set so the score means something.")),
-md(note("Our dataset is deliberately tiny &mdash; 48 reports &mdash; so the test set is small and the accuracy below is "
-        "a <b>rough indicator</b>, not a precise grade. With real maintenance logs you would have thousands of reports "
-        "and a far steadier score. The point here is to see the workflow, not to chase a number.")),
-code(
-   "# Split into a training set (to learn from) and a small hidden test set.\n"
-   "# stratify=y keeps each category represented in both halves.\n"
-   "X_train, X_test, y_train, y_test = train_test_split(\n"
-   "    X, y,\n"
-   "    test_size=0.25,      # hide a quarter for the final test\n"
-   "    random_state=0,      # fixed split so everyone gets the same result\n"
-   "    stratify=y,          # keep all three categories in both halves\n"
-   ")\n"
-   "\n"
-   "print('Learn from :', X_train.shape[0], 'reports  (training set)')\n"
-   "print('Tested on  :', X_test.shape[0],  'reports  (test set, kept hidden)')\n"
-   "\n"
-   "# Train the classifier - the same kind of model idea as before.\n"
-   "model = LogisticRegression(max_iter=1000)\n"
-   "model.fit(X_train, y_train)   # <-- the model studies the training reports\n"
-   "print()\n"
-   "print('Training done. The model has learned which words point to which team.')"),
-md(did("That one <code>.fit()</code> call is the entire act of learning, exactly as in Notebook 0 &mdash; only now the "
-       "clues are words instead of hours and temperature. The model has worked out which words lean toward each team.")),
-
-md(section("Measure how good it is", 7)),
-md(vocab("Accuracy  (reminder)",
-   "Out of the hidden test reports, what fraction did the model file under the correct team? "
-   "1.0 means every one correct. On a dataset this small, treat it as a rough sanity check, not a final grade.")),
-code(
-   "predictions = model.predict(X_test)        # the model's guesses for the hidden reports\n"
-   "\n"
-   "score = accuracy_score(y_test, predictions)\n"
-   "print('Accuracy on reports it had never read:', round(score, 3))\n"
-   "print('In plain words: it got about', round(score*100), 'out of every 100 right.')\n"
-   "print()\n"
-   "\n"
-   "# Show the actual vs predicted team for each hidden report, side by side.\n"
-   "check = pd.DataFrame({\n"
-   "    'report':    df.loc[y_test.index, 'report'].values,\n"
-   "    'actual':    y_test.values,\n"
-   "    'predicted': predictions,\n"
-   "})\n"
-   "check"),
-md(did("The model files the hidden reports into the right team. On a 48-report toy set the score is a rough indicator, "
-       "but the side-by-side table shows it is genuinely matching reports to teams from the words alone &mdash; nobody "
-       "wrote a single rule by hand.")),
-
-md(section("Look inside — the top words per team", 8)),
-md("A logistic-regression model keeps a weight for every word, telling us how strongly that word pushes a report toward "
-   "each team. Because the words are human-readable, we can simply <b>print the top clue-words the model learned</b> for "
-   "each category and check they make sense."),
-code(
-   "# For each category, pull the words the model weights most heavily toward it.\n"
-   "feature_names = np.array(vectorizer.get_feature_names_out())\n"
-   "\n"
-   "print('Top clue-words the model associates with each team:')\n"
-   "print()\n"
-   "for i, cat in enumerate(model.classes_):\n"
-   "    weights = model.coef_[i]\n"
-   "    top = feature_names[np.argsort(weights)[-7:]][::-1]   # 7 strongest words\n"
-   "    print(f'{cat:12s}:', ', '.join(top))"),
-md(did("Read those lists: the model decided that words like <i>oil, pressure, fluid, leak</i> signal <b>Hydraulic</b>; "
-       "<i>bearing, gear, belt, grinding</i> signal <b>Mechanical</b>; <i>voltage, circuit, wiring, display</i> signal "
-       "<b>Electrical</b>. That matches exactly what any experienced person would say &mdash; and the computer worked it "
-       "out on its own, purely from the example reports.")),
-code(
-   "# The same idea as a bar chart, for one team (Hydraulic).\n"
-   "i = list(model.classes_).index('Hydraulic')\n"
-   "weights = model.coef_[i]\n"
-   "order = np.argsort(weights)[-8:]          # 8 strongest Hydraulic words\n"
-   "words = feature_names[order]\n"
-   "vals = weights[order]\n"
+   "feat   = X.drop(columns='true_condition')\n"
+   "colors = {'healthy': '#2e7d32', 'bearing': '#9c2b2b', 'imbalance': '#b26a00'}\n"
    "\n"
    "plt.figure(figsize=(8, 5.5))\n"
-   "plt.barh(words, vals, color='#0b6e7a')\n"
-   "plt.xlabel('How strongly the word points to \"Hydraulic\"')\n"
-   "plt.title('Words the model learned to associate with Hydraulic reports')\n"
-   "plt.grid(alpha=0.3, axis='x')\n"
-   "plt.tight_layout()\n"
-   "plt.show()"),
-md(did("The longest bars are the words most tied to Hydraulic &mdash; <i>oil, pressure, fluid</i> and friends. "
-       "This is what people mean when they say a model is <b>interpretable</b>: we can open it up and the reasoning is "
-       "plain English, not a black box.")),
+   "for kind in CLASSES:\n"
+   "    m = labels == kind\n"
+   "    plt.scatter(feat['low_share'][m], feat['high_share'][m],\n"
+   "                c=colors[kind], label=kind, alpha=0.7, edgecolors='white')\n"
+   "plt.xlabel('energy in the LOW rumble band')\n"
+   "plt.ylabel('energy in the HIGH whine band')\n"
+   "plt.title('Each dot is one machine sound')\n"
+   "plt.legend(); plt.grid(alpha=0.3); plt.show()"),
+md(did("Three clean clusters. **Bearing** faults ride high (lots of high-band whine), **imbalance** "
+       "sits far right (heavy low rumble), **healthy** stays low on both. *That separation is the "
+       "pattern* — and finding a boundary between the colours is the model's whole job.")),
 
-md(section("Use it on brand-new reports", 9)),
-md("This is the whole point. Fresh reports arrive that the model has never seen. We hand it the raw text &mdash; "
-   "the model vectorizes it the same way and instantly names the team, with a confidence."),
+md(section("Train a model, and test it honestly", 6)),
+md(vocab("Train / test split",
+   "We hide a quarter of the clips, train on the rest, then score the model **only on clips it "
+   "never heard** — the honest exam. `stratify` keeps all three conditions evenly represented in "
+   "both halves.")),
 code(
-   "# Four brand-new reports, typed fresh. Note: we feed RAW TEXT;\n"
-   "# the vectorizer turns it into numbers automatically, the same way as before.\n"
-   "new_reports = [\n"
-   "    'Grinding noise from the bearing and the gear sounds worn',  # clearly Mechanical\n"
-   "    'Hydraulic oil leaking from the cylinder seal, pressure low',# clearly Hydraulic\n"
-   "    'Control panel display and wiring circuit fault on startup', # clearly Electrical\n"
-   "    'Pump is overheating and the fan stopped',                   # ambiguous on purpose\n"
-   "]\n"
+   "y = labels\n"
+   "Xtr, Xte, ytr, yte = train_test_split(\n"
+   "    feat, y, test_size=0.25, random_state=0, stratify=y)\n"
    "\n"
-   "new_X = vectorizer.transform(new_reports)     # SAME vectorizer, no re-fitting\n"
-   "guesses = model.predict(new_X)\n"
-   "probs = model.predict_proba(new_X)\n"
+   "model = RandomForestClassifier(n_estimators=200, random_state=0)\n"
+   "model.fit(Xtr, ytr)                       # <-- the learning happens here\n"
    "\n"
-   "for text, guess, p in zip(new_reports, guesses, probs):\n"
-   "    confidence = round(max(p) * 100)\n"
-   "    print(f'Report : {text}')\n"
-   "    print(f'  -> Team: {guess}   (confidence {confidence}%)')\n"
-   "    print()"),
-md(did("Three reports are sorted cleanly into the obvious team with high confidence. The fourth &mdash; "
-       "<i>\"Pump is overheating and the fan stopped\"</i> &mdash; is genuinely ambiguous (a pump sounds Hydraulic, but "
-       "<i>fan</i> and <i>overheating</i> pull toward Electrical/Mechanical), so its confidence is lower. That lower "
-       "number is the model honestly telling us \"this one is a borderline call\" &mdash; useful information for a "
-       "human to double-check.")),
+   "pred = model.predict(Xte)\n"
+   "print('Tested on', len(yte), 'sounds it had never heard.')\n"
+   "print('Accuracy:', round(accuracy_score(yte, pred), 3))"),
+md(did("Around **0.88** — it gets roughly **9 in 10** right on machines it never heard. Not "
+       "perfect, and that is *healthy*: real sounds carry noise and a few machines sit right on the "
+       "boundary between conditions. A model that scored a flawless 100% here would be the thing to "
+       "distrust, not to trust.")),
+
+md(section("Which part of the sound did it rely on?", 7)),
+md("A model needn't be a black box. **Feature importance** tells us how much it leaned on each "
+   "number — and we can check that against intuition."),
+code(
+   "imp = pd.Series(model.feature_importances_, index=feat.columns).sort_values()\n"
+   "plt.figure(figsize=(8, 4.5))\n"
+   "plt.barh(imp.index, imp.values, color='#0b6e7a', edgecolor='white')\n"
+   "plt.title('Which part of the sound did the model rely on?')\n"
+   "plt.xlabel('importance'); plt.tight_layout(); plt.show()"),
+md(did("The high-band and low-band energies dominate — exactly the whine and the rumble *you* "
+       "heard. The model rediscovered, on its own, the very clues an experienced ear uses.")),
+
+md(section("Bring in a brand-new machine", 8)),
+md("The payoff. We make a fresh recording the model has never seen, **play it**, and ask for a "
+   "diagnosis with a confidence."),
+code(
+   "def diagnose(kind, seed=999):\n"
+   "    clip  = make_sound(kind, np.random.default_rng(seed))\n"
+   "    row   = pd.DataFrame([features(clip)])\n"
+   "    guess = model.predict(row)[0]\n"
+   "    conf  = model.predict_proba(row).max()\n"
+   "    print('A new machine is brought in. Listen:')\n"
+   "    display(Audio(clip, rate=SR))\n"
+   "    print(f'The model says:  {guess.upper()}   ({round(conf*100)}% confident)')\n"
+   "    return guess\n"
+   "\n"
+   "diagnose('bearing')"),
+md(did("Listen to the clip, then read the verdict. The computer heard a sound it had never "
+       "encountered and called the fault — the same thing the seasoned technician does, but it can "
+       "do it for every machine on the floor, every shift, without tiring.")),
 
 md(turn(
-   "Make it your own. Edit the cell just above and press <b>Shift + Enter</b> to re-run:<br>"
-   "1. Change the first new report to your own sentence, e.g. <code>'Circuit breaker keeps tripping'</code>. "
-   "Watch the predicted team change.<br>"
-   "2. Write a deliberately mixed report like <code>'Oil leak is causing an electrical short'</code> and see which "
-   "team wins &mdash; and how the confidence drops because the clues disagree.<br>"
-   "3. Harder: in Step 2, add a couple of your own reports to a category, then use "
-   "<b>Runtime &rarr; Restart and run all</b> to retrain from scratch and watch the top-words list shift.")),
+   "Make it your own — change a value and press **Shift + Enter**:\n"
+   "1. In the cell above, swap `diagnose('bearing')` for `diagnose('imbalance')` or "
+   "`diagnose('healthy')`. Listen, and check the model agrees.\n"
+   "2. Try `diagnose('bearing', seed=7)` a few times with different seeds — a fresh recording each "
+   "time. Does it stay confident?\n"
+   "3. Harder: in **Step 2**, widen the bearing whine range to `rng.uniform(1800, 3300)`, then "
+   "**Runtime → Restart and run all**. A messier fault — does accuracy hold?")),
 
-md(recap("What we learned in Notebook 4", [
-   "Not all data is numbers &mdash; <b>written reports are data too</b>, and predictive AI can sort them.",
-   "Computers cannot read words, so we first turn text into numbers by <b>counting words</b> (<b>bag of words</b> / <b>vectorizing</b>).",
-   "<b>Stop words</b> like \"the\" are ignored; <b>TF-IDF</b> just means rare, distinctive words count for more.",
-   "Once text is numbers, it is the <b>exact same classification workflow</b>: split &rarr; train &rarr; predict &rarr; measure.",
-   "The model is <b>interpretable</b> &mdash; its top words per team read like plain English and match human intuition.",
-   "New reports get sorted instantly, with a <b>confidence</b> that flags the borderline ones for a human.",
+md(section("When you have no fault examples — learn what 'normal' sounds like", 9)),
+md(vocab("Anomaly detection (unsupervised)",
+   "Everything above needed labelled faults to learn from. On a real aircraft, though, serious faults are **rare** — you may "
+   "have thousands of hours of *healthy* sound and almost no failures. So we flip the question: teach the computer only what "
+   "**normal** sounds like, then let it flag anything **surprising**. It tells you *this is different*, not *what is wrong* — "
+   "which is exactly the moment a human should walk over and listen.")),
+code(
+   "from sklearn.ensemble import IsolationForest\n"
+   "from sklearn.metrics import roc_auc_score\n"
+   "\n"
+   "# Train ONLY on healthy clips -- the detector never sees a single fault.\n"
+   "healthy_only = feat[labels == 'healthy']\n"
+   "detector = IsolationForest(n_estimators=300, random_state=0).fit(healthy_only)\n"
+   "\n"
+   "# A 'surprise score' for every clip (higher = less like a healthy machine).\n"
+   "surprise = -detector.score_samples(feat)\n"
+   "auc = roc_auc_score((labels != 'healthy').astype(int), surprise)\n"
+   "print('Trained on', len(healthy_only), 'healthy clips only -- no faults shown.')\n"
+   "print('Healthy-vs-fault separation (AUC):', round(auc, 3), ' (1.0 = perfect, 0.5 = useless)')"),
+md(did("AUC around **0.94**: the surprise score cleanly tells healthy from faulty — yet the model was **only ever shown "
+       "healthy machines**. This is the realistic aerospace setup, and the same idea behind the public **DCASE** machine-sound "
+       "challenge, where honest scores run anywhere from ~0.54 to ~0.96 depending on the machine. Not magic — a learned sense of normal.")),
+code(
+   "import matplotlib.pyplot as plt, numpy as np\n"
+   "colors = {'healthy': '#2e7d32', 'bearing': '#9c2b2b', 'imbalance': '#b26a00'}\n"
+   "thr = np.percentile(surprise[labels == 'healthy'], 95)   # tolerate ~5% false alarms on healthy\n"
+   "\n"
+   "plt.figure(figsize=(9, 5))\n"
+   "for k in CLASSES:\n"
+   "    plt.hist(surprise[labels == k], bins=22, alpha=0.6, color=colors[k], label=k)\n"
+   "plt.axvline(thr, color='#1f2d3d', ls='--', lw=2, label='alarm threshold')\n"
+   "plt.xlabel('surprise score  (how UNlike a healthy machine)')\n"
+   "plt.ylabel('number of clips'); plt.title('Learn normal, then flag the surprising')\n"
+   "plt.legend(); plt.grid(alpha=0.3); plt.tight_layout(); plt.show()\n"
+   "\n"
+   "for k in ['bearing', 'imbalance']:\n"
+   "    caught = (surprise[labels == k] > thr).mean() * 100\n"
+   "    print(f'Caught {caught:.0f}% of {k} faults', end='   ')\n"
+   "fa = (surprise[labels == 'healthy'] > thr).mean() * 100\n"
+   "print(f'\\nFalse alarms on healthy machines: {fa:.0f}%')"),
+md(did("Draw the alarm line to tolerate about a **5% false-alarm** rate on healthy machines, and the very same detector catches "
+       "roughly **96% of imbalance** and **two-thirds of bearing** faults — having never been shown one. Where you put that line is "
+       "a **business decision**: slide it left to miss fewer faults (at more false alarms), right to cry wolf less often (at more "
+       "misses). There is no free lunch — and the chart makes that trade-off honest and visible.")),
+md(note("**Read frequencies as ORDERS, not raw Hz.** A rotating-machinery engineer will rightly note that a fault's tell-tale "
+        "pitch moves with shaft speed: imbalance shows at **1x** the rotation rate, misalignment often at **2x**, and bearing "
+        "defects at frequencies set by the bearing geometry. In practice you divide by the running speed so the axis is in "
+        "*orders* (multiples of shaft speed) — otherwise simply spinning the machine faster looks like a 'fault'. We held the "
+        "speed fixed here to keep it simple.")),
+
+md(recap("What we learned", [
+   "**Two ways to learn:** with labelled faults the model *names* the fault (supervised); with only healthy sound it *flags "
+   "the surprising* (unsupervised anomaly detection) — the realistic case when real faults are rare.",
+   "A sound is just **numbers** (measurements of air pressure) — so predicting from sound is the "
+   "same game as predicting from a table.",
+   "We summarised each clip with a few **features** (loudness, low/high energy, pitch, brightness) "
+   "— the same clues your ear uses.",
+   "The familiar rhythm returned: **turn into numbers → split → train → predict → measure**.",
+   "**No transcription, no words** — this is purely predictive, learning straight from the signal.",
+   "**Feature importance** showed the model leaned on the whine and the rumble — matching human "
+   "intuition, discovered on its own.",
 ])),
-md(nextup(
-   "<b>Notebook 5 &mdash; Speech Analytics.</b> Reports do not always arrive as typed text. Next we will "
-   "<i>speak</i> a maintenance report out loud, have the computer <b>transcribe</b> our voice into text, and then feed "
-   "that text through exactly this kind of analysis &mdash; closing the loop from spoken words to an automatic decision.")),
+md(note("Where this fits at work: this is **acoustic condition monitoring** — flagging a failing "
+        "bearing, gearbox or pump from the noise it makes, before it stops the line. The same recipe "
+        "extends to vibration sensors, ultrasonic leak detection, and more.")),
+md(note("**Level up — the real datasets behind this demo.** Our clips are synthetic so the lab needs no downloads, but this "
+        "is a published, benchmarked field. To go further with *real* hardware recordings: the **CWRU Bearing** dataset "
+        "(engineering.case.edu/bearingdatacenter — seeded inner/outer-race and ball faults), **MAFAULDA** (imbalance + "
+        "misalignment + bearing, and it includes a microphone channel), and **MIMII** / the **DCASE** challenge (real factory "
+        "machine sound for anomaly detection). The recipe never changes: signal → a few features → classify or flag.")),
 ]
 
-build(cells, "/Users/flam/Desktop/HAL_AI/notebooks/04_text_analytics.ipynb",
-      title="Predictive AI 04 - Text Analytics")
+build(cells, os.path.join(HERE, "..", "notebooks", "04_sound_fault_prediction.ipynb"),
+      title="Predictive AI - Session 4 - Speech II")
