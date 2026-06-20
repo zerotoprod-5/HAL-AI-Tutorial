@@ -324,10 +324,12 @@ code(
    "\n"
    "agree = adjusted_rand_score(log['system'], km.labels_)\n"
    "print('\\nAgreement with the real system labels (0 = random, 1 = perfect):', round(agree, 2))"),
-md(did("Read the families. With <b>no labels at all</b>, the computer rediscovered real structure: one family is plainly "
-       "the <i>gearbox / bearing / vibration</i> (Mechanical) group, another the <i>fluid / leak / hydraulic</i> group. "
-       "But the agreement score (~0.45) is honest, not perfect &mdash; some systems blend together and Hydraulic splits into "
-       "two families. Unsupervised learning <b>finds the groups; you name them and decide what they mean.</b>")),
+md(did("Read the families. With <b>no labels at all</b>, the computer still pulled out clean groups: one is plainly the "
+       "<i>gearbox / grinding / rotor</i> (Mechanical) family, one the <i>circuit / breaker / wiring</i> (Electrical) family, "
+       "one the <i>air-data / fault</i> (Avionics) family. But a big <b>catch-all</b> family swallowed the rest, so the "
+       "agreement with your official systems is <b>low (~0.22)</b>. That is honest: k-means grouped by <b>language</b>, and "
+       "five clusters do not cleanly equal your five systems. Unsupervised learning <b>finds structure; you decide what it "
+       "means.</b>")),
 code(
    STYLE +
    "from sklearn.decomposition import TruncatedSVD\n"
