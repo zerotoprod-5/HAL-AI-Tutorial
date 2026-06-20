@@ -1,131 +1,125 @@
-# Speaker Notes — Predictive AI Session Deck
+# Speaker Notes — Predictive AI for Engineers
 
-_Printable companion to `slides.html`. In the live deck, press **S** to show these on screen. Slide order matches the deck exactly. Navigate with the arrow keys or Space; **F** = fullscreen._
+**The four-session text & speech deck** for HAL Core Engineering — full-day, no-code hands-on lab.
+Two text sessions, two speech sessions (~75 min each). Predictive AI only; generative AI (ChatGPT) is explicitly out of scope today.
 
+Deck: `slides.html` · 28 slides. These cues match the `data-note` on each slide, in deck order.
+Controls: `→ / ← / Space` advance (bullets reveal one at a time, then the slide turns) · click left/right half of screen · `F` fullscreen · `S` notes overlay · `O` overview grid.
+
+Doctrine reminders: lead with credibility, not hype · name the two mindsets and promise the honest middle · the five-step spine (dataset → split → train → predict → measure) is reused every session · always show honest/imperfect numbers · charts not equations · predictive, not generative.
 
 ---
 
+## Part A — Reusable conceptual front
 
-**Slide 1 — Predictive AI for engineers.**
+**1 · Title — "Predictive AI for engineers."**
+Today is the OTHER half of AI — the predictive half. By the end you will have run real machine-learning models with your own hands and be able to reason about what this technology can and cannot do. The whole day moves text → speech.
 
-> Welcome. Today is about the OTHER half of AI — the predictive half. By the end you will have run real machine-learning models with your own hands and will be able to reason about what this technology can and cannot do.
+**2 · How today works**
+Reassure: no programming. The code is pre-written; you press play and watch it work. Short talks plus four Colab notebooks — just a browser, nothing to install. The journey is text first, then speech: one idea, two kinds of messy data.
 
+**3 · The two mindsets**
+Name the room honestly. Some believe "AI can do anything"; some believe "AI is nonsense." Both are wrong. The honest middle is more useful — and we earn it with real, imperfect numbers all day.
 
-**Slide 2 — A little theory. A lot of hands-on.**
+**4 · What is AI, really (technician analogy)**
+The anchor analogy for the whole day. A technician who has inspected thousands of machines calls a bad one on sight — not magic, they have seen the pattern before. The green/red dots in the thought-bubble are that learned pattern. We teach a computer to do exactly that.
 
-> Reassure them: no programming. We prepared the code; you press a button and watch it work. A mix of short talks and six hands-on notebooks in Google Colab — just a web browser, nothing to install.
+**5 · The one idea (icon flow)**
+The spine in one diagram: past examples → find the pattern (learning) → predict a new case. Every notebook — text, speech, sound — is just this picture. Keep pointing back to it.
 
+**6 · See the pattern (real chart — `pattern_scatter.svg`)**
+The most important picture in the deck. Each dot is a past machine; colour = whether it needed service. The model draws the boundary between the colours; a new machine falls on one side. Every session is a variation of this.
 
-**Slide 3 — Most people hold one of two beliefs.**
+**7 · Predictive vs generative**
+Clear up the biggest confusion. ChatGPT is GENERATIVE — it creates content. Today is PREDICTIVE — it makes a call about a case. Different tool, different job. Say plainly: generative AI is out of scope today; it gets its own sessions.
 
-> Name the room honestly. Some think AI can do anything; some think it is marketing nonsense. Both are wrong, and the truth is more useful than either. We will earn that claim with real examples today.
+**8 · Already everywhere (4 cards)**
+Defuse the "is this even real" skeptic. Predictive AI has quietly run everyday systems for years. The spam filter is the anchor — classical bag-of-words text AI nobody calls magic — and it bridges straight into Session 1.
 
+**9 · Vocab divider + the five-step spine**
+Don't front-load a glossary. Introduce five plain words — dataset, feature, label, train/test split, accuracy — then use them relentlessly. Put the spine on the wall: dataset → split → train → predict → measure.
 
-**Slide 4 — It learns a pattern from the past.**
+---
 
-> Define it in one plain sentence, then the technician analogy — the anchor for the whole day. A person who has inspected thousands of machines can call a bad one on sight. Not magic: pattern from experience. The dots in the thought-bubble are that learned pattern.
+## Part A2 — The core words
 
+**10 · Dataset (table)**
+Demystify immediately — a dataset is just a spreadsheet. Rows = the machines we recorded; columns = what we measured. No one fears a table.
 
-**Slide 5 — From past examples to a prediction.**
+**11 · Feature vs Label (table + legend)**
+The most important distinction of the day. Features = the clues the model sees (input columns). Label column = the answer it learns to predict. Reused in every session: in text the features become word-counts, in sound they become pitches.
 
-> This single diagram is the spine of the entire session. Every notebook — numbers, text, speech — is just this picture. Keep pointing back to it all day.
+**12 · Train/test split (splitbar)**
+Why hide data — the exam analogy. If a student studies the exact paper, a top score proves nothing. We judge the model only on cases it has never seen. The Session-1 knob turns this 75/25 ratio.
 
+**13 · Accuracy + the rhythm (flow)**
+Every notebook repeats this rhythm: learn → use → measure honestly. Accuracy = fraction right on the hidden set. 100% on real data is usually a red flag, not a triumph — Session 2's header-trap proves it. A gap is a trust signal.
 
-**Slide 6 — It draws a boundary between good and bad.**
+---
 
-> This is the most important picture in the deck. Each dot is a past machine; colour = whether it needed service. The model draws the boundary between the colours. A new machine simply falls on one side. THIS is what 'finding the pattern' actually looks like — they will build this exact chart in Module 00.
+## Part B — Words (and sound) become numbers + roadmap
 
+**14 · Words, and even sound, become numbers (two cards + inline illustration)**
+The hinge of the whole day. A computer can't read — it can only count, so we turn words into numbers (bag-of-words, TF-IDF). A sound is ALREADY numbers — a microphone records a list of values; the FFT splits them into pitches. Only the first step changes between text and sound; everything after is the same five steps.
 
-**Slide 7 — Two different jobs.**
+**15 · Roadmap (four sessions, two data types)**
+The map for the day. Four ~75-min sessions — two text, two speech — building on each other. Foundations live inside Session 1. NOT six modules. Then we open Colab.
 
-> Clear up the biggest confusion. ChatGPT is GENERATIVE — it creates new content. Today is PREDICTIVE — it makes a call about a case. Different tool, different job. Generative AI gets its own sessions later.
+---
 
+## Part C — Session 1: Text I
 
-**Slide 8 — You already trust it every day.**
+**16 · Session 1 divider (`text_cluewords.svg`) — `notebooks/01_text_analytics.ipynb`**
+Open Session 1 — the foundations live here too, taught on a maintenance example. The highlight: the model's own top clue-words per team, in plain English, so it is clearly not a black box.
 
-> Defuse the 'is this even real' skeptic. Predictive AI has quietly run everyday systems for years. None are sci-fi; all are the same learn-from-the-past idea.
+**17 · Auto-route a snag (inline pipeline)**
+oil/pressure/fluid → Hydraulic. TF-IDF turns each report into a row of numbers, then it is ordinary classification: Hydraulic / Electrical / Avionics / Mechanical. Same split → train → predict → measure as the opening table; only the first step (text → numbers) is new. Show the confidence drop on an ambiguous report.
 
+**18 · Top clue-words + honest accuracy (`text_cluewords.svg`)**
+Auditability is the selling point. Each team's top words are exactly what an engineer expects. Cite ~83% Naive Bayes / ~91% linear on the standard public corpus to set honest expectations; small-set demo scores wobble — that's why the knob matters. A human stays in the loop.
 
-**Slide 9 — The scary words are simple words.**
+---
 
-> Transition. The words that make AI sound intimidating are simple once you see them. We meet five, then use them all day. Each is a plain idea wearing a technical name.
+## Part D — Session 2: Text II
 
+**19 · Session 2 divider (`cosine_heatmap.svg` + `cluster_scatter.svg`) — `notebooks/02_text_predict_extract.ipynb`**
+The same words-to-numbers front end answers many questions — just swap the final step: predict a category, predict a number, find repeat faults, group into families, extract part numbers. Money shots: the heatmap and the cluster map.
 
-**Slide 10 — A dataset is just a table.**
+**20 · Confusion matrix + the accuracy trap (`confusion_urgency.svg`)**
+For engineers, visible errors are a trust signal. Demand the confusion matrix, not a single accuracy number. ~81% on urgency; mistakes mostly Low↔Medium; caught 10 of 15 High and slipped High→Low only once — rare, but it happened, so High keeps a human's eyes. The accuracy trap: always say "routine," score high, catch zero urgent snags.
 
-> A dataset is just a spreadsheet. Rows = the things we recorded (machines). Columns = what we measured. Demystify immediately — no one fears a table.
+**21 · Classification vs regression (`downtime_scatter.svg`)**
+The classification-vs-regression "aha." Classification = which bucket; regression = how many hours. Same TF-IDF front end, different last step. Off by ~1.5 h on ~6 h jobs, R² ≈ 0.6 — honest about the big-job misses.
 
+**22 · Recurring / duplicate faults (`cosine_heatmap.svg`)**
+No labels needed. Cosine similarity scores 0–1 how much two reports share distinctive words; the heatmap lights up blocks of recurring faults. This is the unsupervised pairwise view; clustering next is its whole-set companion. Aviation MRO does this commercially — those figures are vendor-claimed, so lead with the capability.
 
-**Slide 11 — Clues in. Answer out.**
+**23 · Embeddings + clustering (`cluster_scatter.svg`)**
+Unsupervised: no answer key. Each snag becomes a point (an embedding); k-means (n_clusters=5) sorts them into families; read each cluster's top words to name it. The notebook's seeded code yields ~0.22 adjusted-Rand agreement with the true systems — modest but real structure; Mechanical pops out cleanly, others blend. Stay honest: it found structure, not a perfect map. (Note: the brief prose said ~0.45; the reproduced seed-0 code gives ~0.22, so the deck cites ~0.22 to stay honest.)
 
-> The most important distinction of the day. Features = the clues we GET. Label = the answer we WANT. The single column of answers is the label column. We separate them before doing anything clever.
+---
 
+## Part E — Session 3: Speech I
 
-**Slide 12 — Learn from most. Judge on the hidden rest.**
+**24 · Session 3 divider + WER table — `notebooks/03_speech_analytics.ipynb`**
+Speak a report, transcribe with Whisper, route with this morning's classifier — ASR is "audio in, text out," then it's text analytics again. Draw the classical→deep line (~2012) so nobody thinks "ChatGPT" — both are predictive. The WER table makes the key point: a low error rate can still get the one safety-critical word wrong.
 
-> Why hide data? The exam analogy: if a student studies the exact exam paper, a top score proves nothing. The honest test uses unseen questions. So we hide some machines and judge only on those.
+**25 · WER + keyword spotting + ASR limits**
+Honesty about the limit makes the capability believable. WER = wrong + missing + extra words, the speech version of accuracy. The 8% transcript was "cleaner" yet swapped one part number for another — so numbers and serials get a human's eyes. Keyword spotting (a small fixed vocabulary) is robust to stutters — why shop-floor tools use wake-words, not dictation. Agree ASR struggles with accents, then counter with domain adaptation: ATC reached >95% controllers / >90% pilots / ~97% callsigns. Frame as domain-dependent, not guaranteed.
 
+---
 
-**Slide 13 — **
+## Part F — Session 4: Speech II / Sound
 
-> Every notebook repeats this rhythm. Accuracy = fraction right on the hidden set. Be honest: 100% on real data is usually a red flag, not a triumph — Module 1 shows why.
+**26 · Session 4 divider (`sound_clusters.svg` + `anomaly_hist.svg`) — `notebooks/04_sound_fault_prediction.ipynb`**
+The finale. Throw the words away. A sound is already numbers; the FFT splits it into pitches like a prism. Same five steps, no text at all. Read fault pitches as orders (1× imbalance, 2× misalignment), not raw Hz.
 
+**27 · Sound is numbers — payoff (`sound_clusters.svg` + `anomaly_hist.svg`)**
+Five FFT features separate three fault types into clean clusters; classify healthy / bearing / imbalance at ~0.88. Feature importance leans on the whine and the rumble — the very cues a technician's ear uses. With no fault examples, learn "normal" only and flag the surprising — anomaly detection at AUC ≈ 0.94, the realistic aerospace case (lots of healthy sound, few faults). Public benchmarks run AUC ~0.54–0.96; a flawless demo is the thing to distrust.
 
-**Slide 14 — One idea. Three kinds of data.**
+---
 
-> Preview the day. Same idea, three kinds of data. Numbers first (Modules 0-3), then written text (Module 4), then the spoken word (Module 5). Each just feeds the same picture from earlier.
+## Part G — Honest closing
 
-
-**Slide 15 — Real jobs it does.**
-
-> Ground it in outcomes an engineering org cares about. These are the case studies the notebooks dramatise. Keep framing generic — the value is the same whatever the machine.
-
-
-**Slide 16 — The roadmap.**
-
-> The map for the rest of the day. Six modules building on each other. 00 is the foundation; do it carefully. Then we open Colab.
-
-
-**Slide 17 — Module 00: What is Predictive AI?**  — *module divider, open the notebook*
-
-> Open Module 00 now. Go slow — this installs the vocabulary everything else leans on. The highlight: the model prints the if-then rules it wrote by itself.
-
-
-**Slide 18 — Module 01: Classification**  — *module divider, open the notebook*
-
-> Module 01. The lesson that earns the day: a lazy model that always says PASS can score 80% and catch zero bad parts. Spend time on the confusion matrix — false alarm vs missed fault.
-
-
-**Slide 19 — Module 02: Regression & Forecasting**  — *module divider, open the notebook*
-
-> Module 02. Prediction is not only yes/no — sometimes it is a number. The two visuals: the fitted line through the dots (regression) and the forecast continuing past today (forecasting). These charts are exactly what they will produce.
-
-
-**Slide 20 — Module 03: Predictive Maintenance**  — *module divider, open the notebook*
-
-> Module 03, the payoff. Feature importance is the slide engineers love — the model says WHICH signal mattered most, not just yes/no. The anomaly coda answers 'but we have no failure labels'.
-
-
-**Slide 21 — Module 04: Text Analytics**  — *module divider, open the notebook*
-
-> Module 04. The only new concept is 'words become numbers' — show the word-columns appear. After that it is the same classification workflow from Module 01.
-
-
-**Slide 22 — Module 05: Speech Analytics**  — *module divider, open the notebook*
-
-> Module 05, the finale. The showpiece: change the spoken sentence, re-run, and watch speak→transcribe→categorise happen live. End the day on the one idea tying all six together.
-
-
-**Slide 23 — Powerful. Not magic.**
-
-> The honesty slide — this builds trust with a technical, skeptical audience. Say it plainly: it learns only from the data you give it; it is not perfect; it ranks and flags, a human decides.
-
-
-**Slide 24 — It was always the same picture.**
-
-> Tie the bow. Whatever the data — numbers, text, speech — the model did the same thing: learned the pattern, predicted the next case. They can now reason about AI instead of believing or dismissing it.
-
-
-**Slide 25 — Thank you. Questions?**
-
-> Close and hand off. Generative AI — the ChatGPT half — comes in later sessions from other speakers. Thank them and open the floor.
+**28 · Neither magic nor nonsense + handoff**
+Tie the bow: same picture every time — dataset → split → train → predict → measure. The numbers were honest all day: routing ~83–91%, urgency ~81%, downtime ±1.5 h, clustering ~0.22, sound ~0.88, anomaly AUC ~0.94, and a low WER that still got the one word wrong. Neither magic nor nonsense — a tool you can now reason about and question. Hand off to the generative-AI sessions that follow. Close on "you can now question an AI claim."

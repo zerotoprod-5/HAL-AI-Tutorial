@@ -3,19 +3,20 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Predictive AI — Session Deck · HAL Core Engineering</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<title>Predictive AI for Engineers · HAL Core Engineering · Text &amp; Speech</title>
 <style>
+  /* ============================================================
+     Offline, dependency-free. No external fonts/CDNs.
+     Four-session text & speech deck for HAL Core Engineering.
+     ============================================================ */
   :root{
-    --ink:#10191f; --ink2:#16222e; --panel:#1b2a38; --panel2:#21333f;
+    --ink:#0c1116; --ink2:#14202b; --panel:#1b2a38; --panel2:#21333f;
     --line:rgba(125,182,196,.14); --line2:rgba(125,182,196,.30);
-    --paper:#e7eef3; --muted:#88a1b2; --faint:#5d7689;
+    --paper:#cddde6; --muted:#88a1b2; --faint:#5d7689;
     --teal:#36b6c9; --teal-deep:#0b6e7a; --amber:#e7a657; --green:#56c08a; --red:#d4756b;
-    --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
-    --sans:'IBM Plex Sans',-apple-system,system-ui,sans-serif;
-    --disp:'Archivo',var(--sans);
+    --mono:ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;
+    --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    --disp:'Segoe UI',var(--sans);
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{height:100%}
@@ -80,14 +81,20 @@
 
   /* flow */
   .flow{display:flex;align-items:stretch;gap:16px;margin-top:44px;flex-wrap:wrap}
-  .node{flex:1;min-width:190px;border:1px solid var(--line2);border-radius:16px;padding:24px 22px;text-align:center;
+  .node{flex:1;min-width:170px;border:1px solid var(--line2);border-radius:16px;padding:24px 22px;text-align:center;
     background:linear-gradient(165deg,var(--panel2),var(--ink2));display:flex;flex-direction:column;align-items:center}
   .node .icon{margin-bottom:14px}
   .node .k{font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
-  .node .v{font-family:var(--disp);font-weight:800;font-size:clamp(18px,2vw,25px);margin-top:8px}
+  .node .v{font-family:var(--disp);font-weight:800;font-size:clamp(16px,2vw,24px);margin-top:8px}
   .node.hot{border-color:var(--teal);background:linear-gradient(165deg,rgba(54,182,201,.16),var(--ink2))}
   .node.hot .v{color:var(--teal)}
   .arrow{font-family:var(--disp);font-weight:900;font-size:30px;color:var(--teal);align-self:center;flex:0 0 auto}
+
+  /* spine poster (five-step strip) */
+  .spine{display:flex;align-items:center;gap:10px;margin-top:38px;flex-wrap:wrap}
+  .spine .s{font-family:var(--mono);font-size:clamp(13px,1.5vw,17px);letter-spacing:.04em;color:#cddde6;
+    border:1px solid var(--line2);border-radius:10px;padding:12px 18px;background:rgba(54,182,201,.07)}
+  .spine .a{font-family:var(--disp);font-weight:900;color:var(--teal);font-size:22px}
 
   table.mini{border-collapse:collapse;margin-top:34px;font-size:clamp(13px,1.5vw,18px);min-width:min(700px,78vw)}
   table.mini th,table.mini td{border:1px solid var(--line2);padding:11px 18px;text-align:center}
@@ -108,25 +115,50 @@
   .withfig{display:grid;grid-template-columns:1fr 1.12fr;gap:46px;align-items:center;margin-top:8px}
   .withfig .fwrap{max-width:560px;justify-self:end;width:100%}
 
-  /* module dividers */
+  /* inline pipeline illustration (words -> numbers etc.) */
+  .pipe{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:18px}
+  .chipword{font-family:var(--mono);font-size:13px;color:#cddde6;border:1px solid var(--line2);border-radius:8px;padding:7px 11px;background:rgba(27,42,56,.5)}
+  .chipword.stop{color:var(--faint);text-decoration:line-through;opacity:.6}
+  .cells{display:flex;gap:4px}
+  .cells .c{width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:13px;
+    border:1px solid var(--line2);border-radius:6px;background:rgba(54,182,201,.10);color:var(--teal)}
+  .teamchip{font-family:var(--disp);font-weight:800;font-size:18px;color:#0c1116;background:var(--teal);border-radius:10px;padding:9px 16px}
+  .confbar{height:12px;width:170px;border-radius:7px;background:rgba(125,182,196,.18);overflow:hidden;margin-top:8px}
+  .confbar i{display:block;height:100%;background:linear-gradient(90deg,var(--teal),var(--green));width:72%}
+
+  /* dividers */
   .slide.divider{justify-content:center}
-  .divider .center{text-align:center}
-  .divider .num{font-family:var(--disp);font-weight:900;font-size:clamp(110px,24vw,340px);line-height:.82;letter-spacing:-.05em;
-    background:linear-gradient(180deg,#ffffff,#7fb6c4 130%);-webkit-background-clip:text;background-clip:text;color:transparent;opacity:.96}
   .divider .meta{font-family:var(--mono);font-size:clamp(12px,1.4vw,16px);letter-spacing:.24em;text-transform:uppercase;color:var(--teal);margin-bottom:14px}
+  .divider .num{font-family:var(--disp);font-weight:900;font-size:clamp(80px,13vw,170px);line-height:.82;letter-spacing:-.05em;
+    background:linear-gradient(180deg,#ffffff,#7fb6c4 130%);-webkit-background-clip:text;background-clip:text;color:transparent;opacity:.96}
   .divider h2{margin-top:4px}
-  .divider .tags{display:flex;flex-wrap:wrap;gap:9px;margin-top:26px}
+  .divider .tags{display:flex;flex-wrap:wrap;gap:9px;margin-top:18px}
   .divider .tags span{font-family:var(--mono);font-size:13px;color:#bcd3dd;border:1px solid var(--line2);border-radius:20px;padding:6px 14px;background:rgba(54,182,201,.06)}
-  .divider .open{margin-top:30px;font-family:var(--mono);font-size:14px;color:var(--green);display:flex;align-items:center;gap:10px}
+  .divider .open{margin-top:26px;font-family:var(--mono);font-size:14px;color:var(--green);display:flex;align-items:center;gap:10px}
   .divider.split .inner{display:grid;grid-template-columns:.92fr 1.08fr;gap:50px;align-items:center;width:100%}
-  .divider.split .num{font-size:clamp(80px,13vw,170px)}
   .divider.split h2{font-size:clamp(26px,3.6vw,48px)}
-  .divider.split .tags{margin-top:18px}
   .figrow{display:grid;grid-template-columns:1fr;gap:12px}
   .divider.split .figure{padding:10px}
   .divider.split .figrow .figure img{max-height:27vh;width:auto;max-width:100%;margin:0 auto}
   .divider.split .inner > .figure img{max-height:60vh;width:auto;max-width:100%;margin:0 auto}
   .divider.split .figcap{margin-top:7px;font-size:11px}
+
+  /* bullet fragments (reveal one at a time) */
+  ul.frags{list-style:none;margin-top:28px;display:flex;flex-direction:column;gap:16px;max-width:46ch}
+  ul.frags li{font-size:clamp(15px,1.8vw,21px);color:#cddde6;line-height:1.45;padding-left:30px;position:relative;
+    opacity:0;transform:translateX(-10px);transition:opacity .34s ease,transform .34s ease}
+  ul.frags li.on{opacity:1;transform:none}
+  ul.frags li::before{content:"";position:absolute;left:0;top:.5em;width:11px;height:11px;border-radius:3px;background:var(--teal)}
+  ul.frags li .k{color:var(--teal);font-weight:600}
+  ul.frags li.warn::before{background:var(--red)}
+  /* fragments that are full cards/columns/list-rows fade in too */
+  .frag{opacity:0;transform:translateY(8px);transition:opacity .34s ease,transform .34s ease}
+  .frag.on{opacity:1;transform:none}
+
+  /* split layout: text left, chart right, with fragment list */
+  .chartsplit{display:grid;grid-template-columns:1fr 1.12fr;gap:46px;align-items:center;margin-top:6px}
+  .chartsplit .fwrap{max-width:600px;justify-self:end;width:100%}
+  .chartsplit h2{font-size:clamp(28px,4vw,52px)}
 
   .progress{position:fixed;left:0;top:0;height:3px;background:linear-gradient(90deg,var(--teal),var(--amber));z-index:10;transition:width .4s ease}
   .counter{position:fixed;right:24px;bottom:20px;z-index:10;font-family:var(--mono);font-size:13px;color:var(--muted)}
@@ -141,7 +173,18 @@
   .notes.on{transform:none}
   .notes .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);margin-bottom:7px}
   .notes .txt{font-size:15.5px;color:#cddde6;max-width:90ch;line-height:1.55}
-  @media (max-width:820px){.grid2,.grid3,.grid4,.vs,.withfig,.divider.split .inner{grid-template-columns:1fr}.flow .arrow{transform:rotate(90deg)}}
+
+  /* overview grid */
+  .overview{position:fixed;inset:0;z-index:20;background:rgba(8,12,16,.97);display:none;overflow:auto;padding:40px}
+  .overview.on{display:block}
+  .overview h5{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);margin-bottom:20px;text-align:center}
+  .ovgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px;max-width:1500px;margin:0 auto}
+  .ovcell{border:1px solid var(--line2);border-radius:10px;padding:14px;background:linear-gradient(165deg,var(--panel2),var(--ink2));cursor:pointer;min-height:96px;transition:border-color .2s,transform .2s}
+  .ovcell:hover{border-color:var(--teal);transform:translateY(-2px)}
+  .ovcell .n{font-family:var(--mono);font-size:11px;color:var(--teal);letter-spacing:.1em}
+  .ovcell .t{font-family:var(--disp);font-weight:700;font-size:14px;margin-top:7px;color:#cddde6;line-height:1.25}
+
+  @media (max-width:820px){.grid2,.grid3,.grid4,.vs,.withfig,.chartsplit,.divider.split .inner{grid-template-columns:1fr}.flow .arrow{transform:rotate(90deg)}}
 </style>
 </head>
 <body>
@@ -165,59 +208,60 @@
   <g id="i-db" fill="none" stroke="currentColor" stroke-width="1.7"><ellipse cx="24" cy="13" rx="13" ry="5"/><path d="M11 13v22c0 2.8 5.8 5 13 5s13-2.2 13-5V13"/><path d="M11 24c0 2.8 5.8 5 13 5s13-2.2 13-5"/></g>
   <g id="i-ring" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="24" cy="24" r="14" stroke-dasharray="64 24" transform="rotate(-90 24 24)"/></g>
   <g id="i-people" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="17" cy="17" r="5"/><path d="M8 38c0-6 4-10 9-10s9 4 9 10"/><circle cx="33" cy="18" r="4.2"/><path d="M27.5 38c.4-5.5 3.2-9 7.5-9 3.2 0 5.6 1.9 6.8 5"/></g>
+  <g id="i-mic" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="18" y="7" width="12" height="22" rx="6"/><path d="M12 24a12 12 0 0 0 24 0"/><line x1="24" y1="36" x2="24" y2="42"/><line x1="17" y1="42" x2="31" y2="42"/></g>
 </defs></svg>
 
 <div class="deck" id="deck">
 
   <!-- 1 TITLE -->
-  <section class="slide" data-note="Welcome. Today is about the OTHER half of AI — the predictive half. By the end you will have run real machine-learning models with your own hands and will be able to reason about what this technology can and cannot do.">
+  <section class="slide" data-note="Today is the OTHER half of AI — the predictive half. By the end you will have run real machine-learning models with your own hands and be able to reason about what this technology can and cannot do. The whole day: text, then speech.">
     <div class="eyebrow">HAL Core Engineering &nbsp;·&nbsp; Full-day hands-on lab</div>
     <h1>Predictive AI<span class="em">for engineers.</span></h1>
-    <p class="lead wide">Learn the pattern from past examples — then predict the next case. The quiet, decades-old half of AI that runs the world.</p>
+    <ul class="frags">
+      <li>Learn the pattern from past examples — then predict the next case</li>
+      <li>The quiet, decades-old half of AI that already runs the world</li>
+      <li>A full-day, <span class="k">no-code</span> hands-on lab — text, then speech</li>
+    </ul>
   </section>
 
   <!-- 2 HOW TODAY WORKS -->
-  <section class="slide" data-note="Reassure them: no programming. We prepared the code; you press a button and watch it work. A mix of short talks and six hands-on notebooks in Google Colab — just a web browser, nothing to install.">
+  <section class="slide" data-note="Reassure them: no programming. We prepared the code; you press play and watch it work. Short talks plus four Colab notebooks — just a web browser, nothing to install. The journey is text first, then speech: one idea, two kinds of messy data.">
     <div class="eyebrow">How today works</div>
     <h2>A little theory.<br>A lot of <span class="t">hands-on.</span></h2>
     <div class="grid3">
-      <div class="card"><div class="icon"><svg viewBox="0 0 48 48"><use href="#i-target"/></svg></div><div class="ic">Format</div><h3>You run it</h3><p>We wrote the code. You press a button and watch the model learn. No programming required.</p></div>
-      <div class="card"><div class="icon"><svg viewBox="0 0 48 48"><use href="#i-net"/></svg></div><div class="ic">Tools</div><h3>Just a browser</h3><p>Six notebooks in Google Colab. Nothing to install, no maths to memorise.</p></div>
-      <div class="card"><div class="icon"><svg viewBox="0 0 48 48"><use href="#i-wave"/></svg></div><div class="ic">Journey</div><h3>Numbers → text → speech</h3><p>The same one idea, applied to three kinds of real data.</p></div>
+      <div class="card frag"><div class="icon"><svg viewBox="0 0 48 48"><use href="#i-target"/></svg></div><div class="ic">Format</div><h3>You run it</h3><p>The code is pre-written. You press play and watch the model learn. No programming.</p></div>
+      <div class="card frag"><div class="icon"><svg viewBox="0 0 48 48"><use href="#i-net"/></svg></div><div class="ic">Tools</div><h3>Just a browser</h3><p>Four notebooks in Google Colab. Nothing to install, no maths to memorise.</p></div>
+      <div class="card frag"><div class="icon"><svg viewBox="0 0 48 48"><use href="#i-wave"/></svg></div><div class="ic">Journey</div><h3>Text, then speech</h3><p>One idea, applied to the two kinds of messy data you handle daily.</p></div>
     </div>
   </section>
 
   <!-- 3 TWO MINDSETS -->
-  <section class="slide" data-note="Name the room honestly. Some think AI can do anything; some think it is marketing nonsense. Both are wrong, and the truth is more useful than either. We will earn that claim with real examples today.">
+  <section class="slide" data-note="Name the room honestly. Some think AI can do anything; some think it is marketing nonsense. Both are wrong. The honest middle is more useful — and we earn it with real, imperfect numbers all day.">
     <div class="eyebrow">Before we start</div>
     <h2>Most people hold one of <span class="a">two beliefs.</span></h2>
     <div class="vs">
-      <div class="col"><div class="tag">Belief A</div><h4>"AI can do anything."</h4><p class="small" style="margin-top:0">Magic. Limitless. About to replace everyone.</p></div>
-      <div class="col"><div class="tag">Belief B</div><h4>"AI is nonsense."</h4><p class="small" style="margin-top:0">Hype. A buzzword. Nothing real underneath.</p></div>
+      <div class="col frag"><div class="tag">Belief A</div><h4>"AI can do anything."</h4><p class="small" style="margin-top:0">Magic. Limitless. About to replace everyone.</p></div>
+      <div class="col frag"><div class="tag">Belief B</div><h4>"AI is nonsense."</h4><p class="small" style="margin-top:0">Hype. A buzzword. Nothing real underneath.</p></div>
     </div>
-    <p class="sub" style="max-width:42ch">The truth sits in between — and it is surprisingly ordinary. Today you will see exactly where it is powerful, and exactly where it falls short.</p>
+    <p class="sub frag" style="max-width:46ch">The truth sits between — and is surprisingly ordinary. Today you will see exactly where it is powerful, and exactly where it falls short.</p>
   </section>
 
   <!-- 4 WHAT IS AI (illustration) -->
-  <section class="slide" data-note="Define it in one plain sentence, then the technician analogy — the anchor for the whole day. A person who has inspected thousands of machines can call a bad one on sight. Not magic: pattern from experience. The dots in the thought-bubble are that learned pattern.">
+  <section class="slide" data-note="The anchor analogy for the whole day. A technician who has inspected thousands of machines can call a bad one on sight — not magic, they have seen the pattern before. The dots in the thought-bubble are that learned pattern. We teach a computer to do exactly that.">
     <div class="eyebrow">So what is it, really</div>
     <div class="withfig">
       <div>
         <h2>It learns a <span class="t">pattern</span> from the past.</h2>
-        <p class="small" style="max-width:30ch">A seasoned technician who has inspected thousands of machines can look at a new one and say "this will give trouble soon." Not magic — they have <span class="accent">seen the pattern before</span>. We teach a computer to do exactly that.</p>
+        <p class="small" style="max-width:30ch">A seasoned technician who has inspected thousands of machines looks at a new one and says "this will give trouble soon." Not magic — they have <span class="accent">seen the pattern before</span>. We teach a computer to do exactly that.</p>
       </div>
       <div class="illus">
         <svg class="scene" viewBox="0 0 340 300" fill="none">
-          <!-- technician bust -->
           <path d="M58 268c0-52 42-86 92-86s92 34 92 86" stroke="#36b6c9" stroke-width="3"/>
           <circle cx="150" cy="120" r="46" stroke="#36b6c9" stroke-width="3"/>
-          <!-- thought bubble trail -->
           <circle cx="206" cy="120" r="6" stroke="#88a1b2" stroke-width="2"/>
           <circle cx="222" cy="100" r="4" stroke="#88a1b2" stroke-width="2"/>
-          <!-- thought bubble -->
           <rect x="196" y="26" width="132" height="92" rx="18" stroke="#88a1b2" stroke-width="2" fill="rgba(12,18,22,.6)"/>
           <line x1="214" y1="98" x2="312" y2="40" stroke="#33485a" stroke-width="1.4"/>
-          <!-- pattern dots: green (fine) lower-left, red (fail) upper-right -->
           <circle cx="216" cy="92" r="5.5" fill="#56c08a"/><circle cx="232" cy="86" r="5.5" fill="#56c08a"/><circle cx="222" cy="74" r="5.5" fill="#56c08a"/>
           <circle cx="300" cy="50" r="5.5" fill="#d4756b"/><circle cx="286" cy="62" r="5.5" fill="#d4756b"/><circle cx="302" cy="68" r="5.5" fill="#d4756b"/>
         </svg>
@@ -226,7 +270,7 @@
   </section>
 
   <!-- 5 THE ONE IDEA (icon flow) -->
-  <section class="slide" data-note="This single diagram is the spine of the entire session. Every notebook — numbers, text, speech — is just this picture. Keep pointing back to it all day.">
+  <section class="slide" data-note="The spine of the day in one diagram. Past examples, find the pattern, predict a new case. Every notebook — text, speech, sound — is just this picture. Keep pointing back to it.">
     <div class="eyebrow">The one idea behind everything today</div>
     <h2 style="max-width:24ch">From past examples to a <span class="t">prediction.</span></h2>
     <div class="flow">
@@ -239,51 +283,62 @@
   </section>
 
   <!-- 6 SEE THE PATTERN (real chart) -->
-  <section class="slide" data-note="This is the most important picture in the deck. Each dot is a past machine; colour = whether it needed service. The model draws the boundary between the colours. A new machine simply falls on one side. THIS is what 'finding the pattern' actually looks like — they will build this exact chart in Module 00.">
+  <section class="slide" data-note="The most important picture in the deck. Each dot is a past machine; colour = whether it needed service. The model draws the boundary between the colours. A new machine simply falls on one side. Every session today is a variation of this one picture.">
     <div class="eyebrow">What "finding the pattern" actually looks like</div>
-    <div class="withfig">
+    <div class="chartsplit">
       <div>
         <h2>It draws a <span class="t">boundary</span> between good and bad.</h2>
-        <p class="small" style="max-width:30ch">Every dot is a past machine — <span style="color:#56c08a;font-weight:600">green worked fine</span>, <span style="color:#d4756b;font-weight:600">red needed service</span>. The model finds the line between them. A new machine just falls on one side. You build this in Module 00.</p>
+        <ul class="frags">
+          <li>Every dot is a past machine — <span style="color:#56c08a;font-weight:600">green worked fine</span>, <span style="color:#d4756b;font-weight:600">red needed service</span></li>
+          <li>The model finds the line between them</li>
+          <li>A new machine just falls on one side</li>
+        </ul>
       </div>
-      <div class="fwrap"><div class="figure"><img src="figs/pattern_scatter.svg" alt="Scatter of machines with a learned decision boundary" /></div>
-        <div class="figcap">Hotter + shakier → the model expects trouble</div></div>
+      <div class="fwrap"><div class="figure"><img src="figs/pattern_scatter.svg" alt="Scatter of machines with a learned decision boundary" />
+        <div class="figcap">Hotter + shakier → the model expects trouble</div></div></div>
     </div>
   </section>
 
   <!-- 7 PREDICTIVE VS GENERATIVE -->
-  <section class="slide" data-note="Clear up the biggest confusion. ChatGPT is GENERATIVE — it creates new content. Today is PREDICTIVE — it makes a call about a case. Different tool, different job. Generative AI gets its own sessions later.">
+  <section class="slide" data-note="Clear up the biggest confusion. ChatGPT is GENERATIVE — it creates content. Today is PREDICTIVE — it makes a call about a case. Different tool, different job. Say it plainly: generative AI is out of scope today; it gets its own sessions.">
     <div class="eyebrow">Clearing up the confusion</div>
     <h2>Two different jobs.</h2>
     <div class="vs">
-      <div class="col win"><div class="tag">Today — Predictive AI</div><div class="icon" style="margin-top:6px"><svg viewBox="0 0 48 48"><use href="#i-gauge"/></svg></div><h4 style="margin-top:4px">Makes a call</h4>
-        <ul><li>"This machine will need service"</li><li>"Reject this part" · "Cost ≈ ₹4.2L"</li><li>Decades old; runs in banks, factories, airlines</li></ul></div>
-      <div class="col"><div class="tag">Later — Generative AI</div><div class="icon" style="margin-top:6px;color:var(--muted)"><svg viewBox="0 0 48 48"><use href="#i-spark"/></svg></div><h4 style="margin-top:4px">Creates content</h4>
-        <ul><li>Writes text, makes images, speaks</li><li>ChatGPT, image generators</li><li>The newer wave everyone talks about</li></ul></div>
+      <div class="col win frag"><div class="tag">Today — Predictive AI</div><div class="icon" style="margin-top:6px"><svg viewBox="0 0 48 48"><use href="#i-gauge"/></svg></div><h4 style="margin-top:4px">Makes a call</h4>
+        <ul><li>"This machine needs service"</li><li>"Reject this part" · "Cost ≈ ₹4.2L"</li><li>Decades old; runs banks, factories, airlines</li></ul></div>
+      <div class="col frag"><div class="tag">Later — Generative AI</div><div class="icon" style="margin-top:6px;color:var(--muted)"><svg viewBox="0 0 48 48"><use href="#i-spark"/></svg></div><h4 style="margin-top:4px">Creates content</h4>
+        <ul><li>Writes text, makes images, speaks</li><li>ChatGPT, image generators</li><li style="color:var(--amber)"><b>Out of scope today</b> — its own sessions</li></ul></div>
     </div>
   </section>
 
   <!-- 8 ALREADY EVERYWHERE (icons) -->
-  <section class="slide" data-note="Defuse the 'is this even real' skeptic. Predictive AI has quietly run everyday systems for years. None are sci-fi; all are the same learn-from-the-past idea.">
+  <section class="slide" data-note="Defuse the 'is this even real' skeptic. Predictive AI has quietly run everyday systems for years. The spam filter is the anchor — classical bag-of-words text AI nobody calls magic. It bridges straight into Session 1.">
     <div class="eyebrow">It is not new — and it is everywhere</div>
     <h2>You already trust it <span class="t">every day.</span></h2>
     <div class="grid4">
-      <div class="card"><div class="icon"><svg viewBox="0 0 48 48"><use href="#i-mail"/></svg></div><div class="ic">Email</div><h3>Spam filter</h3><p>Learned from millions of flagged emails.</p></div>
-      <div class="card"><div class="icon"><svg viewBox="0 0 48 48"><use href="#i-card"/></svg></div><div class="ic">Banking</div><h3>Fraud alert</h3><p>Spots a transaction that breaks your pattern.</p></div>
-      <div class="card"><div class="icon"><svg viewBox="0 0 48 48"><use href="#i-pin"/></svg></div><div class="ic">Maps</div><h3>Arrival time</h3><p>Predicts your ETA from past traffic.</p></div>
-      <div class="card"><div class="icon"><svg viewBox="0 0 48 48"><use href="#i-cart"/></svg></div><div class="ic">Shopping</div><h3>Recommendations</h3><p>Predicts what you are likely to want next.</p></div>
+      <div class="card frag"><div class="icon"><svg viewBox="0 0 48 48"><use href="#i-mail"/></svg></div><div class="ic">Email</div><h3>Spam filter</h3><p>Classical text AI — bag-of-words, decades old.</p></div>
+      <div class="card frag"><div class="icon"><svg viewBox="0 0 48 48"><use href="#i-card"/></svg></div><div class="ic">Banking</div><h3>Fraud alert</h3><p>Spots a transaction that breaks your pattern.</p></div>
+      <div class="card frag"><div class="icon"><svg viewBox="0 0 48 48"><use href="#i-pin"/></svg></div><div class="ic">Maps</div><h3>Arrival time</h3><p>Predicts your ETA from past traffic.</p></div>
+      <div class="card frag"><div class="icon"><svg viewBox="0 0 48 48"><use href="#i-cart"/></svg></div><div class="ic">Shopping</div><h3>Recommendations</h3><p>Predicts what you are likely to want next.</p></div>
     </div>
   </section>
 
-  <!-- 9 VOCAB DIVIDER -->
-  <section class="slide" data-note="Transition. The words that make AI sound intimidating are simple once you see them. We meet five, then use them all day. Each is a plain idea wearing a technical name.">
+  <!-- 9 VOCAB DIVIDER + spine -->
+  <section class="slide" data-note="Don't front-load a glossary. Introduce five plain words here — dataset, feature, label, train/test split, accuracy — then use them relentlessly. Put the five-step spine on the wall: dataset, split, train, predict, measure.">
     <div class="eyebrow">Part one — the words</div>
     <h2>The scary words are <span class="t">simple words.</span></h2>
-    <p class="lead wide">Dataset. Feature. Label. Training. Accuracy. Five terms — and once you have them, none of this is mysterious again.</p>
+    <p class="lead wide frag">Five terms — Dataset · Feature · Label · Train/test split · Accuracy.</p>
+    <div class="spine frag">
+      <span class="s">dataset</span><span class="a">&rarr;</span>
+      <span class="s">split</span><span class="a">&rarr;</span>
+      <span class="s">train</span><span class="a">&rarr;</span>
+      <span class="s">predict</span><span class="a">&rarr;</span>
+      <span class="s">measure</span>
+    </div>
   </section>
 
   <!-- 10 DATASET -->
-  <section class="slide" data-note="A dataset is just a spreadsheet. Rows = the things we recorded (machines). Columns = what we measured. Demystify immediately — no one fears a table.">
+  <section class="slide" data-note="Demystify immediately — a dataset is just a spreadsheet. Rows = the things we recorded (machines). Columns = what we measured. No one fears a table.">
     <div class="eyebrow">Word 1 — Dataset</div>
     <h2>A dataset is just a <span class="t">table.</span></h2>
     <table class="mini">
@@ -298,7 +353,7 @@
   </section>
 
   <!-- 11 FEATURES VS LABEL -->
-  <section class="slide" data-note="The most important distinction of the day. Features = the clues we GET. Label = the answer we WANT. The single column of answers is the label column. We separate them before doing anything clever.">
+  <section class="slide" data-note="The most important distinction of the day. Features = the clues the model SEES. Label column = the answer it learns to predict. Reused in every session: in text the features become word-counts, in sound they become pitches.">
     <div class="eyebrow">Words 2 &amp; 3 — Feature &amp; Label</div>
     <h2>Clues in. <span class="a">Answer</span> out.</h2>
     <table class="mini">
@@ -312,8 +367,8 @@
   </section>
 
   <!-- 12 TRAIN/TEST SPLIT -->
-  <section class="slide" data-note="Why hide data? The exam analogy: if a student studies the exact exam paper, a top score proves nothing. The honest test uses unseen questions. So we hide some machines and judge only on those.">
-    <div class="eyebrow">Word 4 — Training, and the honest test</div>
+  <section class="slide" data-note="Why hide data — the exam analogy. If a student studies the exact exam paper, a top score proves nothing. We judge the model only on cases it has never seen. The Session-1 knob turns this 75/25 ratio.">
+    <div class="eyebrow">Word 4 — Train/test split</div>
     <h2>Learn from most.<br>Judge on the <span class="a">hidden</span> rest.</h2>
     <div class="splitbar">
       <div class="seg learn"><div class="pc">75%</div><div class="lb">Training set — the model learns from this</div></div>
@@ -322,180 +377,358 @@
     <p class="small">Like an exam: never let the student see the exact paper first. We judge the model only on cases it has <span class="accent">never seen.</span></p>
   </section>
 
-  <!-- 13 THE RHYTHM -->
-  <section class="slide" data-note="Every notebook repeats this rhythm. Accuracy = fraction right on the hidden set. Be honest: 100% on real data is usually a red flag, not a triumph — Module 1 shows why.">
+  <!-- 13 ACCURACY + THE RHYTHM -->
+  <section class="slide" data-note="Every notebook repeats this rhythm. Accuracy = fraction right on the hidden set. Be honest: 100% on real data is usually a red flag, not a triumph — Session 2's header-trap proves it.">
     <div class="eyebrow">Word 5 — Accuracy · and the rhythm of every notebook</div>
     <div class="flow">
       <div class="node hot"><div class="icon"><svg viewBox="0 0 48 48"><use href="#i-net"/></svg></div><div class="k">Learn</div><div class="v">Train the model</div></div>
       <div class="arrow">&rarr;</div>
       <div class="node"><div class="icon"><svg viewBox="0 0 48 48"><use href="#i-target"/></svg></div><div class="k">Use</div><div class="v">Predict new cases</div></div>
       <div class="arrow">&rarr;</div>
-      <div class="node"><div class="icon"><svg viewBox="0 0 48 48"><use href="#i-ring"/></svg></div><div class="k">Check</div><div class="v">Measure accuracy</div></div>
+      <div class="node"><div class="icon"><svg viewBox="0 0 48 48"><use href="#i-ring"/></svg></div><div class="k">Check</div><div class="v">Measure honestly</div></div>
     </div>
-    <p class="sub" style="max-width:48ch"><span class="accent">Accuracy</span> = how often it is right on the hidden set. A model claiming 100% is usually cheating — honest numbers have gaps.</p>
+    <p class="sub" style="max-width:50ch"><span class="accent">Accuracy</span> = how often it is right on the hidden set. A model claiming 100% is usually cheating — honest numbers have gaps, and a gap is a trust signal.</p>
   </section>
 
-  <!-- 14 THREE KINDS OF DATA (icons) -->
-  <section class="slide" data-note="Preview the day. Same idea, three kinds of data. Numbers first (Modules 0-3), then written text (Module 4), then the spoken word (Module 5). Each just feeds the same picture from earlier.">
-    <div class="eyebrow">Part two — putting it to work</div>
-    <h2>One idea. <span class="t">Three</span> kinds of data.</h2>
-    <div class="grid3">
-      <div class="card"><div class="icon"><svg viewBox="0 0 48 48"><use href="#i-bars"/></svg></div><div class="ic">Modules 00–03</div><h3>Numbers</h3><p>Sensor readings, measurements, costs, time series.</p></div>
-      <div class="card"><div class="icon"><svg viewBox="0 0 48 48"><use href="#i-doc"/></svg></div><div class="ic">Module 04</div><h3>Text</h3><p>Written maintenance and defect reports.</p></div>
-      <div class="card"><div class="icon"><svg viewBox="0 0 48 48"><use href="#i-wave"/></svg></div><div class="ic">Module 05</div><h3>Speech</h3><p>Spoken status reports, turned into text and acted on.</p></div>
+  <!-- 14 WORDS AND SOUND BECOME NUMBERS -->
+  <section class="slide" data-note="The hinge of the whole day. A computer can't read — it can only count, so we turn words into numbers (bag-of-words, TF-IDF). A sound is ALREADY numbers — a microphone records a list of values. Once it is numbers, it is the same five steps for both.">
+    <div class="eyebrow">Part two — making messy data countable</div>
+    <h2>A computer can't read — it can only <span class="t">count.</span></h2>
+    <div class="grid2">
+      <div class="card frag">
+        <div class="icon"><svg viewBox="0 0 48 48"><use href="#i-doc"/></svg></div>
+        <div class="ic">Text → numbers</div><h3>Count the words</h3>
+        <div class="pipe">
+          <span class="chipword">oil</span><span class="chipword">pressure</span><span class="chipword stop">the</span><span class="chipword">leak</span>
+          <span class="arrow" style="font-size:22px">&rarr;</span>
+          <span class="cells"><span class="c">2</span><span class="c">1</span><span class="c">0</span><span class="c">1</span></span>
+        </div>
+        <p style="margin-top:12px">Bag-of-words &amp; TF-IDF; stop words ("the/and") dropped.</p>
+      </div>
+      <div class="card frag">
+        <div class="icon"><svg viewBox="0 0 48 48"><use href="#i-wave"/></svg></div>
+        <div class="ic">Sound → numbers</div><h3>Already a list of values</h3>
+        <div class="pipe">
+          <svg width="120" height="40" viewBox="0 0 120 40" fill="none" stroke="#36b6c9" stroke-width="2"><polyline points="4,20 14,8 24,32 34,12 44,28 54,16 64,30 74,10 84,26 94,18 104,30 116,20"/></svg>
+          <span class="arrow" style="font-size:22px">&rarr;</span>
+          <span class="cells"><span class="c">.7</span><span class="c">.2</span><span class="c">.9</span><span class="c">.4</span></span>
+        </div>
+        <p style="margin-top:12px">A microphone records numbers; the FFT splits them into pitches.</p>
+      </div>
     </div>
+    <p class="small frag" style="max-width:60ch">Only the first step changes between text and sound. Everything after is the <span class="accent">same five steps</span> you just learned.</p>
   </section>
 
-  <!-- 15 WHERE IT PAYS OFF -->
-  <section class="slide" data-note="Ground it in outcomes an engineering org cares about. These are the case studies the notebooks dramatise. Keep framing generic — the value is the same whatever the machine.">
-    <div class="eyebrow">Case studies — where this pays off</div>
-    <h2>Real jobs it does.</h2>
-    <div class="grid4">
-      <div class="card"><div class="icon"><svg viewBox="0 0 48 48"><use href="#i-gauge"/></svg></div><div class="ic">Module 03</div><h3>Predictive maintenance</h3><p>Service what is about to fail — before it fails.</p></div>
-      <div class="card"><div class="icon"><svg viewBox="0 0 48 48"><use href="#i-target"/></svg></div><div class="ic">Module 01</div><h3>Quality control</h3><p>Catch out-of-spec parts at the line.</p></div>
-      <div class="card"><div class="icon"><svg viewBox="0 0 48 48"><use href="#i-bars"/></svg></div><div class="ic">Module 02</div><h3>Demand forecasting</h3><p>Plan spare-parts stock months ahead.</p></div>
-      <div class="card"><div class="icon"><svg viewBox="0 0 48 48"><use href="#i-doc"/></svg></div><div class="ic">Modules 04–05</div><h3>Report &amp; voice routing</h3><p>Sort written and spoken logs automatically.</p></div>
-    </div>
-  </section>
-
-  <!-- 16 ROADMAP -->
-  <section class="slide" data-note="The map for the rest of the day. Six modules building on each other. 00 is the foundation; do it carefully. Then we open Colab.">
-    <div class="eyebrow">Today's six modules</div>
+  <!-- 15 ROADMAP -->
+  <section class="slide" data-note="The map for the day. Four sessions of about 75 minutes — two text, two speech — building on each other. The foundations live inside Session 1. NOT six modules. Then we open Colab.">
+    <div class="eyebrow">Today — four sessions, two kinds of data</div>
     <h2>The <span class="t">roadmap.</span></h2>
     <div class="grid2" style="margin-top:26px;gap:13px">
-      <div class="card" style="padding:16px 22px"><div class="ic">00 · Foundation</div><h3 style="font-size:20px;margin:5px 0 0">What is Predictive AI?</h3></div>
-      <div class="card" style="padding:16px 22px"><div class="ic">01 · Supervised</div><h3 style="font-size:20px;margin:5px 0 0">Classification</h3></div>
-      <div class="card" style="padding:16px 22px"><div class="ic">02 · Supervised</div><h3 style="font-size:20px;margin:5px 0 0">Regression &amp; Forecasting</h3></div>
-      <div class="card" style="padding:16px 22px"><div class="ic">03 · Capstone</div><h3 style="font-size:20px;margin:5px 0 0">Predictive Maintenance</h3></div>
-      <div class="card" style="padding:16px 22px"><div class="ic">04 · Language</div><h3 style="font-size:20px;margin:5px 0 0">Text Analytics</h3></div>
-      <div class="card" style="padding:16px 22px"><div class="ic">05 · Finale</div><h3 style="font-size:20px;margin:5px 0 0">Speech Analytics</h3></div>
+      <div class="card frag" style="padding:16px 22px"><div class="ic">1 · Text</div><h3 style="font-size:20px;margin:5px 0 0">Sorting the words you write</h3></div>
+      <div class="card frag" style="padding:16px 22px"><div class="ic">2 · Text</div><h3 style="font-size:20px;margin:5px 0 0">Predict, extract &amp; repeat faults</h3></div>
+      <div class="card frag" style="padding:16px 22px"><div class="ic">3 · Speech</div><h3 style="font-size:20px;margin:5px 0 0">Voice &rarr; text &rarr; decision</h3></div>
+      <div class="card frag" style="padding:16px 22px"><div class="ic">4 · Speech</div><h3 style="font-size:20px;margin:5px 0 0">Predicting from the sound</h3></div>
+    </div>
+    <p class="small frag">Each ≈75 min · two text, two speech · foundations live inside Session 1.</p>
+  </section>
+
+  <!-- 16 SESSION 1 DIVIDER -->
+  <section class="slide divider split" data-note="Open Session 1 — and the foundations live here too, taught on a maintenance example. The highlight: the model's own top clue-words per team, in plain English, so it is clearly not a black box.">
+    <div class="inner">
+      <div>
+        <div class="meta">Now open — Text · Session 1</div><div class="num">1</div>
+        <h2>Sorting the words you already write</h2>
+        <div class="tags"><span>dataset · label</span><span>words &rarr; numbers (TF-IDF)</span><span>train / test · accuracy</span><span>auto-routing</span></div>
+        <div class="open">&#9654; &nbsp;notebooks/01_text_analytics.ipynb</div>
+      </div>
+      <div class="figure"><img src="figs/text_cluewords.svg" alt="Top clue-words the model learned per team"/><div class="figcap">The model's own top words per team — readable, not a black box</div></div>
     </div>
   </section>
 
-  <!-- 17 MODULE 00 -->
-  <section class="slide divider" data-note="Open Module 00 now. Go slow — this installs the vocabulary everything else leans on. The highlight: the model prints the if-then rules it wrote by itself.">
-    <div class="center"><div class="meta">Now open — Foundation</div><div class="num">00</div>
-      <h2 style="margin:14px auto 0">What is Predictive AI?</h2>
-      <div class="tags" style="justify-content:center"><span>dataset</span><span>label column</span><span>train / test split</span><span>accuracy</span></div>
-      <div class="open" style="justify-content:center">&#9654; &nbsp;notebooks/00_intro_predictive_ai.ipynb</div></div>
+  <!-- 17 AUTO-ROUTE A SNAG -->
+  <section class="slide" data-note="oil/pressure/fluid → Hydraulic. Bag-of-words and TF-IDF turn each report into a row of numbers, then it is ordinary classification. The same split-train-predict-measure as the opening table; only the first step, text to numbers, is new. Show the confidence drop on an ambiguous report.">
+    <div class="eyebrow">Session 1 — words → numbers → team</div>
+    <h2>Free text in, the <span class="t">right team</span> out.</h2>
+    <div class="pipe" style="margin-top:30px">
+      <span class="chipword" style="font-size:15px;padding:12px 16px">"oil pressure low, fluid pooling under the strut"</span>
+      <span class="arrow">&rarr;</span>
+      <span class="cells"><span class="c">oil</span><span class="c">prs</span><span class="c">fld</span><span class="c">leak</span></span>
+      <span class="arrow">&rarr;</span>
+      <span>
+        <span class="teamchip">Hydraulic</span>
+        <div class="confbar"><i></i></div>
+        <div style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:5px">confidence 0.72</div>
+      </span>
+    </div>
+    <ul class="frags" style="max-width:64ch;margin-top:34px">
+      <li>TF-IDF turns each report into a row of numbers; stop words ("the/and") are dropped</li>
+      <li>Then it is ordinary classification → routed to <span class="k">Hydraulic · Electrical · Avionics · Mechanical</span></li>
+      <li>One ambiguous report → watch the confidence drop</li>
+    </ul>
   </section>
 
-  <!-- 18 MODULE 01 -->
-  <section class="slide divider" data-note="Module 01. The lesson that earns the day: a lazy model that always says PASS can score 80% and catch zero bad parts. Spend time on the confusion matrix — false alarm vs missed fault.">
-    <div class="center"><div class="meta">Now open — Supervised learning</div><div class="num">01</div>
-      <h2 style="margin:14px auto 0">Classification</h2>
-      <div class="tags" style="justify-content:center"><span>classes</span><span>confusion matrix</span><span>precision / recall</span><span>the accuracy trap</span></div>
-      <div class="open" style="justify-content:center">&#9654; &nbsp;notebooks/01_classification.ipynb</div></div>
+  <!-- 18 TOP CLUE-WORDS + HONEST ACCURACY -->
+  <section class="slide" data-note="Auditability is the selling point. Each team's top words are exactly what an engineer expects. Cite ~83% Naive Bayes / ~91% linear on the standard public corpus to set honest expectations; small-set demo scores wobble — that's why the knob matters. A human stays in the loop.">
+    <div class="eyebrow">Session 1 — the result, honestly</div>
+    <div class="chartsplit">
+      <div>
+        <h2>Not a black box — it shows its <span class="t">clue-words.</span></h2>
+        <ul class="frags">
+          <li>Each team's top words match what an engineer expects (oil, pressure, leak → Hydraulic)</li>
+          <li>Honest accuracy on unseen reports — <span class="k">~83%</span> Naive Bayes, <span class="k">~91%</span> linear, on the public benchmark</li>
+          <li>Auditable: the reasoning is readable, and a human stays in the loop</li>
+        </ul>
+      </div>
+      <div class="fwrap"><div class="figure"><img src="figs/text_cluewords.svg" alt="Top clue-words per team"/>
+        <div class="figcap">Top words per team — the model's reasoning in plain English</div></div></div>
+    </div>
   </section>
 
-  <!-- 19 MODULE 02 (split w/ charts) -->
-  <section class="slide divider split" data-note="Module 02. Prediction is not only yes/no — sometimes it is a number. The two visuals: the fitted line through the dots (regression) and the forecast continuing past today (forecasting). These charts are exactly what they will produce.">
+  <!-- 19 SESSION 2 DIVIDER -->
+  <section class="slide divider split" data-note="Session 2. The same words-to-numbers front end answers many questions — just swap the final step: predict a category, predict a number, find repeat faults, group into families, extract part numbers. Money shots: the similarity heatmap and the cluster map.">
     <div class="inner">
       <div>
-        <div class="meta">Now open — Supervised learning</div><div class="num">02</div>
-        <h2>Regression &amp; Forecasting</h2>
-        <div class="tags"><span>line of best fit</span><span>error (MAE)</span><span>trend</span><span>forecast</span></div>
-        <div class="open">&#9654; &nbsp;notebooks/02_regression_forecasting.ipynb</div>
+        <div class="meta">Now open — Text · Session 2</div><div class="num">2</div>
+        <h2>Predict, extract &amp; find repeat faults</h2>
+        <div class="tags"><span>classification vs regression</span><span>recurring faults</span><span>embeddings + clustering</span><span>part numbers</span></div>
+        <div class="open">&#9654; &nbsp;notebooks/02_text_predict_extract.ipynb</div>
       </div>
       <div class="figrow">
-        <div class="figure"><img src="figs/regression_line.svg" alt="Regression line of best fit"/><div class="figcap">Predict a number — the line of best fit</div></div>
-        <div class="figure"><img src="figs/forecast.svg" alt="Forecast continuing past today"/><div class="figcap">Forecast a trend — past today, into the future</div></div>
+        <div class="figure"><img src="figs/cosine_heatmap.svg" alt="Cosine similarity heatmap flagging recurring faults"/><div class="figcap">Recurring faults — same problem, different words</div></div>
+        <div class="figure"><img src="figs/cluster_scatter.svg" alt="Embeddings clustered into families"/><div class="figcap">Embeddings + clustering — snags self-group into families</div></div>
       </div>
     </div>
   </section>
 
-  <!-- 20 MODULE 03 (split w/ chart) -->
-  <section class="slide divider split" data-note="Module 03, the payoff. Feature importance is the slide engineers love — the model says WHICH signal mattered most, not just yes/no. The anomaly coda answers 'but we have no failure labels'.">
+  <!-- 20 CONFUSION MATRIX + ACCURACY TRAP -->
+  <section class="slide" data-note="For engineers, visible errors are a trust signal. Demand the confusion matrix, not a single accuracy number. ~81% on urgency; mistakes mostly Low-Medium; it caught 10 of 15 High snags and slipped High to Low only once — rare, but it happened, so High keeps a human's eyes. The accuracy trap: always say 'routine' and score high while catching zero urgent snags.">
+    <div class="eyebrow">Session 2 — predict a category</div>
+    <div class="chartsplit">
+      <div>
+        <h2>What it got right — <span class="a">and how it's wrong.</span></h2>
+        <ul class="frags">
+          <li>Predict urgency (a category): <span class="k">~81%</span> on unseen snags</li>
+          <li>Mistakes mostly Low↔Medium; caught 10/15 High, slipped High→Low <span style="color:var(--red);font-weight:600">once</span> — so High keeps a human's eyes</li>
+          <li class="warn">The accuracy trap: always saying "routine" scores high yet catches zero urgent snags</li>
+        </ul>
+      </div>
+      <div class="fwrap"><div class="figure"><img src="figs/confusion_urgency.svg" alt="Urgency confusion matrix"/>
+        <div class="figcap">Urgency confusion matrix — ~81% accurate, but watch the High→Low slip</div></div></div>
+    </div>
+  </section>
+
+  <!-- 21 CLASSIFICATION VS REGRESSION -->
+  <section class="slide" data-note="The classification-vs-regression aha. Classification = which bucket; regression = how many hours. Same TF-IDF front end, different last step. Off by about 1.5 hours on roughly six-hour jobs, R-squared about 0.6 — honest about the big-job misses.">
+    <div class="eyebrow">Session 2 — predict a number</div>
+    <div class="chartsplit">
+      <div>
+        <h2>Predict a <span class="t">bucket</span>, or predict a <span class="a">number.</span></h2>
+        <ul class="frags">
+          <li>Same TF-IDF in — swap the classifier for a regressor → predict downtime hours</li>
+          <li>Off by <span class="k">~1.5 h</span> on ~6 h jobs (<span class="k">R² ≈ 0.6</span>)</li>
+          <li>Predicted-vs-actual makes "it learned the relationship" visible — and honest about big-job misses</li>
+        </ul>
+      </div>
+      <div class="fwrap"><div class="figure"><img src="figs/downtime_scatter.svg" alt="Downtime regression scatter"/>
+        <div class="figcap">Downtime regression — MAE ≈ 1.5 h, R² ≈ 0.6</div></div></div>
+    </div>
+  </section>
+
+  <!-- 22 RECURRING / DUPLICATE FAULTS -->
+  <section class="slide" data-note="No labels needed. Cosine similarity scores 0–1 how much two reports share distinctive words; the heatmap lights up blocks of recurring faults. This is the unsupervised pairwise view; clustering next is its whole-set companion. Aviation MRO already does this commercially — figures there are vendor-claimed, so lead with the capability.">
+    <div class="eyebrow">Session 2 — recurring faults, no labels</div>
+    <div class="chartsplit">
+      <div>
+        <h2>The same chronic fault, worded <span class="t">five ways.</span></h2>
+        <ul class="frags">
+          <li>Cosine similarity scores 0–1 how much two reports share distinctive words</li>
+          <li>The heatmap lights up blocks — recurring faults, de-duplicated, with <span class="k">no labels</span></li>
+          <li>Aviation MRO already does this commercially (vendor-claimed — lead with the capability)</li>
+        </ul>
+      </div>
+      <div class="fwrap"><div class="figure"><img src="figs/cosine_heatmap.svg" alt="Cosine similarity heatmap"/>
+        <div class="figcap">Recurring faults — same problem, different words light up the same block</div></div></div>
+    </div>
+  </section>
+
+  <!-- 23 EMBEDDINGS + CLUSTERING -->
+  <section class="slide" data-note="Unsupervised: no answer key. Each snag becomes a point in space (an embedding); k-means sorts all of them into 5 families; read each cluster's top words to name it. The notebook's seeded code yields about 0.22 adjusted-Rand agreement with the true systems — modest but real structure, Mechanical pops out cleanly. Stay honest: it found structure, not a perfect map.">
+    <div class="eyebrow">Session 2 — embeddings + clustering</div>
+    <div class="chartsplit">
+      <div>
+        <h2>Snags <span class="t">self-group</span> into families — no labels.</h2>
+        <ul class="frags">
+          <li>Each snag becomes a point in space (an embedding); k-means sorts all of them into 5 families</li>
+          <li>A 2-D map shows the families; read each cluster's top words to name it</li>
+          <li>Honest <span class="k">~0.22</span> agreement with the true systems — Mechanical pops cleanly, others blend</li>
+        </ul>
+      </div>
+      <div class="fwrap"><div class="figure"><img src="figs/cluster_scatter.svg" alt="Embeddings and k-means family map"/>
+        <div class="figcap">Embeddings + k-means — modest agreement, unsupervised</div></div></div>
+    </div>
+  </section>
+
+  <!-- 24 SESSION 3 DIVIDER + WER table -->
+  <section class="slide divider split" data-note="Session 3. Speak a report, transcribe it with Whisper, route it with this morning's classifier — ASR is audio in, text out, then it's text analytics again. Draw the classical-to-deep line around 2012 so nobody thinks 'ChatGPT' — both are predictive. The key point: a low error rate can still get the one safety-critical word wrong.">
     <div class="inner">
       <div>
-        <div class="meta">Now open — Capstone</div><div class="num">03</div>
-        <h2>Predictive Maintenance</h2>
-        <div class="tags"><span>random forest</span><span>recall</span><span>feature importance</span><span>anomaly detection</span></div>
-        <div class="open">&#9654; &nbsp;notebooks/03_predictive_maintenance.ipynb</div>
+        <div class="meta">Now open — Speech · Session 3</div><div class="num">3</div>
+        <h2>Voice &rarr; text &rarr; decision</h2>
+        <div class="tags"><span>speech-to-text (ASR)</span><span>Word Error Rate</span><span>keyword spotting</span><span>Whisper → Session-1 classifier</span></div>
+        <div class="open">&#9654; &nbsp;notebooks/03_speech_analytics.ipynb</div>
       </div>
-      <div class="figure"><img src="figs/feature_importance.svg" alt="Feature importance bar chart"/><div class="figcap">Not just <i>will it fail</i> — but <b>which sensor</b> told us</div></div>
+      <div>
+        <table class="mini" style="margin-top:0;min-width:0;width:100%">
+          <thead><tr><th>What the computer heard</th><th>WER</th><th class="labelcol">Part&nbsp;#</th></tr></thead>
+          <tbody>
+            <tr><td>clean studio voice</td><td>0%</td><td class="labelcol">correct</td></tr>
+            <tr><td>shop-floor noise</td><td>15%</td><td class="labelcol">correct</td></tr>
+            <tr><td>misheard a digit</td><td>8%</td><td class="labelcol" style="color:#d4756b">WRONG</td></tr>
+          </tbody>
+        </table>
+        <p class="small" style="max-width:36ch">A <span class="accent">lower</span> error rate can still get the one word that matters wrong. Numbers and serials always get a human's eyes.</p>
+      </div>
     </div>
   </section>
 
-  <!-- 21 MODULE 04 -->
-  <section class="slide divider" data-note="Module 04. The only new concept is 'words become numbers' — show the word-columns appear. After that it is the same classification workflow from Module 01.">
-    <div class="center"><div class="meta">Now open — Language</div><div class="num">04</div>
-      <h2 style="margin:14px auto 0">Text Analytics</h2>
-      <div class="tags" style="justify-content:center"><span>words → numbers</span><span>bag of words</span><span>TF-IDF</span><span>auto-routing</span></div>
-      <div class="open" style="justify-content:center">&#9654; &nbsp;notebooks/04_text_analytics.ipynb</div></div>
+  <!-- 25 WER + KEYWORD SPOTTING + ASR LIMITS -->
+  <section class="slide" data-note="Honesty about the limit makes the capability believable. WER is the speech version of accuracy. The 8% transcript was cleaner yet turned one part number into another — so numbers and serials get a human's eyes. Keyword spotting (a small fixed vocabulary) is robust to stutters — why shop-floor tools use wake-words. Agree ASR struggles with accents, then show domain adaptation: ATC reached >95% controllers / >90% pilots / ~97% callsigns.">
+    <div class="eyebrow">Session 3 — honest about the limits</div>
+    <h2>A <span class="a">low</span> error rate can still get the one word wrong.</h2>
+    <div class="grid2">
+      <div class="card frag">
+        <div class="ic" style="color:var(--red)">The WER trap</div>
+        <h3 style="color:var(--red)">8% — but WRONG part #</h3>
+        <p>WER = wrong + missing + extra words. The "cleaner" 8% transcript still swapped one part number for another. Numbers and serials always get a human's eyes.</p>
+      </div>
+      <div class="card frag">
+        <div class="icon"><svg viewBox="0 0 48 48"><use href="#i-target"/></svg></div>
+        <div class="ic">Keyword spotting</div><h3>Listen for 4 commands</h3>
+        <p>A small fixed vocabulary is robust to stutters and filler — why shop-floor tools use wake-words, not full dictation.</p>
+      </div>
+    </div>
+    <p class="small frag" style="max-width:66ch">Hard by default (accents, jargon, radio noise), strong with domain data — ATC ASR reached <span class="accent">&gt;95% controllers</span>, &gt;90% pilots, ~97% on callsigns after domain training.</p>
   </section>
 
-  <!-- 22 MODULE 05 -->
-  <section class="slide divider" data-note="Module 05, the finale. The showpiece: change the spoken sentence, re-run, and watch speak→transcribe→categorise happen live. End the day on the one idea tying all six together.">
-    <div class="center"><div class="meta">Now open — Finale</div><div class="num">05</div>
-      <h2 style="margin:14px auto 0">Speech Analytics</h2>
-      <div class="tags" style="justify-content:center"><span>speech-to-text (ASR)</span><span>Whisper</span><span>speak → transcribe → predict</span></div>
-      <div class="open" style="justify-content:center">&#9654; &nbsp;notebooks/05_speech_analytics.ipynb</div></div>
-  </section>
-
-  <!-- 23 LIMITS (icons) -->
-  <section class="slide" data-note="The honesty slide — this builds trust with a technical, skeptical audience. Say it plainly: it learns only from the data you give it; it is not perfect; it ranks and flags, a human decides.">
-    <div class="eyebrow">Being honest — what it is not</div>
-    <h2>Powerful. <span class="a">Not</span> magic.</h2>
-    <div class="grid3">
-      <div class="card"><div class="icon"><svg viewBox="0 0 48 48"><use href="#i-db"/></svg></div><div class="ic">Limit</div><h3>Only as good as the data</h3><p>Biased or thin records → biased or thin predictions.</p></div>
-      <div class="card"><div class="icon"><svg viewBox="0 0 48 48"><use href="#i-ring"/></svg></div><div class="ic">Limit</div><h3>Never 100%</h3><p>Real data surprises. We measure the gap honestly — missed faults, fuzzy forecasts.</p></div>
-      <div class="card"><div class="icon"><svg viewBox="0 0 48 48"><use href="#i-people"/></svg></div><div class="ic">Limit</div><h3>It assists, not replaces</h3><p>It ranks and flags with a reason. The engineer still decides.</p></div>
+  <!-- 26 SESSION 4 DIVIDER + two figs -->
+  <section class="slide divider split" data-note="Session 4, the finale. Throw the words away. A sound is already numbers; the FFT splits it into pitches like a prism. Same five steps, no text at all. Read fault pitches as orders — 1× imbalance, 2× misalignment — not raw Hz.">
+    <div class="inner">
+      <div>
+        <div class="meta">Now open — Speech · Session 4</div><div class="num">4</div>
+        <h2>Predicting from the sound itself</h2>
+        <div class="tags"><span>sound &rarr; numbers (FFT)</span><span>classify the fault</span><span>feature importance</span><span>anomaly detection</span><span>orders (1&times; / 2&times;)</span></div>
+        <div class="open">&#9654; &nbsp;notebooks/04_sound_fault_prediction.ipynb</div>
+      </div>
+      <div class="figrow">
+        <div class="figure"><img src="figs/sound_clusters.svg" alt="Three machine-fault types separating by sound"/><div class="figcap">Three faults separate by their sound</div></div>
+        <div class="figure"><img src="figs/anomaly_hist.svg" alt="Anomaly detection: learn normal, flag the surprising"/><div class="figcap">Learn &lsquo;normal&rsquo;, then flag the surprising</div></div>
+      </div>
     </div>
   </section>
 
-  <!-- 24 RECAP -->
-  <section class="slide" data-note="Tie the bow. Whatever the data — numbers, text, speech — the model did the same thing: learned the pattern, predicted the next case. They can now reason about AI instead of believing or dismissing it.">
-    <div class="eyebrow">One idea, three forms</div>
-    <h2>It was always the <span class="t">same picture.</span></h2>
-    <div class="flow">
-      <div class="node"><div class="icon"><svg viewBox="0 0 48 48"><use href="#i-bars"/></svg></div><div class="k">Numbers</div><div class="v">Modules 00–03</div></div>
-      <div class="node"><div class="icon"><svg viewBox="0 0 48 48"><use href="#i-doc"/></svg></div><div class="k">Text</div><div class="v">Module 04</div></div>
-      <div class="node"><div class="icon"><svg viewBox="0 0 48 48"><use href="#i-wave"/></svg></div><div class="k">Speech</div><div class="v">Module 05</div></div>
+  <!-- 27 SOUND IS NUMBERS — payoff -->
+  <section class="slide" data-note="The Session-4 payoff. Five FFT features separate three fault types into clean clusters; classify healthy/bearing/imbalance at ~0.88. Feature importance shows the model leaning on the whine and the rumble — the cues a technician's ear uses. With no fault examples, learn 'normal' only and flag the surprising — anomaly detection at AUC ~0.94, the realistic aerospace case. Public benchmarks run AUC ~0.54–0.96; a flawless demo is the thing to distrust.">
+    <div class="eyebrow">Session 4 — the payoff</div>
+    <div class="chartsplit">
+      <div>
+        <h2>A computer can <span class="t">hear</span> a fault.</h2>
+        <ul class="frags">
+          <li>Five FFT features → three fault types separate; classify healthy / bearing / imbalance at <span class="k">~0.88</span></li>
+          <li>Feature importance leans on the <span class="k">whine</span> and the <span class="k">rumble</span> — the cues a technician's ear uses</li>
+          <li>No fault examples? Learn "normal", flag the surprising — anomaly detection at <span class="k">AUC ≈ 0.94</span></li>
+        </ul>
+      </div>
+      <div class="fwrap">
+        <div class="figrow" style="gap:14px">
+          <div class="figure"><img src="figs/sound_clusters.svg" alt="Three faults separate by sound"/><div class="figcap">Three faults separate by their sound — ~0.88 classified</div></div>
+          <div class="figure"><img src="figs/anomaly_hist.svg" alt="Anomaly detection histogram with alarm line"/><div class="figcap">Learn 'normal', flag the surprising — AUC ≈ 0.94</div></div>
+        </div>
+      </div>
     </div>
-    <p class="sub" style="max-width:52ch">Learn the pattern from past examples → predict the next case. Neither magic nor nonsense — a tool you can now reason about.</p>
   </section>
 
-  <!-- 25 THANK YOU -->
-  <section class="slide" data-note="Close and hand off. Generative AI — the ChatGPT half — comes in later sessions from other speakers. Thank them and open the floor.">
-    <div class="eyebrow">That is predictive AI</div>
-    <h1 style="font-size:clamp(40px,6.4vw,90px)">Thank you.<span class="em">Questions?</span></h1>
-    <p class="small">Generative AI — the half that <i>creates</i> — is covered in the sessions to come. Today you met the half that <span class="accent">predicts.</span></p>
+  <!-- 28 CLOSING -->
+  <section class="slide" data-note="Tie the bow: same picture every time — dataset, split, train, predict, measure. The numbers were honest all day. Neither magic nor nonsense — a tool you can now reason about and question. Hand off to the generative-AI sessions that follow. Close on 'you can now question an AI claim.'">
+    <div class="eyebrow">Neither magic nor nonsense</div>
+    <h2>It was always the <span class="t">same five steps.</span></h2>
+    <ul class="frags">
+      <li>Text, speech, sound — every session was <span class="k">dataset → split → train → predict → measure</span></li>
+      <li>The numbers were honest: routing ~83–91%, urgency ~81%, downtime ±1.5 h, clustering ~0.22, sound ~0.88, anomaly AUC ~0.94 — and a low WER that still got the one word wrong</li>
+      <li>Neither magic nor nonsense — a tool you can now reason about and <span class="k">question</span></li>
+      <li>Generative AI — the half that <i>creates</i> — comes in the sessions to follow</li>
+    </ul>
+    <p class="small frag" style="max-width:40ch;color:var(--teal)">Thank you. Questions?</p>
   </section>
 
 </div>
 
 <div class="nav"><div class="half" id="navPrev"></div><div class="half" id="navNext"></div></div>
-<div class="brand">Predictive AI · HAL Core Engineering</div>
-<div class="hint" id="hint">&larr; &rarr; or Space to move &nbsp;·&nbsp; F fullscreen &nbsp;·&nbsp; S speaker notes</div>
-<div class="counter"><b id="cur">1</b> / <span id="tot">25</span></div>
+<div class="brand">Predictive AI · HAL Core Engineering · Text &amp; Speech</div>
+<div class="hint" id="hint">&larr; &rarr; / Space move &nbsp;·&nbsp; F fullscreen &nbsp;·&nbsp; S notes &nbsp;·&nbsp; O overview</div>
+<div class="counter"><b id="cur">1</b> / <span id="tot">28</span></div>
 <aside class="notes" id="notes"><div class="lbl">Speaker notes</div><div class="txt" id="notesTxt"></div></aside>
+<div class="overview" id="overview"><h5>Overview — click a slide to jump (O / Esc to close)</h5><div class="ovgrid" id="ovgrid"></div></div>
 
 <script>
   const slides = Array.from(document.querySelectorAll('.slide'));
   const prog = document.getElementById('prog'), cur = document.getElementById('cur'), tot = document.getElementById('tot');
   const notes = document.getElementById('notes'), notesTxt = document.getElementById('notesTxt');
-  let i = 0, notesOn = false;
+  const overview = document.getElementById('overview'), ovgrid = document.getElementById('ovgrid');
+  let i = 0, frag = 0, notesOn = false, ovOn = false;
   tot.textContent = slides.length;
-  function show(n){
+
+  // each slide's fragment elements (revealed one at a time)
+  const fragsOf = s => Array.from(s.querySelectorAll('.frag, ul.frags > li'));
+
+  function applyFrags(){
+    const f = fragsOf(slides[i]);
+    f.forEach((el, k) => el.classList.toggle('on', k < frag));
+  }
+  function show(n, atEnd){
     i = Math.max(0, Math.min(slides.length - 1, n));
     slides.forEach((s, k) => s.classList.toggle('active', k === i));
+    const total = fragsOf(slides[i]).length;
+    frag = atEnd ? total : 0;
+    applyFrags();
     prog.style.width = ((i + 1) / slides.length * 100) + '%';
     cur.textContent = i + 1;
     notesTxt.textContent = slides[i].getAttribute('data-note') || '—';
     location.hash = i + 1;
   }
-  const next = () => show(i + 1), prev = () => show(i - 1);
+  function next(){
+    const total = fragsOf(slides[i]).length;
+    if (frag < total){ frag++; applyFrags(); return; }
+    if (i < slides.length - 1) show(i + 1, false);
+  }
+  function prev(){
+    if (frag > 0){ frag--; applyFrags(); return; }
+    if (i > 0) show(i - 1, true);
+  }
+
+  // overview grid
+  slides.forEach((s, k) => {
+    const h = s.querySelector('h1, h2');
+    const cell = document.createElement('div');
+    cell.className = 'ovcell';
+    cell.innerHTML = '<div class="n">' + (k + 1) + '</div><div class="t">' + (h ? h.textContent.trim() : '—') + '</div>';
+    cell.addEventListener('click', () => { toggleOverview(false); show(k, false); });
+    ovgrid.appendChild(cell);
+  });
+  function toggleOverview(on){ ovOn = on; overview.classList.toggle('on', ovOn); }
+
   document.addEventListener('keydown', (e) => {
+    if (ovOn && (e.key === 'Escape' || e.key === 'o' || e.key === 'O')){ toggleOverview(false); return; }
     if (['ArrowRight',' ','PageDown','ArrowDown'].includes(e.key)){ e.preventDefault(); next(); }
     else if (['ArrowLeft','PageUp','ArrowUp'].includes(e.key)){ e.preventDefault(); prev(); }
-    else if (e.key === 'Home'){ show(0); } else if (e.key === 'End'){ show(slides.length - 1); }
+    else if (e.key === 'Home'){ show(0, false); } else if (e.key === 'End'){ show(slides.length - 1, false); }
     else if (e.key === 'f' || e.key === 'F'){ if (!document.fullscreenElement) document.documentElement.requestFullscreen(); else document.exitFullscreen(); }
     else if (e.key === 's' || e.key === 'S'){ notesOn = !notesOn; notes.classList.toggle('on', notesOn); }
+    else if (e.key === 'o' || e.key === 'O'){ toggleOverview(!ovOn); }
   });
   document.getElementById('navNext').addEventListener('click', next);
   document.getElementById('navPrev').addEventListener('click', prev);
-  show((parseInt(location.hash.replace('#','')) || 1) - 1);
+
+  show((parseInt(location.hash.replace('#','')) || 1) - 1, false);
 </script>
 </body>
 </html>
