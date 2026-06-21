@@ -86,7 +86,7 @@
   .split .test{flex:1;background:var(--amber)}
   .split .pc{font-family:var(--disp);font-weight:900;font-size:18px}
   .split .lb{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;opacity:.92}
-  .cm{display:grid;grid-template-columns:auto 1fr 1fr;gap:5px;margin:12px 0;max-width:430px;font-size:12px}
+  .cm{display:grid;grid-template-columns:auto 1fr 1fr;gap:5px;margin:12px 0;max-width:460px;font-size:12px}
   .cm .c{border-radius:6px;padding:9px 11px;font-family:var(--sans)}
   .cm .hd{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;justify-content:center;text-align:center}
   .cm .good{background:#e3f1e6;border:1px solid #bcdcc4}
@@ -97,13 +97,18 @@
   .pstep .ic{width:30px;height:30px;color:var(--teal);margin:0 auto 6px}
   .pstep .v{font-family:var(--disp);font-weight:700;font-size:13px;color:var(--ink)}
   .pstep .d{font-size:10.5px;color:var(--muted)}
+  .wer{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+  .wer th,.wer td{border:1px solid var(--line);padding:8px 11px;text-align:left}
+  .wer th{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:var(--soft)}
+  .wer .ok{color:var(--green);font-weight:700}
+  .wer .no{color:var(--red);font-weight:700}
 
   @media print{
     body{background:#fff}
     .page{box-shadow:none;margin:0;max-width:100%;padding:0;border-radius:0;page-break-after:always}
     .page:last-child{page-break-after:auto}
     @page{size:A4;margin:15mm 16mm}
-    figure,.idea,.take,.use,.limit,.term,.flow,.pipe{break-inside:avoid}
+    figure,.idea,.take,.use,.limit,.term,.flow,.pipe,.cm,.wer{break-inside:avoid}
     h2,h3{break-after:avoid}
   }
 </style>
@@ -129,8 +134,8 @@
     <h1>Predictive AI<br><span class="em">a field guide.</span></h1>
     <div class="sub">A keep-it reference to everything you ran in the hands-on lab — the ideas, the
       pictures, and where they fit your work.</div>
-    <div class="chips"><span class="chip">Numbers</span><span class="chip">Text</span><span class="chip">Speech</span><span class="chip">No maths to memorise</span></div>
-    <div class="meta">One idea, three kinds of data · six worked examples · written for engineers, not programmers</div>
+    <div class="chips"><span class="chip">Text</span><span class="chip">Sound</span><span class="chip">Speech</span><span class="chip">No maths to memorise</span></div>
+    <div class="meta">One idea, two kinds of messy data — written text &amp; spoken speech · four hands-on sessions · written for engineers, not programmers</div>
   </div>
   <footer class="pf"><span>Predictive AI — Field Guide</span><span>Cover</span></footer>
 </div>
@@ -150,8 +155,9 @@
     magic, just <b>pattern from experience</b>.
   </div>
 
-  <h3>The five-step rhythm behind every example</h3>
-  <p>Every notebook you ran — whether the data was numbers, text, or speech — followed the same loop.</p>
+  <h3>The five-step rhythm behind every session</h3>
+  <p>Every notebook you ran — whether the data was written text, machine sound, or spoken speech —
+  followed the same loop. You met it in Session 1 and reused it all day.</p>
   <div class="flow">
     <div class="fnode"><div class="ic"><svg viewBox="0 0 48 48"><use href="#r-table"/></svg></div><div class="k">Step 1</div><div class="v">Past records</div></div>
     <div class="farr">&rarr;</div>
@@ -159,6 +165,8 @@
     <div class="farr">&rarr;</div>
     <div class="fnode"><div class="ic"><svg viewBox="0 0 48 48"><use href="#r-target"/></svg></div><div class="k">Step 3</div><div class="v">Predict + check</div></div>
   </div>
+  <p class="muted" style="font-size:13px">In full, the five words you will keep hearing:
+  <b>dataset &rarr; split &rarr; train &rarr; predict &rarr; measure</b>.</p>
 
   <h3>The words that sound scary (and what they really mean)</h3>
   <div class="gloss">
@@ -187,158 +195,169 @@
   <h2><span class="tag">02</span> A model draws a boundary</h2>
   <div class="rule"></div>
 
-  <p class="lead">Here is the single most useful picture from the day. Each dot is a past machine; its
-  colour says whether it eventually needed service. Plotting temperature against vibration, the two
-  colours fall in different regions — and the model's whole job is to find the line between them.</p>
+  <p class="lead">Here is the single most useful picture from the day. Each dot is a machine, placed by
+  the <b>sound it made</b> — how much of its noise is low-frequency rumble (left to right) versus
+  high-frequency whine (bottom to top). Healthy, bearing-fault and imbalance machines fall in different
+  regions, and the model's whole job is to learn the boundaries between them.</p>
 
   <figure>
-    <img src="figs/pattern_scatter_light.svg" alt="Scatter of machines with a learned decision boundary" />
-    <figcaption>Green = worked fine · Red = needed service. The shaded split is the boundary the model learned.</figcaption>
+    <img src="figs/sound_clusters_light.svg" alt="Three machine-fault types separating by their sound" />
+    <figcaption>Each dot is one recording. Healthy, bearing and imbalance faults separate by their sound alone.</figcaption>
   </figure>
 
-  <p>When a brand-new machine arrives, the model simply checks <b>which side of the boundary</b> its
-  numbers fall on. Hotter and shakier (top-right) → it predicts trouble. Cool and smooth (bottom-left)
-  → it predicts fine. That is all a "trained classifier" is doing under the hood.</p>
+  <p>When a brand-new recording arrives, the model simply checks <b>which region</b> its
+  rumble-and-whine numbers fall in, and predicts that fault. The very same picture works for written
+  reports and spoken notes too — the only thing that changes between sessions is <b>how we turn the
+  raw data into numbers</b> in the first place.</p>
 
   <div class="take"><b>Takeaway:</b> the model isn't memorising machines — it's learning a rule that
-  separates good from bad, so it can judge cases it has never seen.</div>
+  separates the groups, so it can judge cases it has never seen.</div>
 
   <footer class="pf"><span>Predictive AI — Field Guide</span><span>Part 2 · The pattern</span></footer>
 </div>
 
-<!-- ============ 3. THE SIX MODULES ============ -->
+<!-- ============ 3. THE FOUR SESSIONS ============ -->
 <div class="page">
-  <div class="eyebrow">Part 3 · The six things you ran</div>
-  <h2><span class="tag">00</span> Foundation — the workflow</h2>
+  <div class="eyebrow">Part 3 · The four sessions you ran</div>
+  <h2><span class="tag">S1</span> Text I — flag the urgent reports</h2>
   <div class="rule"></div>
-  <p><b>Scenario:</b> predict whether a machine will need servicing from three numbers — hours used,
-  temperature, vibration.</p>
-  <p><b>What it showed:</b> the full loop — load a table, split features from the label, hold back a
-  test set, train a small <b>decision tree</b>, and check its accuracy. The tree even printed the
-  if-then rules it invented on its own (e.g. "if vibration is high and the machine is old → needs
-  service"). Nobody wrote those rules; it learned them from the records.</p>
-  <div class="take"><b>Takeaway:</b> "machine learning" is this five-step rhythm. Once you've seen it
-  once, every other example is a variation on it.</div>
-  <div class="use"><b>Where it fits:</b> any place you keep records of cases with a known outcome —
-  inspections, test results, pass/fail logs — is a place this loop could learn from.</div>
-
-  <h2 style="margin-top:30px"><span class="tag">01</span> Classification — sorting into categories</h2>
-  <div class="rule"></div>
-  <p><b>Scenario:</b> a final quality check — predict whether a finished part is <b>PASS</b> or
-  <b>REJECT</b> from a few measurements.</p>
-  <p><b>What it showed:</b> the most important honesty lesson of the day. When rejects are rare, a lazy
-  model that always says "PASS" can score 80% accuracy while catching <i>zero</i> bad parts. So we
-  look deeper than accuracy, at the <b>confusion matrix</b>:</p>
+  <p><b>Scenario:</b> a maintenance desk gets hundreds of short free-text notes a day — "crack found in
+  wing spar, aircraft grounded", "cabin light flickers, cosmetic only". Almost all are routine; a few
+  are <b>urgent</b> and must not sit in a queue overnight. The job: flag the urgent ones the moment
+  they arrive.</p>
+  <p><b>The one new idea — and the foundation for the whole day:</b> computers can't read words, only
+  numbers. So we first turn each note into a count of which words it contains, letting rare, telling
+  words count for more and ignoring filler like "the" (this is <b>TF-IDF</b>). After that, it is the
+  five-step rhythm — and everything from here just changes how we make the numbers.</p>
+  <div class="pipe">
+    <div class="pstep"><div class="ic"><svg viewBox="0 0 48 48"><use href="#r-doc"/></svg></div><div class="v">"crack in wing spar"</div><div class="d">the written note</div></div>
+    <div class="farr">&rarr;</div>
+    <div class="pstep"><div class="ic"><svg viewBox="0 0 48 48"><use href="#r-table"/></svg></div><div class="v">crack:1 · spar:1</div><div class="d">words become numbers</div></div>
+    <div class="farr">&rarr;</div>
+    <div class="pstep"><div class="ic"><svg viewBox="0 0 48 48"><use href="#r-tag"/></svg></div><div class="v">URGENT</div><div class="d">predicted flag</div></div>
+  </div>
+  <p><b>The honesty lesson of the day — the accuracy trap:</b> when urgent notes are rare, a lazy model
+  that always says "routine" scores about <b>85% accuracy</b> while catching <i>zero</i> urgent notes.
+  So we look past accuracy to <b>URGENT recall</b> — of all the truly urgent notes, how many did it
+  catch? The real model reached ~90% accuracy and caught about <b>95%</b> of the urgent ones.</p>
+  <figure>
+    <img src="figs/accuracytrap_light.svg" alt="Accuracy trap: always-routine scores 85% but catches no urgent note" />
+    <figcaption>The always-"routine" shortcut looks 85% accurate yet catches nothing. The real model: ~90% accurate, ~95% urgent recall.</figcaption>
+  </figure>
+  <p>The <b>confusion matrix</b> is what tells these apart — and the dangerous box is the one a single
+  accuracy number hides:</p>
   <div class="cm">
-    <div class="c hd"></div><div class="c hd">Model said FINE</div><div class="c hd">Model said BAD</div>
-    <div class="c hd">Truly fine</div><div class="c good"><span class="t">Correct</span>good part passed</div><div class="c bad"><span class="t">False alarm</span>good part rejected</div>
-    <div class="c hd">Truly bad</div><div class="c bad"><span class="t">Missed fault</span>bad part passed</div><div class="c good"><span class="t">Correct</span>bad part caught</div>
+    <div class="c hd"></div><div class="c hd">Model said ROUTINE</div><div class="c hd">Model said URGENT</div>
+    <div class="c hd">Truly routine</div><div class="c good"><span class="t">Correct</span>left alone, rightly</div><div class="c bad"><span class="t">False alarm</span>routine, flagged</div>
+    <div class="c hd">Truly urgent</div><div class="c bad"><span class="t">Missed</span>urgent, slipped through</div><div class="c good"><span class="t">Caught</span>urgent, surfaced</div>
   </div>
-  <p><b>Precision</b> asks "when it flags BAD, is it right?" <b>Recall</b> asks "of all the truly bad
-  parts, how many did it catch?" For safety, the <b>missed fault</b> (bottom-left) is the dangerous
-  box — so recall usually matters most.</p>
-  <div class="take"><b>Takeaway:</b> a high accuracy can hide a useless model. Always ask what it
-  <i>misses</i>, not just how often it's right.</div>
-  <div class="use"><b>Where it fits:</b> any yes/no call from measurements — accept/reject, healthy/faulty,
-  flag-for-inspection or not.</div>
-
-  <footer class="pf"><span>Predictive AI — Field Guide</span><span>Part 3 · Modules 00–01</span></footer>
+  <p>It also showed its <b>clue-words</b> — the words that most push a note toward URGENT — and they
+  read like plain English, exactly what a human would watch for:</p>
+  <figure>
+    <img src="figs/cluewords_light.svg" alt="Top URGENT clue-words the text model keyed on" />
+    <figcaption>crack, smoke, fire, grounded… — the words the model leaned on to call a note urgent.</figcaption>
+  </figure>
+  <div class="take"><b>Takeaway:</b> on rare-but-critical cases, a high accuracy can hide a useless
+  model. Ask what it <i>misses</i>, not just how often it's right.</div>
+  <div class="use"><b>Where it fits:</b> triaging snags, defect reports and complaints so the few that
+  cannot wait surface first — and, in plain words, <i>why</i> each was flagged.</div>
+  <footer class="pf"><span>Predictive AI — Field Guide</span><span>Part 3 · Session 1 · Text I</span></footer>
 </div>
 
 <div class="page">
-  <h2><span class="tag">02</span> Regression &amp; Forecasting — predicting numbers</h2>
+  <h2><span class="tag">S2</span> Text II — predict, extract &amp; find recurring faults</h2>
   <div class="rule"></div>
-  <p><b>Scenario A — regression:</b> predict a machine's monthly running cost from its load and age.
-  The answer is a <b>number</b>, not a category. The model fits the straight <b>line of best fit</b>
-  that sits as close as possible to all the points.</p>
+  <p><b>Scenario:</b> the same pile of written snags, now asked harder questions than "which bucket?".
+  Once words are numbers, the same machinery answers what a maintenance manager actually wants.</p>
+  <p><b>Predict a number, not just a category.</b> From the wording alone, estimate the likely
+  <b>downtime in hours</b> — that is <b>regression</b> (a number on a scale) rather than classification.
+  Honest, not perfect: predictions land typically within about <b>1.5 hours</b> of the truth.</p>
   <figure>
-    <img src="figs/regression_line_light.svg" alt="Regression line of best fit through cost vs age" />
-    <figcaption>Older machines cost more to run; the amber line is the relationship the model learned.</figcaption>
+    <img src="figs/downtime_scatter_light.svg" alt="Predicted vs actual downtime hours, close to the diagonal" />
+    <figcaption>Predicted vs actual repair hours. Close to the dashed line is good; the spread is the honest error.</figcaption>
   </figure>
-  <p><b>Scenario B — forecasting:</b> predict spare-parts demand for the months ahead. The model learns
-  the <b>trend</b> (slowly rising) and the repeating <b>seasonal</b> bumps, then continues the line
-  into the future.</p>
+  <p><b>Find the same fault, worded five different ways.</b> Chronic defects get logged again and again
+  in different words. <b>Cosine similarity</b> measures how alike two reports are once they are numbers —
+  with no labels at all — so near-duplicates light up automatically.</p>
   <figure>
-    <img src="figs/forecast_light.svg" alt="Demand history with a forecast continuing past today" />
-    <figcaption>Solid = what happened · dashed = the forecast. The further out, the less certain.</figcaption>
+    <img src="figs/cosine_heatmap_light.svg" alt="Similarity heatmap: the same chronic fault worded three ways lights up" />
+    <figcaption>Snags #1, #3, #5 are one chronic fault, worded three ways — they light up as near-duplicates.</figcaption>
   </figure>
-  <p>Instead of accuracy, we measure <b>error</b>: on average, how far off is the prediction? (e.g.
-  "typically within ±₹1,100").</p>
-  <div class="take"><b>Takeaway:</b> prediction isn't only yes/no — it can be a quantity or a trend.
-  Honest forecasts come with a margin, especially far ahead.</div>
-  <div class="use"><b>Where it fits:</b> estimating a cost, a wear figure, or next quarter's demand to
-  plan stock and staffing.</div>
-
-  <footer class="pf"><span>Predictive AI — Field Guide</span><span>Part 3 · Module 02</span></footer>
+  <p>The session also <b>grouped snags into families</b> with no labels (embeddings + <b>clustering</b>)
+  — honest about its limits, the agreement with the true systems was a modest <b>~0.22</b>: some
+  families pop out cleanly, others blend. And it <b>pulled part numbers</b> out of the prose into an
+  auditable list a human can check line by line.</p>
+  <div class="take"><b>Takeaway:</b> free-text logs are rich data. The same turn-words-into-numbers move
+  predicts quantities, finds repeats, groups themes and extracts facts — supervised or not.</div>
+  <div class="use"><b>Where it fits:</b> estimating repair effort, catching chronic recurring defects,
+  auto-organising a logbook, lifting part/serial numbers out of reports.</div>
+  <footer class="pf"><span>Predictive AI — Field Guide</span><span>Part 3 · Session 2 · Text II</span></footer>
 </div>
 
 <div class="page">
-  <h2><span class="tag">03</span> Predictive Maintenance — catch failures early</h2>
+  <h2><span class="tag">S3</span> Speech I — predicting from the sound</h2>
   <div class="rule"></div>
-  <p><b>Scenario:</b> from a fleet of sensor-monitored machines, predict which will fail soon, so they
-  get serviced <i>before</i> they break down rather than after.</p>
-  <p><b>What it showed:</b> a <b>random forest</b> (many small decision trees voting together) flags the
-  at-risk machines. But the part engineers value most is <b>feature importance</b> — the model tells
-  you <i>which signal</i> drove its decision, not just the verdict.</p>
+  <p><b>Scenario:</b> forget the words entirely — listen to a machine. From a short recording of a
+  bearing, gearbox or fan, predict whether it is healthy or which fault it has, the way an experienced
+  technician calls a bad machine by ear.</p>
+  <p><b>The one new idea:</b> a sound is already numbers. The <b>FFT</b> (a fast bit of maths) splits a
+  recording into its pitches, like a prism splitting light — how much rumble, how much whine. A handful
+  of those become the feature columns, and then it is the same five steps. Three fault types separate
+  cleanly (the picture in Part 2), and the model classified them at about <b>0.88</b> accuracy.</p>
+  <p><b>It tells you which part of the sound it used</b> — <b>feature importance</b> — so you can check
+  the machine's verdict against engineering intuition.</p>
   <figure>
-    <img src="figs/feature_importance_light.svg" alt="Feature importance — vibration leads" />
-    <figcaption>The model leaned hardest on vibration — matching the intuition that a shaking machine is in trouble.</figcaption>
+    <img src="figs/sound_importance_light.svg" alt="Sound feature importance: the whine and the rumble lead" />
+    <figcaption>The model leaned on the whine and the rumble — the very cues a technician's ear already uses.</figcaption>
   </figure>
-  <p>It also met the <b>unsupervised</b> side: when there are no failure labels at all, an
-  <b>anomaly detector</b> can still flag the machines that look unusual compared with the normal
-  crowd — the ones worth a human inspection.</p>
-  <div class="take"><b>Takeaway:</b> good predictive AI gives a <i>reason</i>, not just an answer — and
-  it can find "odd ones out" even with no labelled history.</div>
-  <div class="use"><b>Where it fits:</b> condition monitoring, prioritising which equipment to inspect
-  first, spotting readings that drift away from normal.</div>
-
-  <footer class="pf"><span>Predictive AI — Field Guide</span><span>Part 3 · Module 03</span></footer>
+  <p><b>And when there are no fault examples at all</b> — the realistic case in aerospace, where most
+  machines are healthy — it switches to <b>anomaly detection</b>: learn only what "normal" sounds like,
+  then flag the few recordings that don't fit (about <b>0.94</b> AUC, a strong-but-honest score).</p>
+  <figure>
+    <img src="figs/anomaly_hist_light.svg" alt="Anomaly detection: learn normal, flag the surprising" />
+    <figcaption>Learn what "normal" sounds like, then flag the few machines that don't fit — no fault labels needed.</figcaption>
+  </figure>
+  <div class="take"><b>Takeaway:</b> acoustic monitoring is real predictive AI — it gives a verdict
+  <i>and</i> the reason, and it can flag "odd ones out" with no failure history at all.</div>
+  <div class="use"><b>Where it fits:</b> condition monitoring of bearings, gearboxes and engines;
+  prioritising which equipment to inspect; catching machines drifting away from normal.</div>
+  <footer class="pf"><span>Predictive AI — Field Guide</span><span>Part 3 · Session 3 · Speech I</span></footer>
 </div>
 
 <div class="page">
-  <h2><span class="tag">04</span> Text Analytics — reading written reports</h2>
+  <h2><span class="tag">S4</span> Speech II — voice &rarr; text &rarr; decision <span style="font-family:var(--mono);font-size:12px;color:var(--amber);letter-spacing:.1em">· THE FINALE</span></h2>
   <div class="rule"></div>
-  <p><b>Scenario:</b> a pile of free-text maintenance reports ("oil leaking near the gearbox",
-  "display flickers on startup") — sort each one to the right team automatically.</p>
-  <p><b>The one new idea:</b> computers can't read words, only numbers. So we first turn each report
-  into a count of which words it contains (ignoring filler words like "the"). After that, it's the
-  same classification you already know.</p>
-  <div class="diagram" style="flex-direction:column;align-items:stretch">
-    <div class="pipe">
-      <div class="pstep"><div class="ic"><svg viewBox="0 0 48 48"><use href="#r-doc"/></svg></div><div class="v">"Oil leak near pump"</div><div class="d">the written report</div></div>
-      <div class="farr">&rarr;</div>
-      <div class="pstep"><div class="ic"><svg viewBox="0 0 48 48"><use href="#r-table"/></svg></div><div class="v">oil:1 · pump:1 · leak:1</div><div class="d">words become numbers</div></div>
-      <div class="farr">&rarr;</div>
-      <div class="pstep"><div class="ic"><svg viewBox="0 0 48 48"><use href="#r-tag"/></svg></div><div class="v">Hydraulic</div><div class="d">predicted team</div></div>
-    </div>
-  </div>
-  <p>The trained model even told us which words pointed to which team — oil, pressure, fluid → Hydraulic;
-  panel, wiring, circuit → Electrical — which is exactly how a human would sort them.</p>
-  <div class="take"><b>Takeaway:</b> free-text logs are data too. Turn words into numbers and the same
-  predictive tools apply.</div>
-  <div class="use"><b>Where it fits:</b> routing complaints, tagging defect reports, finding themes in
-  thousands of comments no one has time to read.</div>
-
-  <h2 style="margin-top:30px"><span class="tag">05</span> Speech Analytics — from spoken word to decision</h2>
-  <div class="rule"></div>
-  <p><b>Scenario:</b> a technician speaks a quick status report instead of typing it. The computer
-  listens, writes it down, and routes it — hands-free.</p>
+  <p><b>Scenario:</b> a technician on the floor would rather <b>speak</b> a quick report than stop and
+  type it. The computer listens, writes it down, and routes it — hands-free.</p>
+  <p>Speech analytics is just two familiar steps chained: <b>speech-to-text</b> (ASR — automatic speech
+  recognition) turns the voice into words, and then it is the text analytics from the morning again.
+  Audio in, text out, then a decision.</p>
   <div class="pipe">
     <div class="pstep"><div class="ic"><svg viewBox="0 0 48 48"><use href="#r-mic"/></svg></div><div class="v">Spoken report</div><div class="d">the voice note</div></div>
     <div class="farr">&rarr;</div>
     <div class="pstep"><div class="ic"><svg viewBox="0 0 48 48"><use href="#r-doc"/></svg></div><div class="v">Transcribe (ASR)</div><div class="d">speech → text</div></div>
     <div class="farr">&rarr;</div>
-    <div class="pstep"><div class="ic"><svg viewBox="0 0 48 48"><use href="#r-tag"/></svg></div><div class="v">Classify</div><div class="d">text → team</div></div>
+    <div class="pstep"><div class="ic"><svg viewBox="0 0 48 48"><use href="#r-tag"/></svg></div><div class="v">Classify &amp; route</div><div class="d">text → decision</div></div>
   </div>
-  <p>Speech analytics is just two familiar steps chained: <b>speech-to-text</b> (ASR) followed by the
-  text analytics from Module 04. It can mis-hear words with strong accents or background noise — a real
-  limit to keep in mind.</p>
+  <p><b>The honesty that makes it believable — Word Error Rate (WER):</b> the speech version of accuracy.
+  A low error rate is good, but a "cleaner" transcript can still get the <b>one word that matters</b>
+  wrong — a digit in a part number — which is why numbers and serials always get a human's eyes.</p>
+  <table class="wer">
+    <thead><tr><th>What the computer heard</th><th>Word error rate</th><th>Part&nbsp;number</th></tr></thead>
+    <tbody>
+      <tr><td>clean studio voice</td><td>0%</td><td class="ok">correct</td></tr>
+      <tr><td>shop-floor noise</td><td>15%</td><td class="ok">correct</td></tr>
+      <tr><td>misheard a single digit</td><td>8%</td><td class="no">WRONG</td></tr>
+    </tbody>
+  </table>
+  <p>ASR is hard by default (accents, jargon, radio noise) but strong with domain data — air-traffic
+  systems reach <b>&gt;95%</b> on controllers and ~97% on call-signs after training. For high-stakes
+  commands, a small fixed <b>keyword</b> vocabulary is more reliable than full dictation.</p>
   <div class="take"><b>Takeaway:</b> speech = speech-to-text + text analytics. The same one idea, now
-  reaching the spoken word.</div>
-  <div class="use"><b>Where it fits:</b> verbal handovers, inspection notes, call logs — information
-  that today is spoken and then lost.</div>
-
-  <footer class="pf"><span>Predictive AI — Field Guide</span><span>Part 3 · Modules 04–05</span></footer>
+  reaching the spoken word — with its limits measured, not hidden.</div>
+  <div class="use"><b>Where it fits:</b> verbal handovers, inspection voice memos and call logs —
+  information that today is spoken once and then lost.</div>
+  <footer class="pf"><span>Predictive AI — Field Guide</span><span>Part 3 · Session 4 · Speech II</span></footer>
 </div>
 
 <!-- ============ 4. LIMITS + GLOSSARY + NEXT ============ -->
@@ -347,10 +366,10 @@
   <h2><span class="tag">04</span> Powerful, not magic</h2>
   <div class="rule"></div>
   <p>The most useful thing you can take away is a clear sense of where this technology helps and where
-  it doesn't. Three limits worth remembering:</p>
+  it doesn't. Four limits worth remembering:</p>
   <div class="grid2">
     <div class="limit"><div class="h">Only as good as the data</div><div class="d">It learns from the records you feed it. Biased or thin history gives biased or thin predictions.</div></div>
-    <div class="limit"><div class="h">Never perfect</div><div class="d">Real data surprises. We measure the gap honestly — missed faults, fuzzy forecasts — rather than hide it.</div></div>
+    <div class="limit"><div class="h">Never perfect</div><div class="d">Real data surprises. We measure the gap honestly — a missed urgent note, a misheard digit — rather than hide it.</div></div>
     <div class="limit"><div class="h">It assists; you decide</div><div class="d">It ranks and flags <i>with a reason</i>. The engineer still makes the call.</div></div>
     <div class="limit"><div class="h">Predict, not create</div><div class="d">This is the predictive half of AI. The "generative" half (ChatGPT-style) is a different tool for a different job.</div></div>
   </div>
@@ -363,25 +382,29 @@
     <div class="term"><span class="t">Training set</span> <span class="d">— the rows the model learns from.</span></div>
     <div class="term"><span class="t">Test set</span> <span class="d">— hidden rows kept for an honest score.</span></div>
     <div class="term"><span class="t">Accuracy</span> <span class="d">— fraction of unseen cases it gets right.</span></div>
-    <div class="term"><span class="t">Classification</span> <span class="d">— predicting a category (pass/fail).</span></div>
-    <div class="term"><span class="t">Regression</span> <span class="d">— predicting a number on a scale.</span></div>
-    <div class="term"><span class="t">Forecasting</span> <span class="d">— predicting a value forward in time.</span></div>
-    <div class="term"><span class="t">Confusion matrix</span> <span class="d">— the table of hits, false alarms, missed faults.</span></div>
+    <div class="term"><span class="t">Classification</span> <span class="d">— predicting a category (urgent / routine).</span></div>
+    <div class="term"><span class="t">Regression</span> <span class="d">— predicting a number on a scale (downtime hours).</span></div>
+    <div class="term"><span class="t">Confusion matrix</span> <span class="d">— the table of hits, false alarms and missed cases.</span></div>
     <div class="term"><span class="t">Precision / recall</span> <span class="d">— how often a flag is right / how many real cases caught.</span></div>
+    <div class="term"><span class="t">TF-IDF (vectorising)</span> <span class="d">— turning words into numbers, weighting telling words.</span></div>
+    <div class="term"><span class="t">Cosine similarity</span> <span class="d">— how alike two reports are once they are numbers.</span></div>
+    <div class="term"><span class="t">Clustering</span> <span class="d">— grouping cases into families with no labels.</span></div>
+    <div class="term"><span class="t">FFT / spectrogram</span> <span class="d">— splitting a sound into its pitches over time.</span></div>
     <div class="term"><span class="t">Feature importance</span> <span class="d">— which signal the model leaned on most.</span></div>
-    <div class="term"><span class="t">Anomaly detection</span> <span class="d">— finding unusual cases with no labels.</span></div>
+    <div class="term"><span class="t">Anomaly detection</span> <span class="d">— flagging unusual cases with no labels.</span></div>
     <div class="term"><span class="t">Supervised / unsupervised</span> <span class="d">— learning with answers / finding structure without them.</span></div>
-    <div class="term"><span class="t">TF-IDF (vectorising)</span> <span class="d">— turning words into numbers a model can use.</span></div>
     <div class="term"><span class="t">Speech-to-text (ASR)</span> <span class="d">— turning the spoken word into text.</span></div>
+    <div class="term"><span class="t">Word Error Rate (WER)</span> <span class="d">— how much a transcript got wrong; speech's "accuracy".</span></div>
+    <div class="term"><span class="t">Keyword spotting</span> <span class="d">— listening for a small fixed set of commands, reliably.</span></div>
   </div>
 
   <h3 style="margin-top:24px">Run it again — and what to try</h3>
   <p>Every notebook opens in <b>Google Colab</b> from a web browser, with nothing to install. Ask the
   facilitator for the link, or open <code>colab.research.google.com</code> and use
-  <code>File &rarr; Upload notebook</code>. The best way to build intuition is to <b>change one number
-  and re-run</b> — edit a new machine's readings, or hide more of the data — and watch the prediction
-  move. Bring a problem from your own work: if you can describe it as "from these inputs, predict that
-  outcome," it may be a predictive-AI problem.</p>
+  <code>File &rarr; Upload notebook</code>. The best way to build intuition is to <b>change one value
+  and re-run</b> — edit a note's wording, hide more of the data, or swap the spoken sentence — and watch
+  the prediction move. Bring a problem from your own work: if you can phrase it as "from these inputs,
+  predict that outcome," it may well be a predictive-AI problem.</p>
 
   <footer class="pf"><span>Predictive AI — Field Guide</span><span>Part 4 · Reference</span></footer>
 </div>
