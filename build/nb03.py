@@ -173,8 +173,9 @@ code(
    "X = pd.DataFrame([features(c) for c in clips])\n"
    "X.insert(0, 'true_condition', labels)\n"
    "X.head(6)"),
-md(did("Every sound is now **one row of five numbers** — a tidy table, just like the spreadsheets "
-       "in the earlier notebooks. Glance down the columns: the bearing clips will show a high "
+md(did("Every sound is now **one row of five numbers** — a tidy table, the same shape as the word-count "
+       "tables we built from text in the earlier sessions, only these numbers describe sound. Glance down the "
+       "columns: the bearing clips will show a high "
        "`high_share`, the imbalance clips a high `low_share`. The pattern is already visible in the "
        "numbers.")),
 

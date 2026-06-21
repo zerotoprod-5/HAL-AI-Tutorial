@@ -14,13 +14,14 @@ md("## How to use this notebook\n\n"
    + LEGEND),
 
 md(bigidea(
-   "So far every example used neat <b>columns of numbers</b> &mdash; hours, temperature, vibration. "
-   "But a huge amount of real information at any workshop is not numbers at all. It is <b>written text</b>: "
-   "maintenance logs, defect reports, operator complaints, handwritten-then-typed notes.<br><br>"
-   "<b>Predictive AI can read that text and sort it automatically.</b> The trick is one new step: "
-   "first we turn the <i>words</i> into <i>numbers</i>. Once the words are numbers, it becomes the <b>exact same "
-   "classification workflow you already know</b> &mdash; split, train, predict, measure. "
-   "Only the very first step is new. Everything after it will feel familiar.")),
+   "A huge amount of the information at any workshop is <b>not tidy numbers</b> at all. It is <b>written text</b>: "
+   "maintenance logs, defect reports, operator complaints, handwritten-then-typed notes &mdash; piling up faster "
+   "than anyone can read every line.<br><br>"
+   "<b>Predictive AI can read that text and sort it automatically</b>, and that is where we start the day. We will meet "
+   "the <b>five-step shape</b> that every predictive-AI project follows &mdash; <i>dataset &rarr; split &rarr; train &rarr; "
+   "predict &rarr; measure</i> &mdash; and then reuse it in every session after this one. Text needs just <b>one extra step</b> "
+   "at the very front: first we turn the <i>words</i> into <i>numbers</i>. Once the words are numbers, the rest is that "
+   "same five-step shape, every time.")),
 
 md(story(
    "<b>Our running example: a busy maintenance desk.</b><br>"
@@ -35,7 +36,7 @@ md(story(
 
 md(section("Set up our tools", 1)),
 md(vocab("Library",
-   "A quick reminder from earlier: a <b>library</b> is a ready-made toolbox of code. "
+   "A <b>library</b> is a ready-made toolbox of code you load instead of writing it from scratch. "
    "<code>pandas</code> handles tables, <code>scikit-learn</code> is the machine-learning toolbox. "
    "The one new face today lives inside scikit-learn: <code>TfidfVectorizer</code>, the tool that turns words into numbers.")),
 code(
@@ -59,7 +60,7 @@ md(section("Build the data — a realistic stack of notes", 2)),
 md(vocab("Text analytics  /  NLP",
    "<b>Text analytics</b> &mdash; also called <b>NLP</b>, Natural Language Processing &mdash; simply means getting a "
    "computer to make sense of human-written words. Reading a note and deciding whether it is urgent is a classic "
-   "text-analytics task. It is the same predictive idea as before; the input just happens to be sentences instead of numbers.")),
+   "text-analytics task &mdash; and it follows the same five-step shape we will use all day, with text as the input.")),
 md(note("We generate the notes right here from a few templates so everyone has identical data and we can make the mix "
         "<b>realistically lopsided</b>. In real life these would be pulled straight from your maintenance log system &mdash; "
         "and they would be lopsided in exactly the same way: most notes are routine, only a few are urgent.")),
@@ -143,10 +144,10 @@ code(
    "df.head(6)"),
 md(did("There is our <b>dataset</b>: 400 short written notes, one per row. The <code>note</code> column is the raw text "
        "(our clue), and <code>label</code> is the answer we want to predict &mdash; <b>URGENT</b> or <b>ROUTINE</b>. "
-       "Same idea as the 0/1 <b>label</b> in earlier notebooks, just spelled out in words.")),
+       "That <code>label</code> column is the answer we want the model to learn &mdash; the same role it plays in every session today, just written as a word instead of a 0/1 number.")),
 
 md(section("Look at the mix first", 3)),
-md("Good practice, exactly as before: look at the data before modelling. The single most important thing to notice here "
+md("Good practice, and a habit worth keeping all day: always look at the data before modelling. The single most important thing to notice here "
    "is <b>how lopsided the mix is</b> &mdash; and to print a few of each so we can see the wording really does differ."),
 code(
    "# How many of each? This imbalance is the heart of today's lesson.\n"
@@ -183,7 +184,7 @@ md(vocab("Bag of words",
 md(vocab("Vectorizing",
    "<b>Vectorizing</b> is the act of turning each note into that row of word-counts &mdash; a <b>vector</b>, which is "
    "just a fancy word for a list of numbers. Every distinct word in the whole collection becomes one column; "
-   "each note becomes one row. After this step, our text is a numeric table, exactly like the spreadsheets from earlier.")),
+   "each note becomes one row. After this step, our text is a <b>numeric table</b> &mdash; rows and columns a model can learn from, just like a spreadsheet.")),
 md(vocab("Stop words",
    "Words like <b>the, and, is, on, a</b> appear in almost every sentence and carry almost no clue. "
    "These are called <b>stop words</b>, and we simply tell the tool to ignore them &mdash; they would only add noise.")),
@@ -221,8 +222,8 @@ md(vocab("TF-IDF",
 
 md(section("Vectorize all the notes, then split", 5)),
 md("Now we run the same vectorizing on all 400 notes, then split into a part to learn from and a hidden part to test on."),
-md(vocab("Train / test split  (reminder)",
-   "Same honest-exam idea as before: learn from most of the notes (the <b>training set</b>) and hide some (the "
+md(vocab("Train / test split",
+   "The honest-exam idea: learn from most of the notes (the <b>training set</b>) and hide some (the "
    "<b>test set</b>) to check the model on notes it has never read. <code>stratify</code> keeps the same urgent/routine "
    "mix in both halves, so the test is fair.")),
 code(
@@ -244,23 +245,24 @@ code(
    "print('Learn from :', X_train.shape[0], 'notes  (training set)')\n"
    "print('Tested on  :', X_test.shape[0],  'notes  (test set, kept hidden)')"),
 md(did("Every note is now a row of numbers, and we have set aside a hidden test set. <code>X</code> is our feature table "
-       "and <code>y</code> is our label &mdash; the same <b>X &rarr; y</b> setup from every earlier notebook. From here "
+       "and <code>y</code> is our label &mdash; the <b>X &rarr; y</b> setup we will reuse in every session today. From here "
        "on, nothing is new: it is ordinary classification.")),
 
 md(section("Train the model", 6)),
 code(
-   "# Train the classifier - the same kind of model idea as before.\n"
+   "# Train the classifier: it studies the training notes and learns the word patterns.\n"
    "# class_weight='balanced' tells it to take the rare URGENT class seriously,\n"
    "# rather than ignoring it just because routine notes outnumber it.\n"
    "model = LogisticRegression(max_iter=1000, class_weight='balanced')\n"
    "model.fit(X_train, y_train)   # <-- the model studies the training notes\n"
    "print('Training done. The model has learned which words point to URGENT vs ROUTINE.')"),
-md(did("That one <code>.fit()</code> call is the entire act of learning, exactly as before &mdash; only now the clues are "
-       "words. We asked it to treat the rare urgent notes as <b>just as important</b> as the common ones, because in this "
+md(did("That one <code>.fit()</code> call is the entire act of learning &mdash; the model studies the training notes, and "
+       "here the clues are words. (Remember <code>.fit()</code>; you will meet it again in every session today.) We asked it "
+       "to treat the rare urgent notes as <b>just as important</b> as the common ones, because in this "
        "job missing an urgent note is the expensive mistake.")),
 
 md(section("Measure it honestly — and meet the accuracy trap", 7)),
-md(vocab("Accuracy  (reminder)",
+md(vocab("Accuracy",
    "Out of the hidden test notes, what fraction did the model label correctly? 1.0 means every one right. "
    "Hold on to that word &mdash; in a moment we will see why, on a lopsided dataset like ours, accuracy can <b>lie</b>.")),
 code(

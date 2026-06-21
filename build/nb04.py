@@ -23,10 +23,9 @@ SERIES_TABLE = (
     "**One recipe, three kinds of messy data &mdash; across the whole day:**\n\n"
     "| Kind of data | Where it appeared | The one idea, every time |\n"
     "|---|---|---|\n"
-    "| **Numbers** &mdash; hours, temperature, vibration, cost | the early predict-from-numbers demos | learn the pattern from **past examples**, then make a call on a **new case** |\n"
-    "| **Text** &mdash; written maintenance notes | the text sessions (urgent vs routine, recurring themes) | *(same idea)* |\n"
-    "| **Sound** &mdash; a machine's vibration / audio | the sound session (hear a failing machine) | *(same idea)* |\n"
-    "| **Speech** &mdash; a spoken report | this session | *(same idea)* |"
+    "| **Text** &mdash; written maintenance notes | Sessions 1 &amp; 2 (urgent vs routine, recurring themes) | learn the pattern from **past examples**, then make a call on a **new case** |\n"
+    "| **Sound** &mdash; a machine's vibration / audio | Session 3 (hear a failing machine) | *(same idea)* |\n"
+    "| **Speech** &mdash; a spoken report | Session 4 &mdash; this session | *(same idea)* |"
 )
 
 cells = [
@@ -46,7 +45,7 @@ md("## How to use this notebook\n\n"
 
 # ---- Big idea + scenario -------------------------------------------------
 md(bigidea(
-   "All day long we predicted from <b>numbers</b>, then from written <b>text</b>, then from a machine's <b>sound</b>. "
+   "All day long we worked with messy data: first written <b>text</b> (the maintenance notes), then a machine's <b>sound</b>. "
    "There is one last kind of messy data left: <b>spoken words</b>.<br><br>"
    "A technician on the floor would rather <b>speak</b> a quick report than stop and type it. So the question becomes: "
    "can the computer <b>listen</b> to that report and act on it automatically? Yes &mdash; in two moves. "
@@ -215,7 +214,7 @@ md(vocab("Turning words into numbers (TF-IDF)",
    "A model can only do maths on numbers, so first we convert each report into a row of numbers that records <b>which words it "
    "contains</b>. The standard tool for this is <code>TfidfVectorizer</code>. The idea in one line: words that are <b>rare and "
    "distinctive</b> (like \"voltage\" or \"hydraulic\") count for more than common filler words (like \"the\"). "
-   "After this step, a sentence is just a row of numbers &mdash; and we already know how to predict from rows of numbers.")),
+   "After this step, a sentence is just a row of numbers &mdash; the same words-to-numbers move from the text sessions, which the model can then learn from.")),
 code(
    "from sklearn.feature_extraction.text import TfidfVectorizer\n"
    "from sklearn.linear_model import LogisticRegression\n"
@@ -271,7 +270,7 @@ code(
    "    LogisticRegression(max_iter=1000),\n"
    ")\n"
    "\n"
-   "# Train: the model studies the 18 past reports and learns which words signal which team.\n"
+   "# Train: the model studies the 24 past reports and learns which words signal which team.\n"
    "classifier.fit(reports, teams)\n"
    "\n"
    "print('Training done. The computer has learned the words for each team.')"),

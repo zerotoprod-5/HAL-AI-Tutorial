@@ -47,7 +47,7 @@ md("## How to use this notebook\n\n"
    "🟧 something to try (Your turn), 🟪 the big picture (Recap / Coming up)."),
 
 md(bigidea(
-   "In the last session we taught the computer to <b>sort</b> a written report into the right team. "
+   "In the last session we taught the computer to <b>sort</b> a written report into URGENT vs ROUTINE. "
    "Useful &mdash; but sorting is just the doorway. Once words are numbers, the <b>same machinery</b> answers the "
    "questions a maintenance manager actually asks:<br><br>"
    "&bull; <b>How urgent is this?</b> &mdash; predict a <i>category</i> (High / Medium / Low).<br>"
@@ -75,7 +75,7 @@ md(vocab("Dataset (reminder)",
    "an <b>urgency</b> tag, and the <b>downtime hours</b> it eventually took.")),
 code(
    "import numpy as np, pandas as pd, re\n"
-   "rng = np.random.default_rng(7)   # fixed seed: everyone gets the same 200 snags\n"
+   "rng = np.random.default_rng(7)   # fixed seed: everyone gets the same 300 snags\n"
    "\n"
    "# Each system has its own symptom vocabulary and a typical repair size (hours).\n"
    "SYSTEMS = {\n"
@@ -138,7 +138,7 @@ md(did("There is our <b>dataset</b> &mdash; 300 snags, one per row. The free-tex
 md(section("Predict a CATEGORY &mdash; how urgent is it?", 2)),
 md(vocab("Classification (reminder)",
    "When the answer is one of a few <b>named buckets</b> &mdash; High / Medium / Low &mdash; that is <b>classification</b>, exactly "
-   "like routing to a team last session. We turn the words into numbers with <b>TF-IDF</b> (rare, distinctive words count for "
+   "like flagging URGENT vs ROUTINE last session. We turn the words into numbers with <b>TF-IDF</b> (rare, distinctive words count for "
    "more), hide a quarter of the snags as an honest test, train, and measure.")),
 code(
    "from sklearn.feature_extraction.text import TfidfVectorizer\n"
@@ -408,7 +408,7 @@ md(watchout("Topic modelling is genuinely useful for &lsquo;what is trending in 
 
 # --------------------------------------------------------------- F: 20NG (bonus)
 md(section("Bonus &mdash; is this just a toy? Real public data + the honest-test trap", 8)),
-md("Our 200 snags are synthetic so the lab is self-contained. Fair question from a skeptic: <i>does this hold on real data?</i> "
+md("Our 300 snags are synthetic so the lab is self-contained. Fair question from a skeptic: <i>does this hold on real data?</i> "
    "So we run the <b>exact same pipeline</b> on a real, public corpus of ~18,000 documents (the &lsquo;20 Newsgroups&rsquo; set built into "
    "scikit-learn) &mdash; and use it to expose the single most common way AI results get faked."),
 md(vocab("Data leakage / the honest-test trap",
@@ -465,9 +465,10 @@ md(recap("What this session showed", [
    "<b>Topic modelling</b> finds themes unsupervised, but a human must name them &mdash; and a too-perfect score usually means a <b>leak</b>.",
 ])),
 md(nextup(
-   "<b>Sessions 3 &amp; 4 &mdash; Speech.</b> So far the words arrived already typed. Next they arrive as <b>sound</b>: first we let the "
-   "computer <i>listen</i> to a spoken report and turn it into text (and we measure, honestly, how often it mis-hears the one word "
-   "that matters) &mdash; then we go further and predict a machine fault from its <b>raw sound</b>, no words at all.")),
+   "<b>Sessions 3 &amp; 4 &mdash; Speech.</b> So far the words arrived already typed. Next they arrive as <b>sound</b>: first "
+   "(Session 3) we predict a machine fault straight from its <b>raw sound</b>, no words at all; then (Session 4, the finale) we "
+   "let the computer <i>listen</i> to a spoken report, turn it into text, and route it &mdash; measuring honestly how often it "
+   "mis-hears the one word that matters.")),
 ]
 
 build(cells, os.path.join(HERE, "..", "notebooks", "02_text_predict_extract.ipynb"),
