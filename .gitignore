@@ -18,3 +18,9 @@ venv/
 
 # Node deps (not used at runtime — decks are dependency-free)
 node_modules/
+
+# Internal build & QA tooling — kept locally, not published to the viewer-facing repo.
+# (Generators for the notebooks/figures/decks, and the deck interaction-test harness.)
+build/
+deck/audit.mjs
+deck/audit.README.txt
