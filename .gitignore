@@ -15,3 +15,6 @@ venv/
 *.swp
 .idea/
 .vscode/
+
+# Node deps (not used at runtime — decks are dependency-free)
+node_modules/
