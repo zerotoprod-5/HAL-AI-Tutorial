@@ -433,54 +433,54 @@
   </section>
 
   <!-- 16 SESSION 1 DIVIDER -->
-  <section class="slide divider split" data-note="Open Session 1 — and the foundations live here too, taught on a maintenance example. The highlight: the model's own top clue-words per team, in plain English, so it is clearly not a black box.">
+  <section class="slide divider split" data-note="Open Session 1 — and the foundations live here too, taught on a maintenance example. The highlight: the model's own top clue-words per class (urgent vs routine), in plain English, so it is clearly not a black box.">
     <div class="inner">
       <div>
         <div class="meta">Now open — Text · Session 1</div><div class="num">1</div>
-        <h2>Sorting the words you already write</h2>
-        <div class="tags"><span>dataset · label</span><span>words &rarr; numbers (TF-IDF)</span><span>train / test · accuracy</span><span>auto-routing</span></div>
+        <h2>Flag the urgent reports automatically</h2>
+        <div class="tags"><span>dataset · label</span><span>words &rarr; numbers (TF-IDF)</span><span>train / test · accuracy</span><span>urgent vs routine</span></div>
         <div class="open">&#9654; &nbsp;notebooks/01_text_analytics.ipynb</div>
       </div>
-      <div class="figure"><img src="figs/text_cluewords.svg" alt="Top clue-words the model learned per team"/><div class="figcap">The model's own top words per team — readable, not a black box</div></div>
+      <div class="figure"><img src="figs/text_cluewords.svg" alt="Top clue-words the model learned per class"/><div class="figcap">The model's own top clue-words per class — readable, not a black box</div></div>
     </div>
   </section>
 
-  <!-- 17 AUTO-ROUTE A SNAG -->
-  <section class="slide" data-note="oil/pressure/fluid → Hydraulic. Bag-of-words and TF-IDF turn each report into a row of numbers, then it is ordinary classification. The same split-train-predict-measure as the opening table; only the first step, text to numbers, is new. Show the confidence drop on an ambiguous report.">
-    <div class="eyebrow">Session 1 — words → numbers → team</div>
-    <h2>Free text in, the <span class="t">right team</span> out.</h2>
+  <!-- 17 FLAG AN URGENT NOTE -->
+  <section class="slide" data-note="crack/wing/grounded → URGENT. Bag-of-words and TF-IDF turn each note into a row of numbers, then it is ordinary classification. The same split-train-predict-measure as the opening table; only the first step, text to numbers, is new. Show the confidence drop on an ambiguous note.">
+    <div class="eyebrow">Session 1 — words → numbers → flag</div>
+    <h2>Free text in, <span class="t">URGENT or ROUTINE</span> out.</h2>
     <div class="pipe" style="margin-top:30px">
-      <span class="chipword" style="font-size:15px;padding:12px 16px">"oil pressure low, fluid pooling under the strut"</span>
+      <span class="chipword" style="font-size:15px;padding:12px 16px">"crack found in wing spar, aircraft grounded"</span>
       <span class="arrow">&rarr;</span>
-      <span class="cells"><span class="c">oil</span><span class="c">prs</span><span class="c">fld</span><span class="c">leak</span></span>
+      <span class="cells"><span class="c">crack</span><span class="c">wing</span><span class="c">spar</span><span class="c">grnd</span></span>
       <span class="arrow">&rarr;</span>
       <span>
-        <span class="teamchip">Hydraulic</span>
+        <span class="teamchip">URGENT</span>
         <div class="confbar"><i></i></div>
-        <div style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:5px">confidence 0.72</div>
+        <div style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:5px">urgent-probability 0.84</div>
       </span>
     </div>
     <ul class="frags" style="max-width:64ch;margin-top:34px">
-      <li>TF-IDF turns each report into a row of numbers; stop words ("the/and") are dropped</li>
-      <li>Then it is ordinary classification → routed to <span class="k">Hydraulic · Electrical · Avionics · Mechanical</span></li>
-      <li>One ambiguous report → watch the confidence drop</li>
+      <li>TF-IDF turns each note into a row of numbers; stop words ("the/and") are dropped</li>
+      <li>Then it is ordinary classification → flagged <span class="k">URGENT vs ROUTINE</span>, so the urgent ones surface first</li>
+      <li>One ambiguous note → watch the confidence drop</li>
     </ul>
   </section>
 
   <!-- 18 TOP CLUE-WORDS + HONEST ACCURACY -->
-  <section class="slide" data-note="Auditability is the selling point. Each team's top words are exactly what an engineer expects. Cite ~83% Naive Bayes / ~91% linear on the standard public corpus to set honest expectations; small-set demo scores wobble — that's why the knob matters. A human stays in the loop.">
+  <section class="slide" data-note="Auditability is the selling point. The top urgent words are exactly what an engineer expects. The honest headline is NOT bare accuracy — on a lopsided 85/15 mix, always-routine already scores 85% and catches zero. The number that matters is urgent recall: it caught 20 of 21 urgent notes, missed 1. A human stays in the loop on the miss.">
     <div class="eyebrow">Session 1 — the result, honestly</div>
     <div class="chartsplit">
       <div>
         <h2>Not a black box — it shows its <span class="t">clue-words.</span></h2>
         <ul class="frags">
-          <li>Each team's top words match what an engineer expects (oil, pressure, leak → Hydraulic)</li>
-          <li>Honest accuracy on unseen reports — <span class="k">~83%</span> Naive Bayes, <span class="k">~91%</span> linear, on the public benchmark</li>
-          <li>Auditable: the reasoning is readable, and a human stays in the loop</li>
+          <li>The top urgent words match what an engineer expects (crack, fuel, leak, pressure → URGENT)</li>
+          <li>The honest number is <span class="k">urgent recall ~95%</span> — caught <span class="k">20 of 21</span>, missed 1; bare accuracy ~90% (always-routine already scores 85%)</li>
+          <li>Auditable: the reasoning is readable, and a human stays in the loop on the miss</li>
         </ul>
       </div>
-      <div class="fwrap"><div class="figure"><img src="figs/text_cluewords.svg" alt="Top clue-words per team"/>
-        <div class="figcap">Top words per team — the model's reasoning in plain English</div></div></div>
+      <div class="fwrap"><div class="figure"><img src="figs/text_cluewords.svg" alt="Top clue-words per class"/>
+        <div class="figcap">Top clue-words per class — the model's reasoning in plain English</div></div></div>
     </div>
   </section>
 
@@ -653,7 +653,7 @@
     <h2>It was always the <span class="t">same five steps.</span></h2>
     <ul class="frags">
       <li>Text, speech, sound — every session was <span class="k">dataset → split → train → predict → measure</span></li>
-      <li>The numbers were honest: routing ~83–91%, urgency ~81%, downtime ±1.5 h, clustering ~0.22, sound ~0.88, anomaly AUC ~0.94 — and a low WER that still got the one word wrong</li>
+      <li>The numbers were honest: urgent recall ~95% (one missed), urgency ~81%, downtime ±1.5 h, clustering ~0.22, sound ~0.88, anomaly AUC ~0.94 — and a low WER that still got the one word wrong</li>
       <li>Neither magic nor nonsense — a tool you can now reason about and <span class="k">question</span></li>
       <li>Generative AI — the half that <i>creates</i> — comes in the sessions to follow</li>
     </ul>

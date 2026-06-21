@@ -24,7 +24,7 @@ The single goal: every person leaves able to **reason about an AI claim** instea
 | # | Session (≈75 min) | The one new idea | The money-shot |
 |---|------------------|------------------|----------------|
 | 1 | **Text — flagging the urgent reports automatically** | A computer can't read words, only count them: turn words into numbers (TF-IDF), then it's ordinary classification | top clue-words for URGENT vs ROUTINE — the model's reasoning in plain English |
-| 2 | **Text — predict, extract & find repeat faults** | The same words-to-numbers front end answers many questions — a category, a number, a duplicate, a whole family, a part number | a similarity heatmap lighting up the same chronic fault, worded five different ways; a 2-D map of snags self-grouped into families |
+| 2 | **Text — predict, extract & find repeat faults** | The same words-to-numbers front end answers many questions — a category, a number, a duplicate, a whole family, a part number | a similarity heatmap lighting up the same chronic fault, worded several different ways; a 2-D map of snags self-grouped into families |
 | 3 | **Speech — predicting from the sound itself** | A sound is already numbers; learn the pattern and a computer can *hear* a fault — no words at all | three fault types separating into clean clusters; the model leaning on the same whine and rumble a technician hears |
 | 4 | **Speech — voice → text → decision** | Speech-to-text is "audio in, text out"; then it's the text analytics from Sessions 1–2 | a low word-error transcript that still gets the one part number wrong |
 
@@ -202,7 +202,7 @@ The basics are **not** front-loaded as a glossary. Each term is introduced the m
 | CWRU Bearing | The bearing-fault benchmark | S3 "real, benchmarked field" | engineering.case.edu/bearingdatacenter |
 | MIMII | Real valve/pump/fan/slide-rail sound + factory noise | S3 anomaly detection | zenodo.org/records/3384388 |
 | MAFAULDA | 1,951 runs: imbalance/misalignment/bearing, incl. a mic channel | S3 maps to hand-diagnosed faults | www02.smt.ufrj.br/~offshore/mfs |
-| NASA C-MAPSS | *Simulated* turbofan run-to-failure (remaining useful life) | S3 regression bridge (label it simulated) | data.nasa.gov |
+| NASA C-MAPSS | *Simulated* turbofan run-to-failure (remaining useful life) | Numeric-data bridge (out of scope here) — name only if asked; label it simulated | data.nasa.gov |
 | ATCOSIM / ATCO2 | Clean / noisy air-traffic-control speech corpora | S4 realism | spsc.tugraz.at · arxiv.org/abs/2211.04054 |
 | Speech Commands | 1-sec spoken-word clips | S4 keyword spotting | arxiv.org/abs/1804.03209 |
 

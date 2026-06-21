@@ -264,7 +264,7 @@
       node.classList.add('widget', 'cmx');
       const rows = parseJSON(ds.rows, ['Urgent', 'Routine']);
       const cols = parseJSON(ds.cols, ['Urgent', 'Routine']);
-      const cells = parseJSON(ds.cells, [[58, 2], [46, 294]]);
+      const cells = parseJSON(ds.cells, [[20, 1], [13, 106]]);
       const wins = parseJSON(ds.win, [[0, 0], [1, 1]]);
       const miss = parseJSON(ds.miss, [0, 1]);
       const callout = ds.callout || 'a real crack, called routine';
@@ -420,10 +420,10 @@
                        visibly TRADE OFF as you drag, with a non-trivial
                        false-negative at threshold 0.5. Do NOT raise this
                        to show a near-perfect model right after the honest
-                       88% peak.)
+                       90% peak.)
        data-threshold: initial threshold 0..1 (default .5)
        data-freeze   : threshold the freeze()/export state snaps to so the
-                       PDF reproduces the peak's ~88% confusion (default .5)
+                       PDF reproduces the peak's ~90% confusion (default .5)
        --------------------------------------------------------- */
     thresholdConfusion(node, ds) {
       node.classList.add('widget', 'tc');
@@ -491,7 +491,7 @@
       range.addEventListener('input', update);
       update();
       // freeze() (export) = snap to the threshold that reproduces the peak's
-      // ~88% confusion, then repaint, so the PDF shows the SAME model the room saw.
+      // ~90% confusion, then repaint, so the PDF shows the SAME model the room saw.
       node.freeze = () => {
         range.value = ds.freeze != null ? parseFloat(ds.freeze) : 0.5;
         update();

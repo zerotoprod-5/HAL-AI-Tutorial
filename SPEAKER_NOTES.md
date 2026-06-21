@@ -99,27 +99,27 @@ Unsupervised: no answer key. Each snag becomes a point (an embedding); k-means (
 
 ---
 
-## Part E — Session 3: Speech I
+## Part E — Session 3: Speech I / Sound
 
-**24 · Session 3 divider + WER table — `notebooks/03_speech_analytics.ipynb`**
-Speak a report, transcribe with Whisper, route with this morning's classifier — ASR is "audio in, text out," then it's text analytics again. Draw the classical→deep line (~2012) so nobody thinks "ChatGPT" — both are predictive. The WER table makes the key point: a low error rate can still get the one safety-critical word wrong.
+**24 · Session 3 divider (`sound_clusters.svg` + `anomaly_hist.svg`) — `notebooks/03_sound_fault_prediction.ipynb`**
+Throw the words away. A sound is already numbers; the FFT splits it into pitches like a prism. Same five steps, no text at all. Read fault pitches as orders (1× imbalance, 2× misalignment), not raw Hz.
 
-**25 · WER + keyword spotting + ASR limits**
-Honesty about the limit makes the capability believable. WER = wrong + missing + extra words, the speech version of accuracy. The 8% transcript was "cleaner" yet swapped one part number for another — so numbers and serials get a human's eyes. Keyword spotting (a small fixed vocabulary) is robust to stutters — why shop-floor tools use wake-words, not dictation. Agree ASR struggles with accents, then counter with domain adaptation: ATC reached >95% controllers / >90% pilots / ~97% callsigns. Frame as domain-dependent, not guaranteed.
+**25 · Sound is numbers — payoff (`sound_clusters.svg` + `anomaly_hist.svg`)**
+Five FFT features separate three fault types into clean clusters; classify healthy / bearing / imbalance at ~0.88. Feature importance leans on the whine and the rumble — the very cues a technician's ear uses. With no fault examples, learn "normal" only and flag the surprising — anomaly detection at AUC ≈ 0.94, the realistic aerospace case (lots of healthy sound, few faults). Public benchmarks run AUC ~0.54–0.96; a flawless demo is the thing to distrust.
 
 ---
 
-## Part F — Session 4: Speech II / Sound
+## Part F — Session 4: Speech II / speech-to-text finale
 
-**26 · Session 4 divider (`sound_clusters.svg` + `anomaly_hist.svg`) — `notebooks/04_sound_fault_prediction.ipynb`**
-The finale. Throw the words away. A sound is already numbers; the FFT splits it into pitches like a prism. Same five steps, no text at all. Read fault pitches as orders (1× imbalance, 2× misalignment), not raw Hz.
+**26 · Session 4 divider + WER table — `notebooks/04_speech_analytics.ipynb`**
+The finale. Speak a report, transcribe with Whisper, route with this morning's classifier — ASR is "audio in, text out," then it's text analytics again. Draw the classical→deep line (~2012) so nobody thinks "ChatGPT" — both are predictive. The WER table makes the key point: a low error rate can still get the one safety-critical word wrong.
 
-**27 · Sound is numbers — payoff (`sound_clusters.svg` + `anomaly_hist.svg`)**
-Five FFT features separate three fault types into clean clusters; classify healthy / bearing / imbalance at ~0.88. Feature importance leans on the whine and the rumble — the very cues a technician's ear uses. With no fault examples, learn "normal" only and flag the surprising — anomaly detection at AUC ≈ 0.94, the realistic aerospace case (lots of healthy sound, few faults). Public benchmarks run AUC ~0.54–0.96; a flawless demo is the thing to distrust.
+**27 · WER + keyword spotting + ASR limits**
+Honesty about the limit makes the capability believable. WER = wrong + missing + extra words, the speech version of accuracy. The 8% transcript was "cleaner" yet swapped one part number for another — so numbers and serials get a human's eyes. Keyword spotting (a small fixed vocabulary) is robust to stutters — why shop-floor tools use wake-words, not dictation. Agree ASR struggles with accents, then counter with domain adaptation: ATC reached >95% controllers / >90% pilots / ~97% callsigns. Frame as domain-dependent, not guaranteed.
 
 ---
 
 ## Part G — Honest closing
 
 **28 · Neither magic nor nonsense + handoff**
-Tie the bow: same picture every time — dataset → split → train → predict → measure. The numbers were honest all day: routing ~83–91%, urgency ~81%, downtime ±1.5 h, clustering ~0.22, sound ~0.88, anomaly AUC ~0.94, and a low WER that still got the one word wrong. Neither magic nor nonsense — a tool you can now reason about and question. Hand off to the generative-AI sessions that follow. Close on "you can now question an AI claim."
+Tie the bow: same picture every time — dataset → split → train → predict → measure. The numbers were honest all day: urgent recall ~95% (one missed), urgency ~81%, downtime ±1.5 h, clustering ~0.22, sound ~0.88, anomaly AUC ~0.94, and a low WER that still got the one word wrong. Neither magic nor nonsense — a tool you can now reason about and question. Hand off to the generative-AI sessions that follow. Close on "you can now question an AI claim."
