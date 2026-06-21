@@ -1,19 +1,9 @@
 import os, sys; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from nbbuild import *
-
-LEGEND = """
-<div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:14px;color:#333;line-height:1.7;">
-As you scroll, you will meet four kinds of coloured boxes:
-<br><b style="color:#0b6e7a;">Teal — Vocabulary:</b> a new word, in plain English.
-<br><b style="color:#2e7d32;">Green — What just happened:</b> what the cell above actually did.
-<br><b style="color:#b26a00;">Amber — Your turn:</b> a safe thing to change, then re-run.
-<br><b style="color:#5b2a86;">Purple — Recap / Coming up:</b> the big picture.
-</div>
-"""
+from nbmd import *
 
 cells = [
-md(banner("Text Analytics &middot; Session 1 of 4", "Text Analytics: Teaching the Computer to Read Reports",
-   "Free-text maintenance and defect logs &mdash; sorted automatically, no human reading required")),
+md(banner("Text Analytics · Session 1 of 4", "Text Analytics: Catch the Urgent Reports Automatically",
+   "Free-text maintenance notes &mdash; flagged URGENT or ROUTINE in an instant, with nobody reading every line")),
 
 md("## How to use this notebook\n\n"
    "This is a **hands-on** notebook. You do not need to write any code. "
@@ -29,18 +19,19 @@ md(bigidea(
    "maintenance logs, defect reports, operator complaints, handwritten-then-typed notes.<br><br>"
    "<b>Predictive AI can read that text and sort it automatically.</b> The trick is one new step: "
    "first we turn the <i>words</i> into <i>numbers</i>. Once the words are numbers, it becomes the <b>exact same "
-   "classification workflow you already know</b> from the earlier notebooks &mdash; split, train, predict, measure. "
+   "classification workflow you already know</b> &mdash; split, train, predict, measure. "
    "Only the very first step is new. Everything after it will feel familiar.")),
 
 md(story(
    "<b>Our running example: a busy maintenance desk.</b><br>"
-   "Every day a workshop receives dozens of short free-text reports &mdash; one or two lines each, typed in a hurry:<br>"
-   "<i>\"Oil leaking near the gearbox\"</i> &nbsp;·&nbsp; <i>\"Display flickers on startup\"</i> &nbsp;·&nbsp; "
-   "<i>\"Loud grinding noise from the bearing\"</i><br><br>"
-   "Right now a person reads each one and forwards it to the right team. That is slow, and at 3 a.m. it does not "
-   "happen at all. We want the computer to <b>auto-categorize</b> every report &mdash; Electrical, Mechanical, or "
-   "Hydraulic &mdash; so it lands in the correct queue instantly. No domain expertise required: the words themselves "
-   "carry the clue.")),
+   "Every day a workshop receives hundreds of short free-text notes &mdash; one or two lines each, typed in a hurry:<br>"
+   "<i>\"crack found in wing spar, aircraft grounded\"</i> &nbsp;·&nbsp; <i>\"cabin light flickers, cosmetic only\"</i> &nbsp;·&nbsp; "
+   "<i>\"smoke from avionics bay during taxi\"</i><br><br>"
+   "Almost all of them are <b>routine</b> &mdash; monitor it, log it, handle it at the next scheduled check. But a small "
+   "handful are <b>urgent</b> &mdash; a crack, smoke, a fuel leak, a grounded aircraft &mdash; and those <b>must not</b> sit "
+   "in a queue overnight. We want the computer to read every note and <b>flag the urgent ones</b> the moment they arrive, "
+   "so a human looks at the right ones first. Missing one urgent note is the costly mistake &mdash; keep that in mind, it is "
+   "the whole point of this session.")),
 
 md(section("Set up our tools", 1)),
 md(vocab("Library",
@@ -57,314 +48,390 @@ code(
    "from sklearn.feature_extraction.text import TfidfVectorizer   # turns words into numbers\n"
    "from sklearn.model_selection import train_test_split\n"
    "from sklearn.linear_model import LogisticRegression\n"
-   "from sklearn.metrics import accuracy_score\n"
+   "from sklearn.metrics import accuracy_score, confusion_matrix, recall_score\n"
    "\n"
    "print('Tools loaded. We are ready.')"),
 md(did("We loaded our toolboxes. Nothing dramatic happened on screen, and that is expected &mdash; "
        "this cell only prepares the tools we use further down. Notice <code>TfidfVectorizer</code>: that is the "
        "one genuinely new tool in this notebook.")),
 
-md(section("Get the data — written reports", 2)),
+md(section("Build the data — a realistic stack of notes", 2)),
 md(vocab("Text analytics  /  NLP",
    "<b>Text analytics</b> &mdash; also called <b>NLP</b>, Natural Language Processing &mdash; simply means getting a "
-   "computer to make sense of human-written words. Reading a report and deciding which team it belongs to is a classic "
+   "computer to make sense of human-written words. Reading a note and deciding whether it is urgent is a classic "
    "text-analytics task. It is the same predictive idea as before; the input just happens to be sentences instead of numbers.")),
+md(note("We generate the notes right here from a few templates so everyone has identical data and we can make the mix "
+        "<b>realistically lopsided</b>. In real life these would be pulled straight from your maintenance log system &mdash; "
+        "and they would be lopsided in exactly the same way: most notes are routine, only a few are urgent.")),
 code(
-   "# Our dataset is written by hand here so everyone has identical data.\n"
-   "# In real life these would be pulled straight from your maintenance log system.\n"
-   "# Each report is one short sentence; each has a category (the team it belongs to).\n"
+   "# We build ~400 short notes from word-banks, with a FIXED seed so everyone\n"
+   "# gets the identical dataset. Most notes are routine; only ~15% are urgent -\n"
+   "# that imbalance is on purpose, because it is what real logs look like.\n"
+   "rng = np.random.default_rng(42)\n"
    "\n"
-   "reports = [\n"
-   "    # ---- Electrical ----\n"
-   "    ('Display flickers on startup',                       'Electrical'),\n"
-   "    ('Control panel lights are dim and unstable',         'Electrical'),\n"
-   "    ('Wiring near the switch is burnt and smells hot',    'Electrical'),\n"
-   "    ('Circuit breaker keeps tripping under load',         'Electrical'),\n"
-   "    ('Sensor gives no signal to the controller',          'Electrical'),\n"
-   "    ('Battery voltage drops and the unit shuts off',      'Electrical'),\n"
-   "    ('Fuse blew again on the lighting circuit',           'Electrical'),\n"
-   "    ('Motor controller throws an electrical fault code',  'Electrical'),\n"
-   "    ('Loose terminal connection causing a short',         'Electrical'),\n"
-   "    ('Touchscreen is unresponsive and the display blanks','Electrical'),\n"
-   "    ('Indicator lamp does not light when powered on',     'Electrical'),\n"
-   "    ('Cable insulation is frayed near the junction box',  'Electrical'),\n"
-   "    ('Power supply is overheating and the fan stopped',   'Electrical'),\n"
-   "    ('Relay clicks but no voltage reaches the motor',     'Electrical'),\n"
-   "    ('Grounding wire disconnected from the panel',        'Electrical'),\n"
-   "    ('Charger does not deliver current to the battery',   'Electrical'),\n"
-   "\n"
-   "    # ---- Mechanical ----\n"
-   "    ('Loud grinding noise from the bearing',              'Mechanical'),\n"
-   "    ('Gearbox makes a knocking sound under load',         'Mechanical'),\n"
-   "    ('Belt is worn and slipping on the pulley',           'Mechanical'),\n"
-   "    ('Bearing is overheating and seized',                 'Mechanical'),\n"
-   "    ('Excessive vibration from the rotating shaft',       'Mechanical'),\n"
-   "    ('Coupling is loose and the gears rattle',            'Mechanical'),\n"
-   "    ('Cracked gear tooth found during inspection',        'Mechanical'),\n"
-   "    ('Fan blade is bent and scrapes the housing',         'Mechanical'),\n"
-   "    ('Chain is stretched and jumps off the sprocket',     'Mechanical'),\n"
-   "    ('Shaft alignment is off and the bearing wears fast', 'Mechanical'),\n"
-   "    ('Worn brake pads make a squealing noise',            'Mechanical'),\n"
-   "    ('Broken mounting bolt lets the motor shift',         'Mechanical'),\n"
-   "    ('Pulley wobbles and the belt keeps coming off',      'Mechanical'),\n"
-   "    ('Grinding metal sound when the gear engages',        'Mechanical'),\n"
-   "    ('Rotor is unbalanced causing heavy shaking',         'Mechanical'),\n"
-   "    ('Loose flywheel rattles at high speed',              'Mechanical'),\n"
-   "\n"
-   "    # ---- Hydraulic ----\n"
-   "    ('Oil leaking near the gearbox',                      'Hydraulic'),\n"
-   "    ('Hydraulic pressure drops during operation',         'Hydraulic'),\n"
-   "    ('Fluid leak under the cylinder seal',                'Hydraulic'),\n"
-   "    ('Pump is not building enough pressure',              'Hydraulic'),\n"
-   "    ('Hose is cracked and dripping hydraulic oil',        'Hydraulic'),\n"
-   "    ('Cylinder moves slowly due to low fluid',            'Hydraulic'),\n"
-   "    ('Valve is stuck and pressure will not release',      'Hydraulic'),\n"
-   "    ('Oil level is low and the pump is noisy',            'Hydraulic'),\n"
-   "    ('Seal failure causes fluid to spray out',            'Hydraulic'),\n"
-   "    ('Hydraulic ram drifts down on its own',              'Hydraulic'),\n"
-   "    ('Contaminated oil clogs the hydraulic filter',       'Hydraulic'),\n"
-   "    ('Pressure gauge reads zero at the pump outlet',      'Hydraulic'),\n"
-   "    ('Leaking fitting sprays oil near the actuator',      'Hydraulic'),\n"
-   "    ('Reservoir is low and the system loses pressure',    'Hydraulic'),\n"
-   "    ('Hydraulic fluid is foaming and overheating',        'Hydraulic'),\n"
-   "    ('Cylinder seal weeps oil at full extension',         'Hydraulic'),\n"
+   "# Phrases that signal a genuinely URGENT note.\n"
+   "urgent_phrases = [\n"
+   "    'crack found in wing spar, aircraft grounded',\n"
+   "    'smoke from avionics bay during taxi',\n"
+   "    'fuel leak under the wing, strong smell in cabin',\n"
+   "    'hydraulic failure, brakes unresponsive on landing roll',\n"
+   "    'engine fire warning illuminated on takeoff',\n"
+   "    'structural crack near the main landing gear mount',\n"
+   "    'aircraft on ground, no dispatch until inspected',\n"
+   "    'burning smell and sparks from the wiring loom',\n"
+   "    'major fuel system leak, aircraft grounded immediately',\n"
+   "    'cracked turbine blade discovered, do not fly',\n"
+   "    'loss of cabin pressure reported in flight',\n"
+   "    'flames seen near the apu exhaust during start',\n"
    "]\n"
    "\n"
-   "df = pd.DataFrame(reports, columns=['report', 'category'])\n"
-   "print('Total reports:', len(df))\n"
+   "# Phrases that signal a ROUTINE note.\n"
+   "routine_phrases = [\n"
+   "    'cabin reading light flickers, cosmetic only',\n"
+   "    'seat trim scuffed, within limits, monitor',\n"
+   "    'minor paint chip on the fairing, log and continue',\n"
+   "    'tyre wear noted, still within service limits',\n"
+   "    'scheduled oil top-up completed, no action needed',\n"
+   "    'small coffee stain on galley panel, cosmetic',\n"
+   "    'cabin speaker slightly muffled, monitor at next check',\n"
+   "    'placard label peeling, replace at scheduled maintenance',\n"
+   "    'overhead bin latch a little stiff, within limits',\n"
+   "    'routine filter inspection done, all normal',\n"
+   "    'minor squeak from seat recline, monitor',\n"
+   "    'window shade slow to retract, cosmetic, no action',\n"
+   "    'lavatory tap drips slightly, log for next service',\n"
+   "    'carpet edge lifting near door, cosmetic only',\n"
+   "    'reading lamp dim, schedule bulb swap',\n"
+   "]\n"
+   "\n"
+   "# REALISTIC GREY ZONE. Real logs are not tidy. Some notes are genuinely\n"
+   "# ambiguous - the SAME understated wording is sometimes a real emergency and\n"
+   "# sometimes nothing. Because the words alone cannot tell these apart, the model\n"
+   "# is forced to make honest mistakes on them - including the odd urgent note it\n"
+   "# wrongly calls routine. That is exactly the costly miss we want to show.\n"
+   "grey_phrases = [\n"
+   "    'small mark noted near the panel, monitor',\n"
+   "    'faint smell in cabin during taxi, please review',\n"
+   "    'minor seep noted near the line, schedule a look',\n"
+   "    'slight mark noted, within review, advise engineering',\n"
+   "    'odd noise during start, monitor at next check',\n"
+   "]\n"
+   "\n"
+   "# Little prefixes/suffixes so no two notes are word-for-word identical.\n"
+   "prefixes = ['', 'reported: ', 'note: ', 'crew advises ', 'log entry - ']\n"
+   "suffixes = ['', ' (ref A)', ' - tech desk', ' #ops', ' per checklist']\n"
+   "\n"
+   "def make_note(bank):\n"
+   "    base = rng.choice(bank)\n"
+   "    return rng.choice(prefixes) + base + rng.choice(suffixes)\n"
+   "\n"
+   "N = 400\n"
+   "rows = []\n"
+   "for _ in range(N):\n"
+   "    if rng.random() < 0.15:                       # ~15% urgent\n"
+   "        # ~3 in 10 urgent notes is a mild, ambiguous grey-zone note.\n"
+   "        bank = grey_phrases if rng.random() < 0.30 else urgent_phrases\n"
+   "        rows.append((make_note(bank), 'URGENT'))\n"
+   "    else:                                         # ~85% routine\n"
+   "        # the SAME grey-zone wording also turns up on routine notes,\n"
+   "        # so those words genuinely cannot decide the label.\n"
+   "        bank = grey_phrases if rng.random() < 0.18 else routine_phrases\n"
+   "        rows.append((make_note(bank), 'ROUTINE'))\n"
+   "\n"
+   "df = pd.DataFrame(rows, columns=['note', 'label'])\n"
+   "print('Total notes:', len(df))\n"
    "df.head(6)"),
-md(did("There is our <b>dataset</b>: 48 short written reports, one per row. The <code>report</code> column is the "
-       "raw text (our clue), and <code>category</code> is the answer we want to predict &mdash; the same idea as the "
-       "<b>label</b> in earlier notebooks, just a word instead of a 0 or 1.")),
+md(did("There is our <b>dataset</b>: 400 short written notes, one per row. The <code>note</code> column is the raw text "
+       "(our clue), and <code>label</code> is the answer we want to predict &mdash; <b>URGENT</b> or <b>ROUTINE</b>. "
+       "Same idea as the 0/1 <b>label</b> in earlier notebooks, just spelled out in words.")),
 
-md(section("Look at a few from each category", 3)),
-md("Good practice, exactly as before: look at the data first. Let us print a couple of reports from each "
-   "category so we can see, with our own eyes, that the wording really does differ by team."),
+md(section("Look at the mix first", 3)),
+md("Good practice, exactly as before: look at the data before modelling. The single most important thing to notice here "
+   "is <b>how lopsided the mix is</b> &mdash; and to print a few of each so we can see the wording really does differ."),
 code(
-   "# How many reports per category? We want them roughly balanced.\n"
-   "print('Reports per category:')\n"
-   "print(df['category'].value_counts())\n"
+   "# How many of each? This imbalance is the heart of today's lesson.\n"
+   "counts = df['label'].value_counts()\n"
+   "print('Notes per label:')\n"
+   "print(counts)\n"
+   "print()\n"
+   "routine_share = (df['label'] == 'ROUTINE').mean()\n"
+   "print(f'Routine share: {routine_share*100:.0f}%   Urgent share: {(1-routine_share)*100:.0f}%')\n"
    "print()\n"
    "\n"
-   "# Print three example reports from each category.\n"
-   "for cat in ['Electrical', 'Mechanical', 'Hydraulic']:\n"
-   "    print(f'--- {cat} ---')\n"
-   "    for text in df[df['category'] == cat]['report'].head(3):\n"
+   "# Print a few example notes of each kind.\n"
+   "for lab in ['URGENT', 'ROUTINE']:\n"
+   "    print(f'--- {lab} ---')\n"
+   "    for text in df[df['label'] == lab]['note'].head(3):\n"
    "        print('   ', text)\n"
    "    print()"),
-md(did("Sixteen reports in each of the three categories &mdash; nicely <b>balanced</b>, so the computer will see plenty "
-       "of every kind. And the vocabulary clearly splits: Electrical reports talk about <i>voltage, circuit, wiring</i>; "
-       "Mechanical ones about <i>bearing, gear, belt</i>; Hydraulic ones about <i>oil, pressure, fluid</i>. Those words "
-       "are exactly the clues the computer will latch onto.")),
+md(did("About <b>85% routine, 15% urgent</b>. That imbalance is realistic &mdash; and it is exactly what makes plain "
+       "accuracy a <b>trap</b> later on. The vocabulary clearly splits too: urgent notes shout <i>crack, smoke, fire, "
+       "grounded, leak</i>; routine notes mutter <i>cosmetic, within limits, monitor, scheduled, minor</i>. Those words "
+       "are the clues the computer will latch onto.")),
 
 md(section("The key idea — turning words into numbers", 4)),
 md(bigidea(
    "Here is the one genuinely new concept in this whole notebook, so we will slow right down.<br><br>"
    "<b>A computer cannot read words. It can only do arithmetic on numbers.</b> So before any machine learning can "
-   "happen, every report has to be converted into a row of numbers. The simplest honest way to do that is to "
-   "<b>count which words appear</b> in each report. That is the entire trick.")),
+   "happen, every note has to be converted into a row of numbers. The simplest honest way to do that is to "
+   "<b>count which words appear</b> in each note. That is the entire trick.")),
 md(vocab("Bag of words",
-   "Imagine emptying each report into a bag and just tallying the words inside, ignoring their order. "
-   "<i>\"Oil leaking near the gearbox\"</i> becomes the tally {oil:1, leaking:1, gearbox:1, ...}. "
-   "This is called the <b>bag-of-words</b> idea. Word order is thrown away &mdash; surprisingly, the words alone are "
-   "usually enough to tell which team a report belongs to.")),
+   "Imagine emptying each note into a bag and just tallying the words inside, ignoring their order. "
+   "<i>\"smoke from avionics bay\"</i> becomes the tally {smoke:1, avionics:1, bay:1, ...}. "
+   "This is the <b>bag-of-words</b> idea. Word order is thrown away &mdash; surprisingly, the words alone are usually "
+   "enough to tell urgent from routine.")),
 md(vocab("Vectorizing",
-   "<b>Vectorizing</b> is the act of turning each report into that row of word-counts &mdash; a <b>vector</b>, which is "
+   "<b>Vectorizing</b> is the act of turning each note into that row of word-counts &mdash; a <b>vector</b>, which is "
    "just a fancy word for a list of numbers. Every distinct word in the whole collection becomes one column; "
-   "each report becomes one row of numbers. After this step, our text is a numeric table, exactly like the spreadsheets "
-   "from earlier notebooks.")),
+   "each note becomes one row. After this step, our text is a numeric table, exactly like the spreadsheets from earlier.")),
 md(vocab("Stop words",
-   "Words like <b>the, and, is, on, a</b> appear in almost every sentence and carry almost no clue about the category. "
+   "Words like <b>the, and, is, on, a</b> appear in almost every sentence and carry almost no clue. "
    "These are called <b>stop words</b>, and we simply tell the tool to ignore them &mdash; they would only add noise.")),
 code(
-   "# Let us SEE vectorizing happen on just two example sentences first,\n"
+   "# Let us SEE vectorizing happen on just two example notes first,\n"
    "# so the abstract idea becomes concrete.\n"
    "example = [\n"
-   "    'Oil leaking near the gearbox',\n"
-   "    'Hydraulic pressure drops during operation',\n"
+   "    'crack found in wing spar, aircraft grounded',\n"
+   "    'seat trim scuffed, within limits, monitor',\n"
    "]\n"
    "\n"
    "demo_vec = TfidfVectorizer(stop_words='english')   # 'english' = ignore common stop words\n"
    "demo_matrix = demo_vec.fit_transform(example)\n"
    "\n"
    "# Show which words became columns (the 'vocabulary' the tool found).\n"
-   "print('Words that became columns (stop words like \"the\" were dropped):')\n"
+   "print('Words that became columns (stop words like \"in\" were dropped):')\n"
    "print(list(demo_vec.get_feature_names_out()))\n"
    "print()\n"
    "\n"
-   "# Show the two sentences as rows of numbers.\n"
+   "# Show the two notes as rows of numbers.\n"
    "demo_table = pd.DataFrame(\n"
    "    demo_matrix.toarray().round(2),\n"
    "    columns=demo_vec.get_feature_names_out(),\n"
-   "    index=['sentence 1', 'sentence 2'],\n"
+   "    index=['urgent note', 'routine note'],\n"
    ")\n"
    "demo_table"),
-md(did("Look closely at the table. Each <b>column is a word</b>, each <b>row is one sentence</b>, and the numbers say "
-       "whether that word appeared (a zero means the word was absent). The words <i>the, near, during</i> are gone &mdash; "
-       "those were <b>stop words</b>. <b>This is the whole magic:</b> two English sentences are now two rows of numbers "
-       "that a computer can do arithmetic on.")),
+md(did("Look closely at the table. Each <b>column is a word</b>, each <b>row is one note</b>, and the numbers say whether "
+       "that word appeared (a zero means absent). Common stop words are gone. <b>This is the whole magic:</b> two English "
+       "notes are now two rows of numbers a computer can do arithmetic on.")),
 md(vocab("TF-IDF",
    "The tool is called <code>Tfidf</code>Vectorizer. In one plain line: instead of a raw count, it gives a word more "
-   "weight when that word is <b>common in THIS report but rare across all reports</b>. So a distinctive word like "
-   "<i>hydraulic</i> counts for more than a word like <i>noise</i> that shows up everywhere. No formula to memorise &mdash; "
+   "weight when that word is <b>common in THIS note but rare across all notes</b>. So a distinctive word like "
+   "<i>grounded</i> counts for more than a word like <i>note</i> that shows up everywhere. No formula to memorise &mdash; "
    "just \"rare, distinctive words matter more.\" That is why some numbers above are not whole counts.")),
 
-md(section("Vectorize all the reports", 5)),
-md("Now we run the same vectorizing on the full set of 48 reports. The result is a numeric table the model can learn from."),
-code(
-   "# Turn the report text into our clue table X, and the categories into the answers y.\n"
-   "vectorizer = TfidfVectorizer(stop_words='english')\n"
-   "\n"
-   "X = vectorizer.fit_transform(df['report'])   # the reports, now as rows of numbers\n"
-   "y = df['category']                            # the answers (the team for each report)\n"
-   "\n"
-   "print('X is now a numeric table:', X.shape[0], 'reports x', X.shape[1], 'word-columns')\n"
-   "print('Total distinct words the tool found:', len(vectorizer.get_feature_names_out()))\n"
-   "print()\n"
-   "print('A sample of the word-columns:')\n"
-   "print(list(vectorizer.get_feature_names_out())[:25])"),
-md(did("Every report is now a row of numbers across roughly 150 word-columns. <code>X</code> is our feature table "
-       "and <code>y</code> is our label &mdash; the same <b>X &rarr; y</b> setup from every earlier notebook. "
-       "From here on, nothing is new: it is ordinary classification.")),
-
-md(section("Split, then train the model", 6)),
+md(section("Vectorize all the notes, then split", 5)),
+md("Now we run the same vectorizing on all 400 notes, then split into a part to learn from and a hidden part to test on."),
 md(vocab("Train / test split  (reminder)",
-   "Same honest-exam idea as before: we learn from most of the reports (the <b>training set</b>) and hide a few "
-   "(the <b>test set</b>) to check the model on reports it has never read. We keep one report from each category in the "
-   "test set so the score means something.")),
-md(note("Our dataset is deliberately tiny &mdash; 48 reports &mdash; so the test set is small and the accuracy below is "
-        "a <b>rough indicator</b>, not a precise grade. With real maintenance logs you would have thousands of reports "
-        "and a far steadier score. The point here is to see the workflow, not to chase a number.")),
+   "Same honest-exam idea as before: learn from most of the notes (the <b>training set</b>) and hide some (the "
+   "<b>test set</b>) to check the model on notes it has never read. <code>stratify</code> keeps the same urgent/routine "
+   "mix in both halves, so the test is fair.")),
 code(
-   "# Split into a training set (to learn from) and a small hidden test set.\n"
-   "# stratify=y keeps each category represented in both halves.\n"
+   "# Turn the note text into our clue table X, and the labels into the answers y.\n"
+   "vectorizer = TfidfVectorizer(stop_words='english')\n"
+   "X = vectorizer.fit_transform(df['note'])     # the notes, now as rows of numbers\n"
+   "y = df['label']                              # the answers (URGENT / ROUTINE)\n"
+   "\n"
+   "print('X is now a numeric table:', X.shape[0], 'notes x', X.shape[1], 'word-columns')\n"
+   "print()\n"
+   "\n"
+   "# Hide a quarter of the notes for a fair final test; keep the mix the same in both halves.\n"
    "X_train, X_test, y_train, y_test = train_test_split(\n"
    "    X, y,\n"
-   "    test_size=0.25,      # hide a quarter for the final test\n"
-   "    random_state=0,      # fixed split so everyone gets the same result\n"
-   "    stratify=y,          # keep all three categories in both halves\n"
+   "    test_size=0.35,\n"
+   "    random_state=0,\n"
+   "    stratify=y,          # keep the ~15/85 urgent/routine mix in both halves\n"
    ")\n"
-   "\n"
-   "print('Learn from :', X_train.shape[0], 'reports  (training set)')\n"
-   "print('Tested on  :', X_test.shape[0],  'reports  (test set, kept hidden)')\n"
-   "\n"
+   "print('Learn from :', X_train.shape[0], 'notes  (training set)')\n"
+   "print('Tested on  :', X_test.shape[0],  'notes  (test set, kept hidden)')"),
+md(did("Every note is now a row of numbers, and we have set aside a hidden test set. <code>X</code> is our feature table "
+       "and <code>y</code> is our label &mdash; the same <b>X &rarr; y</b> setup from every earlier notebook. From here "
+       "on, nothing is new: it is ordinary classification.")),
+
+md(section("Train the model", 6)),
+code(
    "# Train the classifier - the same kind of model idea as before.\n"
-   "model = LogisticRegression(max_iter=1000)\n"
-   "model.fit(X_train, y_train)   # <-- the model studies the training reports\n"
-   "print()\n"
-   "print('Training done. The model has learned which words point to which team.')"),
-md(did("That one <code>.fit()</code> call is the entire act of learning, exactly as in Notebook 0 &mdash; only now the "
-       "clues are words instead of hours and temperature. The model has worked out which words lean toward each team.")),
+   "# class_weight='balanced' tells it to take the rare URGENT class seriously,\n"
+   "# rather than ignoring it just because routine notes outnumber it.\n"
+   "model = LogisticRegression(max_iter=1000, class_weight='balanced')\n"
+   "model.fit(X_train, y_train)   # <-- the model studies the training notes\n"
+   "print('Training done. The model has learned which words point to URGENT vs ROUTINE.')"),
+md(did("That one <code>.fit()</code> call is the entire act of learning, exactly as before &mdash; only now the clues are "
+       "words. We asked it to treat the rare urgent notes as <b>just as important</b> as the common ones, because in this "
+       "job missing an urgent note is the expensive mistake.")),
 
-md(section("Measure how good it is", 7)),
+md(section("Measure it honestly — and meet the accuracy trap", 7)),
 md(vocab("Accuracy  (reminder)",
-   "Out of the hidden test reports, what fraction did the model file under the correct team? "
-   "1.0 means every one correct. On a dataset this small, treat it as a rough sanity check, not a final grade.")),
+   "Out of the hidden test notes, what fraction did the model label correctly? 1.0 means every one right. "
+   "Hold on to that word &mdash; in a moment we will see why, on a lopsided dataset like ours, accuracy can <b>lie</b>.")),
 code(
-   "predictions = model.predict(X_test)        # the model's guesses for the hidden reports\n"
+   "predictions = model.predict(X_test)        # the model's guesses for the hidden notes\n"
    "\n"
-   "score = accuracy_score(y_test, predictions)\n"
-   "print('Accuracy on reports it had never read:', round(score, 3))\n"
-   "print('In plain words: it got about', round(score*100), 'out of every 100 right.')\n"
+   "acc = accuracy_score(y_test, predictions)\n"
+   "print('Accuracy on notes it had never read:', round(acc, 3))\n"
+   "print('In plain words: about', round(acc*100), 'out of every 100 labelled correctly.')\n"
    "print()\n"
    "\n"
-   "# Show the actual vs predicted team for each hidden report, side by side.\n"
-   "check = pd.DataFrame({\n"
-   "    'report':    df.loc[y_test.index, 'report'].values,\n"
-   "    'actual':    y_test.values,\n"
-   "    'predicted': predictions,\n"
-   "})\n"
-   "check"),
-md(did("The model files the hidden reports into the right team. On a 48-report toy set the score is a rough indicator, "
-       "but the side-by-side table shows it is genuinely matching reports to teams from the words alone &mdash; nobody "
-       "wrote a single rule by hand.")),
+   "# The DUMB baseline: a 'model' that always shouts ROUTINE.\n"
+   "always_routine = np.array(['ROUTINE'] * len(y_test))\n"
+   "base_acc = accuracy_score(y_test, always_routine)\n"
+   "print('Accuracy of a model that ALWAYS says ROUTINE:', round(base_acc, 3))\n"
+   "print('...yet that model catches', 0, 'urgent notes. Zero. None.')"),
+md(watchout(
+   "<b>This is the money point of the whole session.</b> A lazy model that <i>always</i> says \"routine\" scores about "
+   "<b>85%</b> &mdash; just by parroting the most common answer &mdash; and yet it catches <b>zero</b> urgent notes. "
+   "Every fire, every crack, every grounded aircraft slips through, and the headline accuracy still looks great. "
+   "<b>On a lopsided dataset, a single accuracy number hides the rare class that actually matters.</b> "
+   "So we must not ask \"how accurate?\". We must ask \"of the truly urgent notes, how many did it catch?\"")),
+md(vocab("Recall (on the urgent class)",
+   "<b>Recall</b> answers exactly that question: <i>of all the notes that really were urgent, what fraction did the model "
+   "flag as urgent?</i> A recall of 0.90 means it caught 9 of every 10 real emergencies. For catching urgent snags this "
+   "is the number that counts &mdash; not overall accuracy.")),
+code(
+   "# The honest number: of the truly URGENT notes, how many did we catch?\n"
+   "urgent_recall = recall_score(y_test, predictions, pos_label='URGENT')\n"
+   "print('URGENT recall (the number that matters):', round(urgent_recall, 3))\n"
+   "print('In plain words: of every 10 genuinely urgent notes, it flagged about',\n"
+   "      round(urgent_recall*10), 'of them.')\n"
+   "print()\n"
+   "print('Compare: the always-ROUTINE model would have an URGENT recall of 0.0 -')\n"
+   "print('high accuracy, but it catches nothing. That is the trap.')"),
+md(did("Our real model lands around <b>85&ndash;90% accuracy</b> &mdash; but more importantly its <b>urgent recall is high "
+       "(~90%+)</b>: it catches almost all the genuinely urgent notes. The lazy always-routine model matched our accuracy "
+       "yet had <b>zero</b> urgent recall. Same accuracy, wildly different usefulness. Now you know which number to trust.")),
 
-md(section("Look inside — the top words per team", 8)),
-md("A logistic-regression model keeps a weight for every word, telling us how strongly that word pushes a report toward "
-   "each team. Because the words are human-readable, we can simply <b>print the top clue-words the model learned</b> for "
-   "each category and check they make sense."),
+md(section("See the mistakes — the confusion matrix", 8)),
+md(vocab("Confusion matrix",
+   "A small 2&times;2 table that shows <b>what kind</b> of mistakes the model makes, not just how many. The rows are the "
+   "true answer, the columns are the model's guess. The dangerous cell is <b>urgent CALLED routine</b> &mdash; a real "
+   "emergency the model waved through. That is the <b>false negative</b>, and it is the one that can hurt.")),
 code(
-   "# For each category, pull the words the model weights most heavily toward it.\n"
-   "feature_names = np.array(vectorizer.get_feature_names_out())\n"
+   "# Build the confusion matrix with a fixed label order so it is easy to read.\n"
+   "labels = ['URGENT', 'ROUTINE']\n"
+   "cm = confusion_matrix(y_test, predictions, labels=labels)\n"
    "\n"
-   "print('Top clue-words the model associates with each team:')\n"
+   "cm_table = pd.DataFrame(cm,\n"
+   "    index=[f'TRUE {l}' for l in labels],\n"
+   "    columns=[f'called {l}' for l in labels])\n"
+   "print('Confusion matrix (rows = truth, columns = the model\\'s guess):')\n"
+   "print(cm_table)\n"
    "print()\n"
-   "for i, cat in enumerate(model.classes_):\n"
-   "    weights = model.coef_[i]\n"
-   "    top = feature_names[np.argsort(weights)[-7:]][::-1]   # 7 strongest words\n"
-   "    print(f'{cat:12s}:', ', '.join(top))"),
-md(did("Read those lists: the model decided that words like <i>oil, pressure, fluid, leak</i> signal <b>Hydraulic</b>; "
-       "<i>bearing, gear, belt, grinding</i> signal <b>Mechanical</b>; <i>voltage, circuit, wiring, display</i> signal "
-       "<b>Electrical</b>. That matches exactly what any experienced person would say &mdash; and the computer worked it "
-       "out on its own, purely from the example reports.")),
+   "\n"
+   "missed = cm[0, 1]        # TRUE urgent, called routine  -> the costly miss\n"
+   "caught = cm[0, 0]        # TRUE urgent, called urgent\n"
+   "print(f'Urgent notes CAUGHT (urgent -> urgent): {caught}')\n"
+   "print(f'Urgent notes MISSED (urgent -> routine): {missed}   <-- the costly false negatives')"),
 code(
-   "# The same idea as a bar chart, for one team (Hydraulic).\n"
-   "i = list(model.classes_).index('Hydraulic')\n"
-   "weights = model.coef_[i]\n"
-   "order = np.argsort(weights)[-8:]          # 8 strongest Hydraulic words\n"
+   "# The same matrix as a picture, so the costly cell is obvious at a glance.\n"
+   "fig, ax = plt.subplots(figsize=(6, 5))\n"
+   "im = ax.imshow(cm, cmap='Blues')\n"
+   "ax.set_xticks([0, 1]); ax.set_xticklabels(['called URGENT', 'called ROUTINE'])\n"
+   "ax.set_yticks([0, 1]); ax.set_yticklabels(['TRUE URGENT', 'TRUE ROUTINE'])\n"
+   "ax.set_title('Confusion matrix - watch the URGENT->routine cell')\n"
+   "for r in range(2):\n"
+   "    for c in range(2):\n"
+   "        ax.text(c, r, str(cm[r, c]), ha='center', va='center',\n"
+   "                fontsize=18, color='black')\n"
+   "# Outline the costly false-negative cell (true urgent, called routine).\n"
+   "ax.add_patch(plt.Rectangle((0.5, -0.5), 1, 1, fill=False, edgecolor='crimson', lw=3))\n"
+   "plt.colorbar(im, ax=ax, fraction=0.046, pad=0.04)\n"
+   "plt.tight_layout()\n"
+   "plt.show()"),
+md(did("The big diagonal numbers are the correct calls. The cell outlined in red &mdash; <b>true urgent, called routine</b> "
+       "&mdash; is the one to stare at. It is usually small but not zero: a real urgent note the model let through. That is "
+       "why, even with a good model, a <b>human stays in the loop</b> on anything urgency-related. A single accuracy number "
+       "would have hidden this entirely; the confusion matrix shows you the mistake that actually costs.")),
+
+md(section("Look inside — the clue-words it learned", 9)),
+md("A logistic-regression model keeps a weight for every word, saying how strongly that word pushes a note toward urgent "
+   "or routine. Because the words are human-readable, we can simply <b>print the top clue-words</b> and check they make sense."),
+code(
+   "# The model's weights, one per word. Positive = pushes toward URGENT.\n"
+   "feature_names = np.array(vectorizer.get_feature_names_out())\n"
+   "weights = model.coef_[0]\n"
+   "\n"
+   "# model.classes_ is sorted alphabetically: ['ROUTINE', 'URGENT'].\n"
+   "# A positive weight pushes toward classes_[1]; confirm which that is.\n"
+   "pos_class = model.classes_[1]\n"
+   "print('A positive weight pushes a note toward:', pos_class)\n"
+   "print()\n"
+   "\n"
+   "top_urgent  = feature_names[np.argsort(weights)[-8:]][::-1]   # most URGENT-leaning words\n"
+   "top_routine = feature_names[np.argsort(weights)[:8]]          # most ROUTINE-leaning words\n"
+   "print('Words the model reads as URGENT :', ', '.join(top_urgent))\n"
+   "print('Words the model reads as ROUTINE:', ', '.join(top_routine))"),
+md(did("Read those lists. The urgent clue-words are exactly what you would expect &mdash; <i>crack, smoke, fire, grounded, "
+       "leak, fuel</i> &mdash; and the routine ones are the calm vocabulary of <i>cosmetic, monitor, limits, scheduled, "
+       "minor</i>. Nobody wrote these rules; the model worked them out from the example notes. This is what people mean by "
+       "an <b>interpretable</b> model: you can open it up and the reasoning is plain English, not a black box.")),
+code(
+   "# The same idea as a bar chart, for the URGENT-leaning words.\n"
+   "order = np.argsort(weights)[-10:]          # 10 strongest URGENT words\n"
    "words = feature_names[order]\n"
    "vals = weights[order]\n"
    "\n"
    "plt.figure(figsize=(8, 5.5))\n"
-   "plt.barh(words, vals, color='#0b6e7a')\n"
-   "plt.xlabel('How strongly the word points to \"Hydraulic\"')\n"
-   "plt.title('Words the model learned to associate with Hydraulic reports')\n"
+   "plt.barh(words, vals, color='#b3261e')\n"
+   "plt.xlabel('How strongly the word points to URGENT')\n"
+   "plt.title('Words the model learned to read as URGENT')\n"
    "plt.grid(alpha=0.3, axis='x')\n"
    "plt.tight_layout()\n"
    "plt.show()"),
-md(did("The longest bars are the words most tied to Hydraulic &mdash; <i>oil, pressure, fluid</i> and friends. "
-       "This is what people mean when they say a model is <b>interpretable</b>: we can open it up and the reasoning is "
-       "plain English, not a black box.")),
+md(did("The longest bars are the words most tied to urgent. If a brand-new note contains <i>crack</i> or <i>smoke</i>, you "
+       "can already guess how the model will lean &mdash; and so can anyone auditing it.")),
 
-md(section("Use it on brand-new reports", 9)),
-md("This is the whole point. Fresh reports arrive that the model has never seen. We hand it the raw text &mdash; "
-   "the model vectorizes it the same way and instantly names the team, with a confidence."),
+md(section("Use it on brand-new notes", 10)),
+md("This is the whole point. Fresh notes arrive that the model has never seen. We hand it the raw text &mdash; the model "
+   "vectorizes it the same way and instantly flags urgent or routine, with a confidence."),
 code(
-   "# Four brand-new reports, typed fresh. Note: we feed RAW TEXT;\n"
-   "# the vectorizer turns it into numbers automatically, the same way as before.\n"
-   "new_reports = [\n"
-   "    'Grinding noise from the bearing and the gear sounds worn',  # clearly Mechanical\n"
-   "    'Hydraulic oil leaking from the cylinder seal, pressure low',# clearly Hydraulic\n"
-   "    'Control panel display and wiring circuit fault on startup', # clearly Electrical\n"
-   "    'Pump is overheating and the fan stopped',                   # ambiguous on purpose\n"
+   "# Five brand-new notes, typed fresh. We feed RAW TEXT; the vectorizer turns\n"
+   "# it into numbers automatically, the same way as before.\n"
+   "new_notes = [\n"
+   "    'crack discovered in the fuselage skin, aircraft grounded',   # clearly URGENT\n"
+   "    'smoke and burning smell from the cockpit panel',             # clearly URGENT\n"
+   "    'seat fabric scuffed, cosmetic only, monitor',                # clearly ROUTINE\n"
+   "    'placard label peeling, replace at next scheduled check',     # clearly ROUTINE\n"
+   "    'minor fuel smell near the wing, please check',               # borderline on purpose\n"
    "]\n"
    "\n"
-   "new_X = vectorizer.transform(new_reports)     # SAME vectorizer, no re-fitting\n"
+   "new_X = vectorizer.transform(new_notes)     # SAME vectorizer, no re-fitting\n"
    "guesses = model.predict(new_X)\n"
    "probs = model.predict_proba(new_X)\n"
+   "urgent_idx = list(model.classes_).index('URGENT')\n"
    "\n"
-   "for text, guess, p in zip(new_reports, guesses, probs):\n"
-   "    confidence = round(max(p) * 100)\n"
-   "    print(f'Report : {text}')\n"
-   "    print(f'  -> Team: {guess}   (confidence {confidence}%)')\n"
+   "for text, guess, p in zip(new_notes, guesses, probs):\n"
+   "    p_urgent = round(p[urgent_idx] * 100)\n"
+   "    flag = '*** FLAG FOR HUMAN ***' if guess == 'URGENT' else ''\n"
+   "    print(f'Note : {text}')\n"
+   "    print(f'  -> {guess}   (urgent-probability {p_urgent}%)   {flag}')\n"
    "    print()"),
-md(did("Three reports are sorted cleanly into the obvious team with high confidence. The fourth &mdash; "
-       "<i>\"Pump is overheating and the fan stopped\"</i> &mdash; is genuinely ambiguous (a pump sounds Hydraulic, but "
-       "<i>fan</i> and <i>overheating</i> pull toward Electrical/Mechanical), so its confidence is lower. That lower "
-       "number is the model honestly telling us \"this one is a borderline call\" &mdash; useful information for a "
-       "human to double-check.")),
+md(did("The clear-cut notes are sorted with high confidence, and every URGENT one is flagged for a human to see first. "
+       "The deliberately borderline note &mdash; <i>\"minor fuel smell near the wing\"</i> &mdash; mixes a routine word "
+       "(<i>minor</i>) with an urgent one (<i>fuel</i>), so its urgent-probability sits nearer the middle. That in-between "
+       "number is the model honestly saying \"this one is a borderline call\" &mdash; exactly the note a human should "
+       "double-check.")),
 
 md(turn(
    "Make it your own. Edit the cell just above and press <b>Shift + Enter</b> to re-run:<br>"
-   "1. Change the first new report to your own sentence, e.g. <code>'Circuit breaker keeps tripping'</code>. "
-   "Watch the predicted team change.<br>"
-   "2. Write a deliberately mixed report like <code>'Oil leak is causing an electrical short'</code> and see which "
-   "team wins &mdash; and how the confidence drops because the clues disagree.<br>"
-   "3. Harder: in Step 2, add a couple of your own reports to a category, then use "
-   "<b>Runtime &rarr; Restart and run all</b> to retrain from scratch and watch the top-words list shift.")),
+   "1. Replace the first note with your own sentence, e.g. <code>'hydraulic leak, brakes feel soft'</code>. "
+   "Watch the flag and the urgent-probability change.<br>"
+   "2. Write a deliberately mixed note like <code>'minor crack, cosmetic only'</code> and watch the probability "
+   "land in the middle because the clues disagree.<br>"
+   "3. Harder: in Step 2, change the urgent share from <code>0.15</code> to <code>0.05</code> (rarer emergencies), then "
+   "use <b>Runtime &rarr; Restart and run all</b>. Watch the accuracy barely move while the urgent recall &mdash; the "
+   "number that matters &mdash; gets harder to hold up.")),
 
-md(recap("What we learned in Notebook 4", [
-   "Not all data is numbers &mdash; <b>written reports are data too</b>, and predictive AI can sort them.",
-   "Computers cannot read words, so we first turn text into numbers by <b>counting words</b> (<b>bag of words</b> / <b>vectorizing</b>).",
-   "<b>Stop words</b> like \"the\" are ignored; <b>TF-IDF</b> just means rare, distinctive words count for more.",
-   "Once text is numbers, it is the <b>exact same classification workflow</b>: split &rarr; train &rarr; predict &rarr; measure.",
-   "The model is <b>interpretable</b> &mdash; its top words per team read like plain English and match human intuition.",
-   "New reports get sorted instantly, with a <b>confidence</b> that flags the borderline ones for a human.",
+md(recap("What we learned in Session 1", [
+   "Written notes are <b>data too</b>, and predictive AI can flag the <b>urgent</b> ones automatically.",
+   "Computers cannot read words, so we first turn text into numbers by <b>counting words</b> (<b>bag of words</b> / <b>vectorizing</b>); <b>TF-IDF</b> just means rare, distinctive words count for more.",
+   "Once text is numbers, it is the <b>same classification workflow</b>: split &rarr; train &rarr; predict &rarr; measure.",
+   "<b>The accuracy trap:</b> on a lopsided 85/15 mix, a model that always says \"routine\" scores ~85% yet catches <b>zero</b> urgent notes &mdash; accuracy hides the rare costly class.",
+   "The honest number is <b>urgent recall</b> (~90%+), and the <b>confusion matrix</b> reveals the costly <i>urgent-called-routine</i> miss &mdash; so a human stays in the loop.",
+   "The model is <b>interpretable</b>: its top urgent clue-words (crack, smoke, fire, grounded) read like plain English.",
 ])),
 md(nextup(
-   "<b>Notebook 5 &mdash; Speech Analytics.</b> Reports do not always arrive as typed text. Next we will "
-   "<i>speak</i> a maintenance report out loud, have the computer <b>transcribe</b> our voice into text, and then feed "
-   "that text through exactly this kind of analysis &mdash; closing the loop from spoken words to an automatic decision.")),
+   "<b>Session 2 &mdash; Text II.</b> The same words-to-numbers front end answers more questions: predict downtime "
+   "<i>hours</i> (a number, not a bucket), find <b>recurring faults</b> that are worded differently, group snags into "
+   "families with <b>embeddings + clustering</b>, and pull out part numbers &mdash; while watching for the header trap.")),
 ]
 
 build(cells, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "notebooks", "01_text_analytics.ipynb"),

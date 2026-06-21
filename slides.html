@@ -426,8 +426,8 @@
     <div class="grid2" style="margin-top:26px;gap:13px">
       <div class="card frag" style="padding:16px 22px"><div class="ic">1 · Text</div><h3 style="font-size:20px;margin:5px 0 0">Sorting the words you write</h3></div>
       <div class="card frag" style="padding:16px 22px"><div class="ic">2 · Text</div><h3 style="font-size:20px;margin:5px 0 0">Predict, extract &amp; repeat faults</h3></div>
-      <div class="card frag" style="padding:16px 22px"><div class="ic">3 · Speech</div><h3 style="font-size:20px;margin:5px 0 0">Voice &rarr; text &rarr; decision</h3></div>
-      <div class="card frag" style="padding:16px 22px"><div class="ic">4 · Speech</div><h3 style="font-size:20px;margin:5px 0 0">Predicting from the sound</h3></div>
+      <div class="card frag" style="padding:16px 22px"><div class="ic">3 · Speech</div><h3 style="font-size:20px;margin:5px 0 0">Predicting from the sound</h3></div>
+      <div class="card frag" style="padding:16px 22px"><div class="ic">4 · Speech</div><h3 style="font-size:20px;margin:5px 0 0">Voice &rarr; text &rarr; decision</h3></div>
     </div>
     <p class="small frag">Each ≈75 min · two text, two speech · foundations live inside Session 1.</p>
   </section>
@@ -568,56 +568,14 @@
     </div>
   </section>
 
-  <!-- 24 SESSION 3 DIVIDER + WER table -->
-  <section class="slide divider split" data-note="Session 3. Speak a report, transcribe it with Whisper, route it with this morning's classifier — ASR is audio in, text out, then it's text analytics again. Draw the classical-to-deep line around 2012 so nobody thinks 'ChatGPT' — both are predictive. The key point: a low error rate can still get the one safety-critical word wrong.">
+  <!-- 24 SESSION 3 DIVIDER + two figs (sound) -->
+  <section class="slide divider split" data-note="Session 3. Throw the words away. A sound is already numbers; the FFT splits it into pitches like a prism. Same five steps, no text at all. Read fault pitches as orders — 1× imbalance, 2× misalignment — not raw Hz.">
     <div class="inner">
       <div>
         <div class="meta">Now open — Speech · Session 3</div><div class="num">3</div>
-        <h2>Voice &rarr; text &rarr; decision</h2>
-        <div class="tags"><span>speech-to-text (ASR)</span><span>Word Error Rate</span><span>keyword spotting</span><span>Whisper → Session-1 classifier</span></div>
-        <div class="open">&#9654; &nbsp;notebooks/03_speech_analytics.ipynb</div>
-      </div>
-      <div>
-        <table class="mini" style="margin-top:0;min-width:0;width:100%">
-          <thead><tr><th>What the computer heard</th><th>WER</th><th class="labelcol">Part&nbsp;#</th></tr></thead>
-          <tbody>
-            <tr><td>clean studio voice</td><td>0%</td><td class="labelcol">correct</td></tr>
-            <tr><td>shop-floor noise</td><td>15%</td><td class="labelcol">correct</td></tr>
-            <tr><td>misheard a digit</td><td>8%</td><td class="labelcol" style="color:#d4756b">WRONG</td></tr>
-          </tbody>
-        </table>
-        <p class="small" style="max-width:36ch">A <span class="accent">lower</span> error rate can still get the one word that matters wrong. Numbers and serials always get a human's eyes.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- 25 WER + KEYWORD SPOTTING + ASR LIMITS -->
-  <section class="slide" data-note="Honesty about the limit makes the capability believable. WER is the speech version of accuracy. The 8% transcript was cleaner yet turned one part number into another — so numbers and serials get a human's eyes. Keyword spotting (a small fixed vocabulary) is robust to stutters — why shop-floor tools use wake-words. Agree ASR struggles with accents, then show domain adaptation: ATC reached >95% controllers / >90% pilots / ~97% callsigns.">
-    <div class="eyebrow">Session 3 — honest about the limits</div>
-    <h2>A <span class="a">low</span> error rate can still get the one word wrong.</h2>
-    <div class="grid2">
-      <div class="card frag">
-        <div class="ic" style="color:var(--red)">The WER trap</div>
-        <h3 style="color:var(--red)">8% — but WRONG part #</h3>
-        <p>WER = wrong + missing + extra words. The "cleaner" 8% transcript still swapped one part number for another. Numbers and serials always get a human's eyes.</p>
-      </div>
-      <div class="card frag">
-        <div class="icon"><svg viewBox="0 0 48 48"><use href="#i-target"/></svg></div>
-        <div class="ic">Keyword spotting</div><h3>Listen for 4 commands</h3>
-        <p>A small fixed vocabulary is robust to stutters and filler — why shop-floor tools use wake-words, not full dictation.</p>
-      </div>
-    </div>
-    <p class="small frag" style="max-width:66ch">Hard by default (accents, jargon, radio noise), strong with domain data — ATC ASR reached <span class="accent">&gt;95% controllers</span>, &gt;90% pilots, ~97% on callsigns after domain training.</p>
-  </section>
-
-  <!-- 26 SESSION 4 DIVIDER + two figs -->
-  <section class="slide divider split" data-note="Session 4, the finale. Throw the words away. A sound is already numbers; the FFT splits it into pitches like a prism. Same five steps, no text at all. Read fault pitches as orders — 1× imbalance, 2× misalignment — not raw Hz.">
-    <div class="inner">
-      <div>
-        <div class="meta">Now open — Speech · Session 4</div><div class="num">4</div>
         <h2>Predicting from the sound itself</h2>
         <div class="tags"><span>sound &rarr; numbers (FFT)</span><span>classify the fault</span><span>feature importance</span><span>anomaly detection</span><span>orders (1&times; / 2&times;)</span></div>
-        <div class="open">&#9654; &nbsp;notebooks/04_sound_fault_prediction.ipynb</div>
+        <div class="open">&#9654; &nbsp;notebooks/03_sound_fault_prediction.ipynb</div>
       </div>
       <div class="figrow">
         <div class="figure"><img src="figs/sound_clusters.svg" alt="Three machine-fault types separating by sound"/><div class="figcap">Three faults separate by their sound</div></div>
@@ -626,9 +584,9 @@
     </div>
   </section>
 
-  <!-- 27 SOUND IS NUMBERS — payoff -->
-  <section class="slide" data-note="The Session-4 payoff. Five FFT features separate three fault types into clean clusters; classify healthy/bearing/imbalance at ~0.88. Feature importance shows the model leaning on the whine and the rumble — the cues a technician's ear uses. With no fault examples, learn 'normal' only and flag the surprising — anomaly detection at AUC ~0.94, the realistic aerospace case. Public benchmarks run AUC ~0.54–0.96; a flawless demo is the thing to distrust.">
-    <div class="eyebrow">Session 4 — the payoff</div>
+  <!-- 25 SOUND IS NUMBERS — payoff -->
+  <section class="slide" data-note="The Session-3 payoff. Five FFT features separate three fault types into clean clusters; classify healthy/bearing/imbalance at ~0.88. Feature importance shows the model leaning on the whine and the rumble — the cues a technician's ear uses. With no fault examples, learn 'normal' only and flag the surprising — anomaly detection at AUC ~0.94, the realistic aerospace case. Public benchmarks run AUC ~0.54–0.96; a flawless demo is the thing to distrust.">
+    <div class="eyebrow">Session 3 — the payoff</div>
     <div class="chartsplit">
       <div>
         <h2>A computer can <span class="t">hear</span> a fault.</h2>
@@ -645,6 +603,48 @@
         </div>
       </div>
     </div>
+  </section>
+
+  <!-- 26 SESSION 4 DIVIDER + WER table (the finale) -->
+  <section class="slide divider split" data-note="Session 4, the finale. Speak a report, transcribe it with Whisper, route it with this morning's classifier — ASR is audio in, text out, then it's text analytics again. Draw the classical-to-deep line around 2012 so nobody thinks 'ChatGPT' — both are predictive. The key point: a low error rate can still get the one safety-critical word wrong.">
+    <div class="inner">
+      <div>
+        <div class="meta">Now open — Speech · Session 4</div><div class="num">4</div>
+        <h2>Voice &rarr; text &rarr; decision</h2>
+        <div class="tags"><span>speech-to-text (ASR)</span><span>Word Error Rate</span><span>keyword spotting</span><span>Whisper → Session-1 classifier</span></div>
+        <div class="open">&#9654; &nbsp;notebooks/04_speech_analytics.ipynb</div>
+      </div>
+      <div>
+        <table class="mini" style="margin-top:0;min-width:0;width:100%">
+          <thead><tr><th>What the computer heard</th><th>WER</th><th class="labelcol">Part&nbsp;#</th></tr></thead>
+          <tbody>
+            <tr><td>clean studio voice</td><td>0%</td><td class="labelcol">correct</td></tr>
+            <tr><td>shop-floor noise</td><td>15%</td><td class="labelcol">correct</td></tr>
+            <tr><td>misheard a digit</td><td>8%</td><td class="labelcol" style="color:#d4756b">WRONG</td></tr>
+          </tbody>
+        </table>
+        <p class="small" style="max-width:36ch">A <span class="accent">lower</span> error rate can still get the one word that matters wrong. Numbers and serials always get a human's eyes.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 27 WER + KEYWORD SPOTTING + ASR LIMITS -->
+  <section class="slide" data-note="Honesty about the limit makes the capability believable. WER is the speech version of accuracy. The 8% transcript was cleaner yet turned one part number into another — so numbers and serials get a human's eyes. Keyword spotting (a small fixed vocabulary) is robust to stutters — why shop-floor tools use wake-words. Agree ASR struggles with accents, then show domain adaptation: ATC reached >95% controllers / >90% pilots / ~97% callsigns.">
+    <div class="eyebrow">Session 4 — honest about the limits</div>
+    <h2>A <span class="a">low</span> error rate can still get the one word wrong.</h2>
+    <div class="grid2">
+      <div class="card frag">
+        <div class="ic" style="color:var(--red)">The WER trap</div>
+        <h3 style="color:var(--red)">8% — but WRONG part #</h3>
+        <p>WER = wrong + missing + extra words. The "cleaner" 8% transcript still swapped one part number for another. Numbers and serials always get a human's eyes.</p>
+      </div>
+      <div class="card frag">
+        <div class="icon"><svg viewBox="0 0 48 48"><use href="#i-target"/></svg></div>
+        <div class="ic">Keyword spotting</div><h3>Listen for 4 commands</h3>
+        <p>A small fixed vocabulary is robust to stutters and filler — why shop-floor tools use wake-words, not full dictation.</p>
+      </div>
+    </div>
+    <p class="small frag" style="max-width:66ch">Hard by default (accents, jargon, radio noise), strong with domain data — ATC ASR reached <span class="accent">&gt;95% controllers</span>, &gt;90% pilots, ~97% on callsigns after domain training.</p>
   </section>
 
   <!-- 28 CLOSING -->

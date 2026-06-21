@@ -1,11 +1,13 @@
 # Predictive AI — Hands-on Lab (Instructor Guide)
 
 A full-day, no-code lab that introduces **predictive AI** to core engineers with no IT
-background. Seven Google Colab notebooks take a single idea — *learn the pattern from past
-examples, then predict the next case* — across three kinds of data: numbers, text, and speech.
+background. Four Google Colab notebooks take a single idea — *learn the pattern from past
+examples, then predict the next case* — across the two kinds of messy data engineers handle
+daily: written **text** (Sessions 1–2) and spoken **speech** (Session 3 sound, Session 4
+speech-to-text).
 
-> **Running the text + speech day?** `LESSON_PLAN.md` is the detailed **four-session (4 × 90 min)**
-> teaching plan — per-session timings, demos, case studies (with honest caveats and sources),
+> **Running the text + speech day?** `LESSON_PLAN.md` is the detailed **four-session** teaching plan (~75 min per session)
+> — per-session timings, demos, case studies (with honest caveats and sources),
 > discussion prompts and skeptic-handling — rendered to **`Predictive-AI-Lesson-Plan.pdf`** for sharing.
 
 **For the presenter:**
@@ -25,38 +27,41 @@ No internet or PowerPoint needed; works in any browser, offline. **Keep `slides.
 
 - **Navigate:** `→` / `Space` next, `←` previous, or click the right/left half of the screen.
 - **`F`** toggles fullscreen. **`S`** toggles a **speaker-notes panel** (a presenter cue per slide).
-- 25 slides with illustrations throughout: a technician/analogy line drawing, icon-driven concept
+- 28 slides with illustrations throughout: a technician/analogy line drawing, icon-driven concept
   slides, a real **"find the pattern" scatter** with a decision boundary, and chart previews
-  (line of best fit, forecast, feature importance) on the relevant **"Now open Module 0X"** dividers.
-  The conceptual half (mindsets, predictive vs generative, the 5 core words, the workflow) sets up
-  each hands-on notebook. The deck supports the talk; the notebooks carry the detail.
-- The charts in `figs/` are generated from `build/make_figs.py` (same synthetic data as the
-  notebooks) — edit and re-run it to change them.
+  (clue-words, similarity heatmap, sound clusters, anomaly histogram) on the relevant
+  **"Now open — Session N"** dividers. The conceptual half (mindsets, predictive vs generative,
+  the core words, the five-step workflow) sets up each hands-on notebook. The deck supports the
+  talk; the notebooks carry the detail.
+- The charts in `figs/` are generated from `build/make_figs_textspeech.py` (same synthetic data as
+  the notebooks) — edit and re-run it to change them.
 
 ---
 
 ## What's in the box
 
-| # | Notebook | What it teaches | Live result | Open |
-|---|----------|-----------------|-------------|------|
-| 00 | `00_intro_predictive_ai.ipynb` | The mindset + core vocabulary (dataset, label column, train/test split, accuracy) on a tiny equipment example | Decision tree, ~87% on unseen machines | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/zerotoprod-5/HAL-AI-Tutorial/blob/main/notebooks/00_intro_predictive_ai.ipynb) |
-| 01 | `01_classification.ipynb` | Sorting into categories; the **accuracy trap**; confusion matrix; precision & recall | 93% acc, catches rare rejects | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/zerotoprod-5/HAL-AI-Tutorial/blob/main/notebooks/01_classification.ipynb) |
-| 02 | `02_regression_forecasting.ipynb` | Predicting **numbers** (regression) and **trends over time** (forecasting) | Cost ±₹1,100; 6-month demand forecast | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/zerotoprod-5/HAL-AI-Tutorial/blob/main/notebooks/02_regression_forecasting.ipynb) |
-| 03 | `03_predictive_maintenance.ipynb` | Capstone: catch failures early, **feature importance**, and **anomaly detection** without labels | Flags failures, ranks the sensors | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/zerotoprod-5/HAL-AI-Tutorial/blob/main/notebooks/03_predictive_maintenance.ipynb) |
-| 04 | `04_text_analytics.ipynb` | Turning written reports into predictions (words → numbers, TF-IDF) | Auto-routes reports to the right team | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/zerotoprod-5/HAL-AI-Tutorial/blob/main/notebooks/04_text_analytics.ipynb) |
-| 04b | `04b_text_predict_extract.ipynb` | **(Text Session 2)** Predict urgency (class) & downtime (regression); recurring-fault detection; part-number extraction; LDA topics; the header-trap | Similarity heatmap flags the same chronic fault, worded 5 ways | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/zerotoprod-5/HAL-AI-Tutorial/blob/main/notebooks/04b_text_predict_extract.ipynb) |
-| 05 | `05_speech_analytics.ipynb` | **Speak → transcribe → predict** pipeline (Whisper ASR + text analytics) | Spoken note → category, live | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/zerotoprod-5/HAL-AI-Tutorial/blob/main/notebooks/05_speech_analytics.ipynb) |
+Four notebooks, one per session — **two text, then two speech** (Session 3 is sound,
+Session 4 speech-to-text is the finale):
+
+| # | Session | Notebook | What it teaches | Live result | Open |
+|---|---------|----------|-----------------|-------------|------|
+| 1 | Text I | `01_text_analytics.ipynb` | Words → numbers (bag-of-words, **TF-IDF**), then classify free-text notes as **URGENT vs ROUTINE**; **URGENT recall** as the number that matters; top clue-words per class | Flags the urgent reports; ~95% URGENT recall | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/zerotoprod-5/HAL-AI-Tutorial/blob/main/notebooks/01_text_analytics.ipynb) |
+| 2 | Text II | `02_text_predict_extract.ipynb` | Predict urgency (class) & downtime (regression); **recurring-fault detection**; embeddings + **k-means clustering**; part-number extraction; LDA topics; the header-trap | Similarity heatmap flags the same chronic fault, worded 5 ways | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/zerotoprod-5/HAL-AI-Tutorial/blob/main/notebooks/02_text_predict_extract.ipynb) |
+| 3 | Speech I | `03_sound_fault_prediction.ipynb` | Sound → numbers (**FFT**, spectrogram); classify a machine fault from its sound; **feature importance**; **unsupervised anomaly detection** without labels | Three faults separate by sound; anomaly AUC ~0.94 | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/zerotoprod-5/HAL-AI-Tutorial/blob/main/notebooks/03_sound_fault_prediction.ipynb) |
+| 4 | Speech II | `04_speech_analytics.ipynb` | **Speak → transcribe → predict** pipeline (Whisper ASR + text analytics); **Word Error Rate (WER)** and why a low error rate can still get the one critical word wrong; keyword spotting | Spoken note → category, live; a low-WER transcript that still gets one part number wrong | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/zerotoprod-5/HAL-AI-Tutorial/blob/main/notebooks/04_speech_analytics.ipynb) |
 
 All are **self-contained**: synthetic/in-cell data, fixed random seeds (everyone sees the
-same numbers), scikit-learn only — with one exception, `04b`, which can also fetch a small public
+same numbers), scikit-learn only — with one exception, `02`, which can also fetch a small public
 corpus (20 Newsgroups, ~14 MB, one line) to prove the method holds on real data. No API keys, no
-file uploads. Maths is shown **conceptually and visually** — never an equation to recall.
+file uploads (Session 4 installs gTTS + Whisper once, ~1 min). Maths is shown **conceptually and
+visually** — never an equation to recall.
 
 Every notebook follows the same rhythm so the audience learns the *shape* of an ML project once:
 > **scenario → run a cell → "what just happened" → vocabulary card → "your turn" knob → recap → what's next**
 
-Coloured boxes guide reading: **teal** = new word, **green** = what the cell did,
-**amber** = a number to change and re-run, **purple** = recap / coming up.
+The notebooks are **Colab-safe**: callouts use emoji + blockquotes (no reliance on colour),
+so they render correctly in Google Colab. Emoji cues guide reading — new word, what the cell did,
+a number to change and re-run, recap / coming up.
 
 ---
 
@@ -74,17 +79,17 @@ account, and run top to bottom with **Shift + Enter**.
 2. `File → Upload notebook` → pick the `.ipynb` for the current module.
 3. Run top to bottom with **Shift + Enter**.
 
-Share the six `.ipynb` files however is easiest in the lab (USB, shared drive, intranet link, email).
+Share the four `.ipynb` files however is easiest in the lab (USB, shared drive, intranet link, email).
 
 ---
 
 ## Pre-flight checklist (do this the day before)
 
-- [ ] Run **Module 05** end-to-end yourself once. Its first cell `!pip install -q gTTS openai-whisper`
-      takes ~1 minute and downloads the Whisper "tiny" model on first transcription — confirm the
-      lab's network allows it. (Everything else needs no install.)
+- [ ] Run **Session 4** (`04_speech_analytics.ipynb`) end-to-end yourself once. Its first cell
+      `!pip install -q gTTS openai-whisper` takes ~1 minute and downloads the Whisper "tiny" model
+      on first transcription — confirm the lab's network allows it. (Everything else needs no install.)
 - [ ] Confirm the lab machines can reach Google Colab and `pypi.org` / model downloads.
-- [ ] Have the six files ready on a shared location, named in order so people don't get lost.
+- [ ] Have the four files ready on a shared location, named in order so people don't get lost.
 - [ ] Decide your fallback: if a participant's cell errors after editing, the reset is
       **Runtime → Restart and run all**.
 
@@ -92,77 +97,78 @@ Share the six `.ipynb` files however is easiest in the lab (USB, shared drive, i
 
 ## Suggested full-day flow
 
-Adjust freely — the modules are independent after 00. Keep 00 first; it installs the vocabulary
-everything else leans on.
+Six hours, **09:30–15:30**, breaks included. The foundations (vocabulary + the five-step shape)
+live inside Session 1 and are reused all day — no separate prerequisite module. Text fills the
+first half, speech the second.
 
 | Time | Block | Notes |
 |------|-------|-------|
-| 09:30 | Director: *What is AI?* | The framing intro |
-| 10:00 | **Module 00 — What is Predictive AI?** (~45 min) | Slow and careful; this is the vocabulary foundation |
-| 10:50 | Break | |
-| 11:05 | **Module 01 — Classification** (~45 min) | Spend time on the accuracy trap + confusion matrix |
-| 11:55 | **Module 02 — Regression & Forecasting** (~40 min) | The two "aha" visuals: the fitted line and the forecast |
-| 12:35 | Lunch | |
-| 13:45 | **Module 03 — Predictive Maintenance** (~50 min) | The payoff module; feature-importance chart lands well |
-| 14:40 | **Module 04 — Text Analytics** (~40 min) | The new idea is "words become numbers" |
-| 15:25 | Break | |
-| 15:40 | **Module 05 — Speech Analytics** (~40 min) | The showpiece; let people edit the spoken sentence |
-| 16:25 | Wrap-up + Q&A | Tie all six to one idea; point to the generative-AI sessions to come |
+| 09:30–10:45 | **Session 1 · Text I — flagging the urgent** | Opens with the framing (predictive vs generative; the two mindsets) + the core vocabulary and five-step shape; spend time on the **accuracy trap** — always-"routine" scores ~85% yet catches no urgent report |
+| 10:45–11:00 | Break | |
+| 11:00–12:15 | **Session 2 · Text II — predict, extract & recurring faults** | Classification + regression from the same words; cosine recurring-fault detection; embeddings + k-means (honest ~0.22); part-number extraction |
+| 12:15–12:45 | Lunch | |
+| 12:45–14:00 | **Session 3 · Speech I — predicting from the sound** | The most predictive of the four; classify the fault ~0.88, feature importance, and label-free **anomaly detection** (AUC ~0.94) |
+| 14:00–14:15 | Break | |
+| 14:15–15:30 | **Session 4 · Speech II — voice → text → decision** *(finale)* | ASR → route with the Session-1 classifier; **WER** honesty; keyword spotting; closes with the day's wrap-up & Q&A |
 
 ---
 
-## Talking points per module
+## Talking points per session
 
-**00 — What is Predictive AI?**
+**Session 1 · Text I — flagging the urgent.**
 Open by naming the two mindsets in the room — "AI can do anything" and "AI is nonsense" — and
-promise that the truth is more ordinary and more useful than either. The anchor analogy: a seasoned
-technician who has inspected thousands of machines and can call a bad one on sight — not magic, just
-*pattern from experience*. The big reveal is `export_text` printing the if-then rules the tree wrote
-**by itself**: nobody programmed them. Stress *predictive vs generative* here so nobody confuses this
-with ChatGPT.
+promise the truth is more ordinary and more useful than either. The anchor analogy: a seasoned
+inspector who flags the worrying report on sight — not magic, just *pattern from experience*.
+Foundations live here: *dataset → split → train → predict → measure* and the core words. The lesson
+that earns the day is the **accuracy trap** — a "lazy" model that calls everything ROUTINE scores
+~85% accuracy yet catches **zero** urgent reports. Let that land, then the confusion matrix in plain
+words and why **URGENT recall** (20 of 21 caught, 1 missed) is the number that matters. Stress
+*predictive vs generative* so nobody confuses this with ChatGPT. End on the model's **top clue-words**
+per class — proof it learned something human-readable.
 
-**01 — Classification.**
-The lesson that earns the day: a "lazy" model that always says PASS scores 80% accuracy yet catches
-**zero** bad parts. Let that land before showing the real model. Then the confusion matrix in plain
-words — *false alarm* (good part rejected) vs *missed fault* (bad part passed) — and why, for safety,
-the missed fault (recall) is the number that matters. This reframes "accuracy" as not enough.
+**Session 2 · Text II — predict, extract & recurring faults.**
+Beyond sorting. The same words-to-numbers front end now predicts a *category* (urgency) and a *number*
+(downtime hours — the fitted line *through* the dot cloud makes "it learned the relationship" visible).
+Then the unsupervised half: **cosine similarity** flags the same chronic fault worded five different
+ways with no labels; **embeddings + k-means** group a logbook into families — be honest, agreement is
+a modest **~0.22**: Mechanical pops cleanly, the rest blend. Close with auditable **part-number
+extraction**, and if time, LDA topics and the "too-perfect score" data-leakage trap.
 
-**02 — Regression & Forecasting.**
-Point: prediction isn't only yes/no — often you predict a *number*. The fitted line *through* the dot
-cloud makes "the model learned the relationship" visible. For forecasting, the dashed line continuing
-past "today" is the moment. Be honest: forecasts get fuzzier further out — planners add a safety margin.
+**Session 3 · Speech I — predicting from the sound.**
+The most strongly predictive of the four, and the one engineers call "useful for us." Throw the words
+away — a sound is already numbers, and the **FFT** splits it into pitches like a prism. Five features
+separate three fault types; classify healthy / bearing / imbalance at **~0.88**. The
+**feature-importance** chart is gold: the model leans on the whine and the rumble — the cues a
+technician's ear already uses, checkable against intuition. The **anomaly-detection** coda answers
+"but we have no failure labels": learn "normal" only, flag the surprising (**AUC ~0.94**). Name the
+public benchmarks (CWRU / MIMII / MAFAULDA) — real AUCs run ~0.54–0.96, so a flawless demo is the
+thing to distrust.
 
-**03 — Predictive Maintenance.**
-This is the one they'll remember as "useful for us." Old way = fix-on-break or fixed schedule; new way
-= service the machines the data says are at risk. The feature-importance bar chart is gold for engineers:
-the model doesn't just say *will fail* — it says *vibration mattered most*, which they can sanity-check
-against intuition. The anomaly-detection coda answers the obvious objection "but we don't have failure
-labels" — show AI finding the weird machines with no labels at all.
-
-**04 — Text Analytics.**
-The only genuinely new concept is *turning words into numbers* — show the actual word-columns appear,
-with common words ("the", "and") dropped. After that it's the same classify-workflow from 01. The
-per-team top words (oil/pressure/fluid → Hydraulic) prove the model learned something human-readable.
-
-**05 — Speech Analytics.**
-The finale and the crowd-pleaser. gTTS fabricates a spoken report so no microphone is needed; Whisper
-transcribes it; the text classifier routes it. The invitation in *Your turn* — change the spoken
-sentence and watch speak → transcribe → categorize run again — is the most "wow" moment. Close the
-whole day on the one consistent idea: whether the data was numbers, text, or speech, AI did the same
-thing — *learned the pattern from past examples, then predicted the next case.*
+**Session 4 · Speech II — voice → text → decision (the finale).**
+The crowd-pleaser. gTTS fabricates a spoken report so no microphone is needed; **Whisper** transcribes
+it; this morning's text classifier routes it — audio in, text out, then it's text analytics again. The
+honesty that makes it believable: **WER** is the speech version of accuracy, and the "cleaner" 8%
+transcript still swapped one part number — so numbers and serials get a human's eyes. **Keyword
+spotting** (a small fixed vocabulary) is robust where full dictation isn't. Agree ASR struggles with
+accents, jargon and noise, then show domain adaptation (ATC reached >95% controllers, ~97% callsigns).
+Close the whole day on the one idea: numbers, text, or sound, AI did the same thing — *learned the
+pattern from past examples, then predicted the next case.*
 
 ---
 
 ## Handling the skeptics (and the over-believers)
 
 - **"This is just if-then rules / statistics."** Yes — and that's the point. Predictive AI *is*
-  disciplined pattern-finding. Module 00's printed tree rules make this concrete and disarm the hype.
+  disciplined pattern-finding. Session 1's top clue-words and the plain-words confusion matrix make
+  this concrete and disarm the hype.
 - **"Why isn't it 100% accurate?"** Because real data has surprises. A model claiming 100% is usually
-  cheating (it saw the test answers). Honest, imperfect numbers are a feature of these notebooks.
-- **"Can it replace our engineers?"** Module 03's feature importance reframes it: AI gives engineers a
+  cheating (it saw the test answers — Session 2's data-leakage trap). Honest, imperfect numbers are a
+  feature of these notebooks.
+- **"Can it replace our engineers?"** Session 3's feature importance reframes it: AI gives engineers a
   *prioritized list and a reason*, then a human decides. It scales judgment, it doesn't replace it.
-- **"AI can do anything."** Point at the missed faults in Module 01 and the forecast caveat in 02 — it
-  is a tool with limits you can measure, which is exactly why it's trustworthy.
+- **"AI can do anything."** Point at the one missed urgent report in Session 1 and the low-WER
+  transcript that still got a part number wrong in Session 4 — it is a tool with limits you can
+  measure, which is exactly why it's trustworthy.
 
 ---
 
@@ -177,7 +183,7 @@ With ~30 non-IT participants on Colab, small hiccups are normal. **One reset fix
 | A cell shows a spinning circle and never finishes | Stuck cell, or waiting on a long step | `Runtime → Interrupt execution`, then re-run the cell |
 | No chart appears | The imports cell (or the cell above) didn't run | Re-run from the top of that section |
 | "Your session crashed / reconnect" | Idle disconnect (not memory — the data here is tiny) | Click **Reconnect**, then `Runtime → Run all` |
-| Module 05 install is slow or errors | First cell downloads gTTS + Whisper over the network | Wait ~1 min; if the network blocks it, demo from your own pre-run copy and move on |
+| Session 4 install is slow or errors | First cell downloads gTTS + Whisper over the network | Wait ~1 min; if the network blocks it, demo from your own pre-run copy and move on |
 | Can't sign in to Colab | Corporate Google account restrictions | Use a personal Google account, or the upload method |
 | Edited a number, results look wrong | Stale state from earlier runs | `Runtime → Restart and run all` |
 
@@ -187,14 +193,12 @@ cell breaks you can show the expected output and keep moving rather than debuggi
 ## Prompts to get the room talking
 
 The brief is conversational and application-oriented — these engineers know their machines far better
-than we do, so let them connect each idea to their own work. One prompt per module:
+than we do, so let them connect each idea to their own work. One prompt per session:
 
-- **After 00 (workflow):** "What records does your team already keep that look like this table — rows of cases, columns of measurements?"
-- **After 01 (classification):** "Where do you make a yes/no call from a few measurements today? What would a *missed fault* cost you versus a *false alarm*?"
-- **After 02 (regression/forecasting):** "What number would be useful to know a month ahead — a demand, a cost, a wear figure?"
-- **After 03 (predictive maintenance):** "Which signals do you already watch that hint a machine is heading for trouble? Would knowing *which sensor mattered* change how you act?"
-- **After 04 (text):** "How much useful information sits in free-text logs and reports that no one has time to read?"
-- **After 05 (speech):** "Where do people *speak* information that never gets written down — handovers, inspections, calls?"
+- **After Session 1 (text — flag the urgent):** "How much useful signal sits in free-text snags and reports no one has time to read — and what would a *missed* urgent one cost you versus a false alarm?"
+- **After Session 2 (predict / extract / recurring):** "What number would help to know from a description — downtime, severity? And how often does the *same* chronic fault get logged five different ways?"
+- **After Session 3 (sound):** "Which machines do you already diagnose by ear? Would knowing *which part of the sound* the model used change how much you trust it?"
+- **After Session 4 (speech):** "Where do people *speak* information that never gets written down — handovers, inspections, calls?"
 - **Closing:** "Pick one place from today where *learn from the past, predict the next case* could help. What data would you need to start?"
 
 ## Speaker notes
@@ -204,7 +208,8 @@ paper copy at the podium. The same notes are built into the deck (press **S** to
 
 ## Rebuilding / editing the notebooks
 
-The notebooks are generated from small Python scripts that share one design system
-(`nbbuild.py` — the callout boxes, banner, vocabulary cards). To tweak wording or data and
-regenerate, edit the matching build script and re-run it. All six were validated by executing
-every code cell end-to-end before shipping.
+The notebooks are generated from small Python scripts (`build/nb01.py`–`build/nb04.py`) that share
+one **Colab-safe** design system (`build/nbmd.py` — emoji + blockquote callouts, banner, vocabulary
+cards; no reliance on colour). To tweak wording or data and regenerate, edit the matching build
+script and re-run it. All four were validated by executing every code cell end-to-end before shipping
+(Session 4's gTTS/Whisper install cells run in Colab, not in the offline validator).
