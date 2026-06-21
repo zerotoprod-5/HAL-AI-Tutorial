@@ -11,8 +11,10 @@ speech-to-text).
 > discussion prompts and skeptic-handling — rendered to **`Predictive-AI-Lesson-Plan.pdf`** for sharing.
 
 **For the presenter:**
-- `slides.html` — the **presentation deck** (open fullscreen in a browser to present).
-- `SPEAKER_NOTES.md` — printable per-slide presenter script (also built into the deck; press **S**).
+- `RUN_OF_SHOW.md` — **start here on the day:** the run of show — what to open, when, across the four sessions.
+- `deck/index.html` — the **interactive deck season** (one projected deck per session, with predict-then-reveal votes and live widgets).
+- `slides.html` — the same day as a **single 28-slide deck** (open fullscreen; press **S** for speaker notes). Use either the season or this.
+- `SPEAKER_NOTES.md` — printable per-slide presenter script (also built into `slides.html`; press **S**).
 - `index.html` — the session **landing page** (a one-screen overview to project or share).
 
 **For the participants (take-home):**
