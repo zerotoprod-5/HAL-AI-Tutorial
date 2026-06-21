@@ -24,3 +24,13 @@ node_modules/
 build/
 deck/audit.mjs
 deck/audit.README.txt
+
+# Presenter & committee materials — kept locally, not published to the attendee-facing repo.
+# (Teaching script/answers and organising-committee paperwork.)
+SPEAKER_NOTES.md
+LESSON_PLAN.md
+RUN_OF_SHOW.md
+SESSION_PLAN.md
+Predictive-AI-Lesson-Plan.docx
+Predictive-AI-Lesson-Plan.pdf
+Predictive-AI-Session-Plan.docx
