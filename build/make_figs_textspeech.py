@@ -89,14 +89,43 @@ for sysname, s in SYSTEMS.items():
         rows.append((report, full, sysname, urg, hours))
 log = pd.DataFrame(rows, columns=['report', 'full_note', 'system', 'urgency', 'downtime_hours'])
 
-# ============ FIG 1 . clue-words per team (Session 1) ================================
-# Illustrative TF-IDF weights for the "Hydraulic" team's top clue-words (Session 1 demo).
-words = ["oil", "pressure", "fluid", "leak", "hose", "pump", "seal", "valve"]
-wt = np.array([.93, .88, .81, .74, .62, .55, .5, .42])
-fig, ax = plt.subplots(figsize=(7.2, 4.8))
-ax.barh(words[::-1], wt[::-1], color=TEAL, edgecolor=INK, height=.66)
-ax.set_xlabel("How strongly the word points to  “Hydraulic”"); ax.set_xlim(0, 1)
-base(ax); ax.grid(axis="y", alpha=0); fig.tight_layout(); save(fig, "text_cluewords.svg")
+# ============ FIG 1 . clue-words: URGENT vs ROUTINE (Session 1, Text I) ===============
+# Illustrative learned word-weights for the URGENT-vs-ROUTINE classifier the room
+# just built. Words that push a note toward URGENT have positive weight (teal); words
+# that pull it toward ROUTINE have negative weight (muted grey). The narrated "crack"
+# bar is lifted in amber. Mirrors the speaker note: "crack, smoke, grounding -> urgent;
+# routine, complete, within-limits -> the other way." Direct on-bar labels, zero line,
+# no legend — the chart alone proves "it learned your words" at back-row distance.
+cw_words = ["crack", "smoke", "grounding", "fire", "fail",
+            "monitor", "within limits", "complete", "routine"]
+cw_wt = np.array([0.92, 0.78, 0.71, 0.64, 0.41,
+                  -0.33, -0.52, -0.66, -0.79])
+fig, ax = plt.subplots(figsize=(7.2, 5.0))
+y = np.arange(len(cw_words))[::-1]
+ww = cw_wt
+# colour: urgent (+) teal, routine (-) muted grey, the narrated "crack" bar amber
+cols = [AMBER if w == "crack" else (TEAL if v > 0 else MUTED)
+        for w, v in zip(cw_words, ww)]
+ax.barh(y, ww, color=cols, edgecolor=INK, height=.62)
+ax.axvline(0, color=PAPER, lw=1.2, alpha=.55)                 # the zero line
+# direct on-bar word labels (no distant axis tick clutter)
+for yi, w, v in zip(y, cw_words, ww):
+    ha = "left" if v > 0 else "right"
+    xoff = 0.03 if v > 0 else -0.03
+    ax.text(xoff, yi, w, va="center", ha=ha,
+            color=(AMBER if w == "crack" else PAPER), fontsize=12.5,
+            fontweight=("bold" if w == "crack" else "normal"))
+# annotations in the EMPTY quadrants so they never sit on a bar
+ax.text(-0.97, len(cw_words)-1, "→ pushes URGENT", color=TEAL, fontsize=11.5,
+        ha="left", va="center", fontweight="bold")
+ax.text(0.97, 0, "pulls ROUTINE ←", color=MUTED, fontsize=11.5,
+        ha="right", va="center", fontweight="bold")
+ax.set_yticks([]); ax.set_xlim(-1, 1); ax.set_ylim(-0.7, len(cw_words)-0.3)
+ax.set_xlabel("Learned weight toward  URGENT  (right)  vs  ROUTINE  (left)")
+for s in ("top", "right", "left"): ax.spines[s].set_visible(False)
+ax.set_facecolor("none"); ax.tick_params(length=0)
+ax.grid(axis="x", alpha=.16, color=TEAL, linewidth=.7); ax.grid(axis="y", alpha=0)
+fig.tight_layout(); save(fig, "text_cluewords.svg")
 
 # ============ FIG 2 . urgency confusion matrix (Session 2 A) =========================
 Xtr, Xte, ytr, yte = train_test_split(
@@ -264,6 +293,69 @@ ax.set_title(f"Learn normal, flag the surprising  ·  AUC ≈ {auc:.2f}", color=
 ax.legend(frameon=False, labelcolor=PAPER, fontsize=11); base(ax)
 fig.tight_layout(); save(fig, "anomaly_hist.svg")
 
+# ============ FIG 8b . spectrograms: failing bearing vs healthy hum (Speech I/II) ====
+# A REAL spectrogram (matplotlib.specgram, STFT) of a short synthesized clip, in the same
+# dark instrument language: transparent bg, #cddde6 labels, a perceptual colourmap that
+# reads on dark (magma), time on x, frequency on y. The synthesis matches build/nb04.py's
+# 'bearing' / 'healthy' classes EXACTLY -- a low ~50 Hz rotation hum + 2nd harmonic, broad
+# noise floor, and for the bearing the tell-tale high intermittent WHINE band at ~2-3.3 kHz
+# pulsing under a 40 Hz rattle envelope. A longer clip (1.6 s) + a Hann window are used here
+# so the intermittent whine and the time axis read at back-row distance; nothing else changes.
+SPEC_DUR = 1.6; SPEC_N = int(SR * SPEC_DUR)
+def make_spec_clip(kind, r):
+    t = np.arange(SPEC_N) / SR; f0 = 50 + r.normal(0, 3)
+    sig = 0.5 * np.sin(2 * np.pi * f0 * t) + 0.25 * np.sin(2 * np.pi * 2 * f0 * t)
+    sig += 0.17 * r.normal(0, 1, SPEC_N)
+    if kind == 'healthy':
+        if r.random() < 0.5: sig += r.uniform(0, 0.12) * np.sin(2 * np.pi * r.uniform(1800, 3200) * t)
+        if r.random() < 0.3: sig += r.uniform(0, 0.18) * np.sin(2 * np.pi * (f0 * 0.5) * t)
+    elif kind == 'bearing':
+        fb = r.uniform(2000, 3300); rattle = 1 + 0.6 * np.sin(2 * np.pi * 40 * t)
+        sig += r.uniform(0.05, 0.20) * rattle * np.sin(2 * np.pi * fb * t)
+    return sig / np.max(np.abs(sig))
+
+def spectrogram(name, kind, title, note_band):
+    r = np.random.default_rng(4 if kind == 'bearing' else 11)
+    sig = make_spec_clip(kind, r)
+    fig, ax = plt.subplots(figsize=(7.4, 4.8))
+    NFFT = 256
+    Pxx, freqs, bins, im = ax.specgram(sig, NFFT=NFFT, Fs=SR, noverlap=NFFT - 48,
+        window=np.hanning(NFFT), cmap="magma", mode="psd",
+        vmin=-118, vmax=-22, scale="dB")
+    ax.set_ylim(0, 3800)
+    ax.set_xlabel("time  (seconds)"); ax.set_ylabel("frequency  (Hz)")
+    ax.set_title(title, color=PAPER, fontsize=14, pad=10)
+    ax.set_facecolor("none"); ax.tick_params(length=0, colors=MUTED)
+    for sp in ax.spines.values(): sp.set_edgecolor(GRID)
+    ax.spines["top"].set_visible(False); ax.spines["right"].set_visible(False)
+    if note_band:
+        lo, hi = note_band
+        ax.annotate("high-frequency WHINE band\n(the failing bearing)",
+            xy=(SPEC_DUR * 0.78, (lo + hi) / 2), xytext=(SPEC_DUR * 0.30, 3450),
+            ha="center", va="center", color=PAPER, fontsize=11.5, fontweight="bold",
+            arrowprops=dict(arrowstyle="-|>", color=PAPER, lw=1.8))
+        ax.axhspan(lo, hi, color=PAPER, alpha=0.06, zorder=1)
+    else:
+        ax.annotate("steady low hum only\n(a healthy machine)",
+            xy=(SPEC_DUR * 0.5, 110), xytext=(SPEC_DUR * 0.5, 3000),
+            ha="center", va="center", color=PAPER, fontsize=11.5, fontweight="bold",
+            arrowprops=dict(arrowstyle="-|>", color=PAPER, lw=1.8))
+    cb = fig.colorbar(im, ax=ax, pad=0.015, fraction=0.045)
+    cb.set_label("loudness  (dB)", color=PAPER, fontsize=11)
+    cb.ax.yaxis.set_tick_params(color=MUTED, labelcolor=MUTED)
+    cb.outline.set_edgecolor(GRID)
+    fig.tight_layout(); save(fig, name)
+    return float(freqs[np.argmax(Pxx.mean(axis=1))])
+
+dom_b = spectrogram("spectrogram_bearing.svg", "bearing",
+    "A failing bearing — listen, then look", note_band=(1950, 3350))
+spectrogram("spectrogram_healthy.svg", "healthy",
+    "A healthy machine — just the low hum", note_band=None)
+metrics['spectrogram_bearing.svg'] = ("STFT spectrogram of a synthesized failing-bearing clip "
+    "(low ~50 Hz hum + 2nd harmonic + intermittent ~2-3.3 kHz whine band, 40 Hz rattle); magma on dark")
+metrics['spectrogram_healthy.svg'] = ("STFT spectrogram of a synthesized healthy clip "
+    "(steady low ~50 Hz hum + 2nd harmonic only, no high whine band); magma on dark, before/after pair")
+
 # ============ FIG 9 . Word Error Rate honesty (Session 3) ============================
 # Three labelled bars; the ~8% bar is flagged red because it got the PART NUMBER wrong.
 # The point: a low WER number is NOT the same as "safe".
@@ -288,7 +380,8 @@ metrics['wer.svg'] = "WER bars: clean 0%, shop-floor noise 15%, misheard part nu
 # -------------------------------------------------------------------------------------
 order = ['text_cluewords.svg', 'confusion_urgency.svg', 'downtime_scatter.svg',
          'cosine_heatmap.svg', 'cluster_scatter.svg', 'sound_clusters.svg',
-         'sound_importance.svg', 'anomaly_hist.svg', 'wer.svg']
+         'sound_importance.svg', 'anomaly_hist.svg',
+         'spectrogram_bearing.svg', 'spectrogram_healthy.svg', 'wer.svg']
 print("wrote", len(order), "deck figs ->", os.path.normpath(FIG))
 for n in order:
     print(f"  {n:24s} {metrics.get(n, '(illustrative TF-IDF clue-word weights for the Hydraulic team)')}")

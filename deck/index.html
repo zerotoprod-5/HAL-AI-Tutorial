@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Predictive AI for Engineers · HAL · Season Map</title>
+<link rel="stylesheet" href="system.css" />
+<style>
+  /* launcher-only layout (rides on system.css palette) */
+  .wrap{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;
+    justify-content:center;padding:7vh 8vw}
+  body{overflow:auto}
+  .head .eyebrow{margin-bottom:18px}
+  .head h1{font-size:clamp(40px,6.4vw,86px)}
+  .head .sub{max-width:46ch;margin-top:20px}
+  .cards{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin-top:48px;max-width:1180px}
+  @media(max-width:760px){.cards{grid-template-columns:1fr}}
+  .scard{position:relative;display:flex;flex-direction:column;justify-content:space-between;
+    min-height:210px;border:1px solid var(--line2);border-radius:18px;padding:30px 32px;
+    background:linear-gradient(165deg,var(--panel2),var(--ink2));text-decoration:none;color:var(--paper);
+    overflow:hidden;transition:border-color .25s,transform .2s,box-shadow .25s}
+  .scard:hover{border-color:var(--accent);transform:translateY(-3px);
+    box-shadow:0 30px 70px -40px rgba(54,182,201,.7)}
+  .scard .seg{font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+  .scard .seg b{color:var(--teal)}
+  .scard.speech .seg b{color:var(--green)}
+  .scard h3{font-family:var(--disp);font-weight:900;font-size:clamp(28px,3.6vw,46px);letter-spacing:-.02em;margin:14px 0 8px}
+  .scard p{color:var(--muted);font-size:clamp(14px,1.5vw,17px);max-width:34ch;line-height:1.5}
+  .scard .go{font-family:var(--mono);font-size:13px;color:var(--accent);margin-top:18px;display:flex;align-items:center;gap:8px}
+  .scard .big{position:absolute;right:24px;top:18px;font-family:var(--disp);font-weight:900;
+    font-size:120px;line-height:1;color:rgba(125,182,196,.07);letter-spacing:-.05em}
+  .scard.speech{--accent:var(--green)}
+  .scard.speech:hover{box-shadow:0 30px 70px -40px rgba(86,192,138,.7)}
+  .footline{margin-top:42px;font-family:var(--mono);font-size:12.5px;color:var(--faint);
+    display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .footline .callback{font-size:clamp(15px,1.8vw,20px)}
+</style>
+</head>
+<body data-session="text1">
+<div class="bg"></div>
+
+<div class="wrap">
+  <div class="head">
+    <div class="eyebrow">HAL Core Engineering · Full-day hands-on lab</div>
+    <h1>Predictive AI<span class="em">for engineers.</span></h1>
+    <p class="sub">Four sessions, one idea — <span class="accent">it learns a pattern from the past</span>, then predicts the next case. Pick where we are. Open the deck beside your Colab tab.</p>
+  </div>
+
+  <div class="cards">
+    <a class="scard text" href="01-text-i.html">
+      <div class="big">01</div>
+      <div><div class="seg">Session <b>01</b> · Text</div>
+        <h3>Text I</h3>
+        <p>Words become numbers. Classify maintenance notes — first by hand, then with a model.</p></div>
+      <div class="go">Open deck →</div>
+    </a>
+    <a class="scard text" href="02-text-ii.html">
+      <div class="big">02</div>
+      <div><div class="seg">Session <b>02</b> · Text</div>
+        <h3>Text II</h3>
+        <p>Embeddings &amp; clustering. Find the patterns nobody labelled — and where they break.</p></div>
+      <div class="go">Open deck →</div>
+    </a>
+    <a class="scard speech" href="03-speech-i.html">
+      <div class="big">03</div>
+      <div><div class="seg">Session <b>03</b> · Speech</div>
+        <h3>Speech I</h3>
+        <p>Sound becomes a picture. Hear a fault, see its spectrogram, then catch the odd one out.</p></div>
+      <div class="go">Open deck →</div>
+    </a>
+    <a class="scard speech" href="04-speech-ii.html">
+      <div class="big">04</div>
+      <div><div class="seg">Session <b>04</b> · Speech</div>
+        <h3>Speech II</h3>
+        <p>Transcription &amp; trust. How often it mishears — and when a small error is dangerous.</p></div>
+      <div class="go">Open deck →</div>
+    </a>
+  </div>
+
+  <div class="footline">
+    <span class="callback">It learns a <b>pattern</b> from the past.</span>
+    <span style="margin-left:auto">Offline · no install · double-click any deck</span>
+  </div>
+</div>
+
+<!-- season-map motif: the same four-dot rail the decks carry, here as the launcher's
+     orientation rail. Static (no engine) so the page stays a pure offline launcher. -->
+<nav class="seasonmap" aria-label="Season map">
+  <a class="smdot" href="01-text-i.html" title="Text I"><i></i><span>Text I</span></a>
+  <span class="smline"></span>
+  <a class="smdot" href="02-text-ii.html" title="Text II"><i></i><span>Text II</span></a>
+  <span class="smline"></span>
+  <a class="smdot" href="03-speech-i.html" title="Speech I"><i></i><span>Speech I</span></a>
+  <span class="smline"></span>
+  <a class="smdot" href="04-speech-ii.html" title="Speech II"><i></i><span>Speech II</span></a>
+</nav>
+
+<script src="system.js"></script>
+</body>
+</html>
