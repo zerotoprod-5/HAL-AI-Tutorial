@@ -34,20 +34,20 @@ The workshop is **four notebooks, one per session.** The foundations of predicti
 
 | Time | Session | What it covers |
 |------|---------|----------------|
-| 09:30–10:45 | **Session 1 · Text — foundations & sorting** | The core vocabulary (dataset, feature, label, label column, train/test split, accuracy) and the five-step shape; turning words into numbers (bag-of-words, stop words, **TF-IDF**); auto-routing free-text snags to the right team; the model's **top clue-words** per team; a deliberately ambiguous report to show honest confidence |
+| 09:30–10:45 | **Session 1 · Text — foundations & flagging the urgent** | The core vocabulary (dataset, feature, label, label column, train/test split, accuracy) and the five-step shape; turning words into numbers (bag-of-words, stop words, **TF-IDF**); flagging free-text snags as **URGENT vs ROUTINE**; **URGENT recall** as the number that matters; the model's **top clue-words** for each class; a deliberately ambiguous report to show honest confidence |
 | 11:00–12:15 | **Session 2 · Text — predict, extract & recurring faults** | Predicting **urgency** (classification) and **downtime hours** (regression) from the same wording; the **confusion matrix** and the **accuracy trap**; **recurring/duplicate-fault detection** (cosine similarity); **grouping snags into families** (embeddings + k-means clustering, with a 2-D map); **part-number extraction** (auditable); *bonus:* topic discovery (LDA) and the honest-test / data-leakage trap on a real public corpus |
-| 12:45–14:00 | **Session 3 · Speech — voice → text → decision** | Speech-to-text (ASR): transcribe a spoken report and route it with the Session-1 classifier; **Word Error Rate (WER)** and why a low error rate can still get the one critical word wrong; **keyword spotting**; honest ASR limits and domain adaptation |
-| 14:15–15:30 | **Session 4 · Speech — predicting from the sound** | Turning audio into numbers (energy, frequency bands, dominant pitch via **FFT**); classify a machine fault from its sound; **feature importance**; **unsupervised anomaly detection** ("learn normal, flag the surprising"); named real datasets; closes with the day's wrap-up & Q&A |
+| 12:45–14:00 | **Session 3 · Speech — predicting from the sound** | Turning audio into numbers (energy, frequency bands, dominant pitch via **FFT**); the **spectrogram**; classify a machine fault from its sound; **feature importance**; **unsupervised anomaly detection** ("learn normal, flag the surprising"); named real datasets (CWRU / MIMII / MAFAULDA) |
+| 14:15–15:30 | **Session 4 · Speech — voice → text → decision** | Speech-to-text (ASR): transcribe a spoken report and route it with the Session-1 classifier; **Word Error Rate (WER)** and why a low error rate can still get the one critical word wrong; **keyword spotting**; honest ASR limits and domain adaptation; closes with the day's wrap-up & Q&A |
 
-*(Six hours total, 09:30–15:30, **breaks included** — a 15-minute break after Sessions 1 and 3, and a ~30-minute lunch after Session 2. Each session is **≈75 minutes** of teaching. Timings approximate and flexible.)*
+*(Six hours total, 09:30–15:30, **breaks included** — a 15-minute break after Sessions 1 and 3, and a ~30-minute lunch after Session 2. Each session is **≈75 minutes** of teaching. Session 3 is sound; Session 4 (speech-to-text) is the finale and closes the day. Timings approximate and flexible.)*
 
 ## What each session can do (worked examples)
 
-**Session 1 · Text — foundations & sorting.** Introduces the vocabulary, then how a computer turns words into numbers (bag-of-words, TF-IDF, dropping "stop" words) and classifies. Enables:
+**Session 1 · Text — foundations & flagging the urgent.** Introduces the vocabulary, then how a computer turns words into numbers (bag-of-words, TF-IDF, dropping "stop" words) and classifies. Enables:
 
-- Auto-routing free-text snags / defect reports to the right team (Electrical, Mechanical, Hydraulic, Avionics, Structures)
-- Tagging maintenance work orders / squawks by system or ATA chapter
-- Separating actionable reports from noise — and seeing, in plain words, *why* the model decided
+- Flagging free-text snags / defect reports as **URGENT vs ROUTINE** so the urgent ones surface first — and reading **URGENT recall**, not bare accuracy, as the number that matters
+- Tagging maintenance work orders / squawks by urgency or system
+- Separating actionable reports from noise — and seeing, in plain words, *why* the model decided (its top clue-words per class)
 
 **Session 2 · Text — predict, extract & find recurring faults.** Beyond sorting — into numbers, structured data and repeats pulled from the words. Enables:
 
@@ -58,17 +58,17 @@ The workshop is **four notebooks, one per session.** The foundations of predicti
 - **Extracting** part numbers and component names from prose (auditable, line by line)
 - *Bonus:* discovering themes with no labels (topic modelling), and spotting the "too-perfect" score (data leakage)
 
-**Session 3 · Speech — voice to text to decision.** Speech-to-text (ASR), then the Session-1 text analysis routes it. Enables:
-
-- Spoken maintenance notes and shift handovers → transcribed and routed automatically
-- Inspection voice memos → searchable, categorised text; hands-free reporting on the shop floor
-- An **honest** view of recognition: WER, where it breaks (accents, jargon, noise), and why a small fixed **keyword** vocabulary is more reliable than full transcription when stakes are high
-
-**Session 4 · Speech — predicting from the sound itself.** Turning audio into numbers and predicting a fault — no transcription. The most strongly predictive of the four. Enables:
+**Session 3 · Speech — predicting from the sound itself.** Turning audio into numbers and predicting a fault — no transcription. The most strongly predictive of the four. Enables:
 
 - **Acoustic condition monitoring**: a bearing / gearbox / engine's sound → healthy vs. fault type
 - **Unsupervised anomaly detection**: learn only "normal," then flag the unusual — the realistic case when faults are rare
 - Reading **which part of the sound** drove the call (feature importance) — and checking it against engineering intuition
+
+**Session 4 · Speech — voice to text to decision (the finale).** Speech-to-text (ASR), then the Session-1 text analysis routes it. Enables:
+
+- Spoken maintenance notes and shift handovers → transcribed and routed automatically
+- Inspection voice memos → searchable, categorised text; hands-free reporting on the shop floor
+- An **honest** view of recognition: WER, where it breaks (accents, jargon, noise), and why a small fixed **keyword** vocabulary is more reliable than full transcription when stakes are high
 
 ## How mathematics is handled
 
@@ -81,6 +81,6 @@ Each session is anchored in **real, named programmes and public datasets** (e.g.
 ## What the lab needs (please confirm)
 
 - A computer lab with **internet access**, one machine per participant (pairs also fine).
-- Lab machines able to reach **Google Colab**; for **Session 3** only, a one-time ~1-minute download of speech tools (offline fallback available if the network blocks it).
+- Lab machines able to reach **Google Colab**; for **Session 4** only, a one-time ~1-minute download of speech tools (offline fallback available if the network blocks it).
 - A **Google account** per participant (a personal account works), or the upload-the-notebook fallback.
 - A projector for the slides.

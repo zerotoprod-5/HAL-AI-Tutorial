@@ -18,7 +18,7 @@ one line) - fine in Colab. Regenerate with:  python3 build/nb04b.py
 import os, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
-from nbbuild import *  # noqa
+from nbmd import *  # noqa
 
 # A consistent, projector-friendly chart style reused in every plotting cell.
 STYLE = (
@@ -32,26 +32,19 @@ STYLE = (
     "TEAL, AMBER, RED, GREEN, PURPLE, SLATE = '#0b6e7a', '#b26a00', '#9c2b2b', '#2e7d32', '#5b2a86', '#445566'\n"
 )
 
-LEGEND = """
-<div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:14px;color:#333;line-height:1.7;">
-As you scroll, you will meet four kinds of coloured boxes:
-<br><b style="color:#0b6e7a;">Teal &mdash; Vocabulary:</b> a new word, in plain English.
-<br><b style="color:#2e7d32;">Green &mdash; What just happened:</b> what the cell above actually did.
-<br><b style="color:#b26a00;">Amber &mdash; Your turn:</b> a safe thing to change, then re-run.
-<br><b style="color:#5b2a86;">Purple &mdash; Recap / Coming up:</b> the big picture.
-</div>
-"""
-
 cells = [
 
-md(banner("Text Analytics &middot; Session 2 of 4",
-   "Beyond Sorting: Predict, Extract &amp; Find Repeat Faults",
-   "The same words you already write &mdash; now read for urgency, repair time, repeat defects and part numbers")),
+md(banner("Text Analytics · Session 2 of 4",
+   "Beyond Sorting: Predict, Extract & Find Repeat Faults",
+   "The same words you already write — now read for urgency, repair time, repeat defects and part numbers")),
 
 md("## How to use this notebook\n\n"
    "**Hands-on, but you write no code.** You only **run** the cells, top to bottom "
    "(click a cell, press **Shift + Enter**) and read what comes out. Run them **in order**. "
-   "If anything looks stuck: **Runtime &rarr; Restart and run all**.\n\n" + LEGEND),
+   "If anything looks stuck: **Runtime → Restart and run all**.\n\n"
+   "As you scroll you will meet four little callouts: "
+   "🟦 a new word (Vocabulary), 🟩 what a cell just did (What just happened), "
+   "🟧 something to try (Your turn), 🟪 the big picture (Recap / Coming up)."),
 
 md(bigidea(
    "In the last session we taught the computer to <b>sort</b> a written report into the right team. "

@@ -23,12 +23,12 @@ The single goal: every person leaves able to **reason about an AI claim** instea
 
 | # | Session (≈75 min) | The one new idea | The money-shot |
 |---|------------------|------------------|----------------|
-| 1 | **Text — sorting the words you already write** | A computer can't read words, only count them: turn words into numbers (TF-IDF), then it's ordinary classification | top clue-words per team — the model's reasoning in plain English |
+| 1 | **Text — flagging the urgent reports automatically** | A computer can't read words, only count them: turn words into numbers (TF-IDF), then it's ordinary classification | top clue-words for URGENT vs ROUTINE — the model's reasoning in plain English |
 | 2 | **Text — predict, extract & find repeat faults** | The same words-to-numbers front end answers many questions — a category, a number, a duplicate, a whole family, a part number | a similarity heatmap lighting up the same chronic fault, worded five different ways; a 2-D map of snags self-grouped into families |
-| 3 | **Speech — voice → text → decision** | Speech-to-text is "audio in, text out"; then it's the text analytics from Sessions 1–2 | a low word-error transcript that still gets the one part number wrong |
-| 4 | **Speech — predicting from the sound itself** | A sound is already numbers; learn the pattern and a computer can *hear* a fault — no words at all | three fault types separating into clean clusters; the model leaning on the same whine and rumble a technician hears |
+| 3 | **Speech — predicting from the sound itself** | A sound is already numbers; learn the pattern and a computer can *hear* a fault — no words at all | three fault types separating into clean clusters; the model leaning on the same whine and rumble a technician hears |
+| 4 | **Speech — voice → text → decision** | Speech-to-text is "audio in, text out"; then it's the text analytics from Sessions 1–2 | a low word-error transcript that still gets the one part number wrong |
 
-*Day schedule (six hours, 09:30–15:30, breaks included): 09:30 Session 1 · 10:45 break · 11:00 Session 2 · 12:15 lunch · 12:45 Session 3 · 14:00 break · 14:15 Session 4 (closes with the day's wrap-up & Q&A) · 15:30 finish. Each session runs ≈75 minutes; the per-session plans below are the fuller menu — the blocks marked (bonus) and some discussion are trimmed to fit. All timings flexible.*
+*Day schedule (six hours, 09:30–15:30, breaks included): 09:30 Session 1 · 10:45 break · 11:00 Session 2 · 12:15 lunch · 12:45 Session 3 (sound) · 14:00 break · 14:15 Session 4 (speech-to-text — closes with the day's wrap-up & Q&A) · 15:30 finish. Each session runs ≈75 minutes; the per-session plans below are the fuller menu — the blocks marked (bonus) and some discussion are trimmed to fit. All timings flexible.*
 
 ## Scope — four sessions, self-contained
 
@@ -72,17 +72,17 @@ The basics are **not** front-loaded as a glossary. Each term is introduced the m
 | entity extraction (NER) | S2 | pulling part numbers / components out of free text |
 | topic modelling (LDA) | S2 | grouping co-occurring words into themes with no labels |
 | data leakage | S2 | giveaway clues sneaking into the test — a too-perfect score |
-| ASR, acoustic/language model | S3 | speech-to-text; the two halves that turn sound into likely words |
-| word error rate (WER) | S3 | the speech version of accuracy — wrong + missing + extra words |
-| keyword spotting | S3 | listening for a few fixed commands instead of every word |
-| sample rate, FFT, spectrum | S4 | sound is numbers; the FFT splits it into the pitches it's made of |
-| spectrogram, MFCC | S4 | a picture of pitch over time; the "professional" sound features |
-| supervised vs anomaly detection | S4 | learn from labelled faults vs learn "normal" and flag the surprising |
-| orders (1×, 2×) | S4 | fault pitches read as multiples of shaft speed, not raw Hz |
+| sample rate, FFT, spectrum | S3 | sound is numbers; the FFT splits it into the pitches it's made of |
+| spectrogram, MFCC | S3 | a picture of pitch over time; the "professional" sound features |
+| supervised vs anomaly detection | S3 | learn from labelled faults vs learn "normal" and flag the surprising |
+| orders (1×, 2×) | S3 | fault pitches read as multiples of shaft speed, not raw Hz |
+| ASR, acoustic/language model | S4 | speech-to-text; the two halves that turn sound into likely words |
+| word error rate (WER) | S4 | the speech version of accuracy — wrong + missing + extra words |
+| keyword spotting | S4 | listening for a few fixed commands instead of every word |
 
 ---
 
-# Session 1 — Text: sorting the words you already write
+# Session 1 — Text: flagging the urgent reports automatically
 
 **New idea:** words become numbers, then it's ordinary classification.
 
@@ -93,13 +93,13 @@ The basics are **not** front-loaded as a glossary. Each term is introduced the m
 | 0:00–0:08 | **Frame the day** | Name the two mindsets. Promise the honest middle. The spam-filter anchor: you already trust classical text AI. State plainly: this is *predictive*, not generative. |
 | 0:08–0:18 | **The five-step poster + first words** | Walk the spine: dataset → split → train → predict → measure. Introduce dataset/feature/label/label column as a plain spreadsheet idea. |
 | 0:18–0:23 | **Into Colab** | Orient: Shift+Enter, run top-to-bottom, "Restart and run all" fixes almost everything. |
-| 0:23–0:53 | **Run the prepared notebook** | Words → numbers (bag-of-words, stop words, TF-IDF) shown on two sentences first; vectorize the reports; train/test split; honest accuracy; **top clue-words per team** (oil/pressure/fluid → Hydraulic). Predict four fresh reports incl. one deliberately ambiguous — watch confidence drop. |
+| 0:23–0:53 | **Run the prepared notebook** | Words → numbers (bag-of-words, stop words, TF-IDF) shown on two sentences first; vectorize the notes; train/test split; honest accuracy; the **URGENT recall** number that matters; **top clue-words for URGENT vs ROUTINE** (crack/grounded/leak → URGENT; routine/scheduled/inspection → ROUTINE). Predict four fresh notes incl. one deliberately ambiguous — watch confidence drop. |
 | 0:53–1:00 | **Turn the knob** | Change the train/test split ratio and re-run; discuss why the score wobbles on a small set. |
-| 1:00–1:12 | **Where this lives at work** | Aerospace: auto-routing snags by ATA chapter; tagging safety narratives. Industrial: maintenance/IT ticket triage (an SVM hit ~85% on 3,632 HVAC maintenance requests); spam filtering. |
-| 1:12–1:22 | **Discussion** | "What is the label column in *your* logs? Who assigns it today, and how long does it take?" |
-| 1:22–1:30 | **Recap + bridge** | Five steps revisited; tease Session 2: sorting was the doorway — next we predict urgency, repair time, and catch repeat faults. |
+| 1:00–1:12 | **Where this lives at work** | Aerospace: triaging snags so the urgent ones surface first; tagging safety narratives. Industrial: maintenance/IT ticket triage (an SVM hit ~85% on 3,632 HVAC maintenance requests); spam filtering. |
+| 1:12–1:22 | **Discussion** | "What is the label column in *your* logs? Who decides urgent vs routine today, and how long does it take?" |
+| 1:22–1:30 | **Recap + bridge** | Five steps revisited; tease Session 2: flagging urgency was the doorway — next we predict repair time and catch repeat faults. |
 
-**Skeptic handling.** *"This is just if-then rules / statistics."* — Yes, and that's the point: predictive AI is disciplined pattern-finding. The top-clue-words list proves it learned something human-readable, not magic. *"Why isn't it 100%?"* — On a small set the score is a rough indicator; a model that claims 100% on real data usually peeked at the answers (proven in Session 2).
+**Skeptic handling.** *"This is just if-then rules / statistics."* — Yes, and that's the point: predictive AI is disciplined pattern-finding. The top-clue-words list proves it learned something human-readable, not magic. *"Why isn't it 100%?"* — On a small set the score is a rough indicator; a model that claims 100% on real data usually peeked at the answers (proven in Session 2). *"Won't it miss a real emergency?"* — That's why we read **URGENT recall**, not bare accuracy, and keep a human on the flagged pile.
 
 **Real, citable anchors:** the standard text-classification benchmark reports ~83% (Naive Bayes) and ~91% (linear model) on a real public corpus — honest mid-80s/low-90s numbers to set expectations. NASA's Aviation Safety Reporting System holds 2.3M+ de-identified narratives (free, public-domain) that look just like HAL snag/incident logs; NASA itself calls them "soft data" it does not verify — an honest data-quality lesson in one sentence.
 
@@ -136,27 +136,7 @@ The basics are **not** front-loaded as a glossary. Each term is introduced the m
 
 ---
 
-# Session 3 — Speech: voice → text → decision
-
-**New idea:** speech-to-text is "audio in, text out"; then it's the text analytics you already know.
-
-**By the end, participants can:** describe ASR as the same predict-from-examples idea with sound as the input; read WER as the speech version of accuracy and explain why a low WER can still be unsafe; and say why a small fixed vocabulary (keyword spotting) is more reliable than full transcription.
-
-| Time | Segment | What happens, and how it lands |
-|------|---------|--------------------------------|
-| 0:00–0:08 | **Frame** | The last messy data type: spoken words. The pipeline: speak → transcribe → decide. Draw the classical→modern line (HMM-GMM → deep models, ~2012) explicitly so nobody thinks "this is ChatGPT" — both are *predictive*, not generative. |
-| 0:08–0:30 | **Run the speech pipeline** | Manufacture a spoken report (text-to-speech, no mic needed) → transcribe it → route it with the Session-1 classifier, with a confidence bar. *(First cell installs two tools, ~1 min — the only setup of the day.)* |
-| 0:30–0:45 | **Measure it honestly (WER)** | A self-contained WER demo: a noisy transcript scores a *worse* 15% yet stays harmless; a "cleaner" 8% transcript quietly turns one part number into another — the one word that matters, now wrong. **Low error rate ≠ safe.** Rule: a human verifies numbers and serials. |
-| 0:45–0:55 | **Keyword spotting** | Listening for a 4-command vocabulary inside messy transcripts — robust to stutters and filler, and it leaves the no-command line alone. Why hands-free shop-floor tools use wake-words, not dictation. |
-| 0:55–1:08 | **Where it works, where it breaks** | Hard by default (accents, jargon, radio noise), strong with domain data: a European air-traffic-control speech project reached >95% (controllers) / >90% (pilots) word recognition *after* domain training, ~97% on callsigns when fused with radar. Open ATC corpora exist (clean and noisy) for exactly this. |
-| 1:08–1:20 | **Discussion** | "Where do people *speak* information that never gets written down — handovers, inspections, calls? What's the one word in your world that must never be mis-heard?" |
-| 1:20–1:30 | **Recap + bridge** | Speech → text → decision, honestly measured. Tease Session 4: next we throw the words away and predict from the *sound itself*. |
-
-**Skeptic handling.** *"ASR is hype — it never gets my accent."* — Agree out loud, then show the WER demo and the domain-adaptation counter-evidence: out of the box it struggles; trained on your domain it gets strong. Honesty about the limit is what makes the capability believable.
-
----
-
-# Session 4 — Speech: predicting from the sound itself
+# Session 3 — Speech: predicting from the sound itself
 
 **New idea:** a sound is already numbers; learn the pattern and a computer can *hear* a fault — no words.
 
@@ -164,16 +144,36 @@ The basics are **not** front-loaded as a glossary. Each term is introduced the m
 
 | Time | Segment | What happens, and how it lands |
 |------|---------|--------------------------------|
-| 0:00–0:08 | **The technician's ear** | A seasoned tech walks past and says "that bearing's going" — from the sound. Can a computer learn that? Same idea, last time: numbers → pattern → judge. |
-| 0:08–0:22 | **Sound is numbers; listen, then featurise** | Sample rate → a clip is a list of numbers. *Play* healthy / bearing / imbalance clips. The FFT splits a sound into its pitches (a prism); five features capture loudness, low rumble, high whine, dominant pitch, brightness. |
+| 0:00–0:08 | **The technician's ear** | A seasoned tech walks past and says "that bearing's going" — from the sound. Can a computer learn that? Same idea as the text sessions: numbers → pattern → judge, only now the input is audio. |
+| 0:08–0:22 | **Sound is numbers; listen, then featurise** | Sample rate → a clip is a list of numbers. *Play* healthy / bearing / imbalance clips. The FFT splits a sound into its pitches (a prism); five features capture loudness, low rumble, high whine, dominant pitch, brightness. The spectrogram is a picture of pitch over time. |
 | 0:22–0:34 | **See the pattern, then classify** | Scatter of low-band vs high-band energy → three clean clusters. Train/test split → ~88% on unseen clips. **Feature importance** shows the model leaning on the whine and the rumble — the very cues the ear uses. |
 | 0:34–0:44 | **Diagnose a brand-new machine** | Play a fresh clip, get a fault call + confidence. Turn the knob: try other faults / seeds; widen the bearing range and watch accuracy soften — honest. |
 | 0:44–0:58 | **When you have no fault examples** | The realistic aerospace case: lots of healthy sound, few faults. Train an anomaly detector on **healthy only** (AUC ≈ 0.94); the histogram shows healthy left, faults right of the alarm line. Move the line: ~5% false alarms catches ~96% of imbalance and ~⅔ of bearing faults — *no free lunch*, and the trade-off is visible. |
 | 0:58–1:10 | **Real datasets + orders** | Name the real, benchmarked field: CWRU bearings, MAFAULDA (with a mic channel), MIMII / the DCASE challenge (honest AUCs ~0.54–0.96). Read pitches as **orders** (imbalance 1×, misalignment 2×), not raw Hz. |
 | 1:10–1:20 | **Where it lives in aerospace** | Helicopter HUMS detects ~70% of the failure modes it monitors (strong, explicitly imperfect); engine health monitoring (one OEM monitors 8,000+ aircraft); acoustic-emission NDT for cracks — same recipe: signal → features → classify/flag. |
-| 1:20–1:30 | **The day in one picture + close** | Numbers, text, speech, sound — it was always the same five steps. The "neither magic nor nonsense" close: you can now *question* an AI claim. Hand off to the generative-AI sessions to come. |
+| 1:20–1:30 | **Recap + bridge** | Sound → features → fault, honestly measured. Tease Session 4, the finale: keep the words this time — speak a report, transcribe it, and route it with this morning's text classifier. |
 
 **Skeptic handling.** *"But we don't have failure labels."* — Exactly why the anomaly-detection demo matters: learn normal, flag the surprising, no fault examples needed. *"Why not 100%?"* — public benchmark scores run from ~54% to ~96%; a flawless demo is the thing to distrust.
+
+---
+
+# Session 4 — Speech: voice → text → decision
+
+**New idea:** speech-to-text is "audio in, text out"; then it's the text analytics you already know.
+
+**By the end, participants can:** describe ASR as the same predict-from-examples idea with sound as the input; read WER as the speech version of accuracy and explain why a low WER can still be unsafe; and say why a small fixed vocabulary (keyword spotting) is more reliable than full transcription.
+
+| Time | Segment | What happens, and how it lands |
+|------|---------|--------------------------------|
+| 0:00–0:08 | **Frame the finale** | The last twist: spoken words. The pipeline: speak → transcribe → decide. Draw the classical→modern line (HMM-GMM → deep models, ~2012) explicitly so nobody thinks "this is ChatGPT" — both are *predictive*, not generative. |
+| 0:08–0:30 | **Run the speech pipeline** | Manufacture a spoken report (text-to-speech, no mic needed) → transcribe it → route it with the Session-1 classifier, with a confidence bar. *(First cell installs two tools, ~1 min — the only setup of the day.)* |
+| 0:30–0:45 | **Measure it honestly (WER)** | A self-contained WER demo: a noisy transcript scores a *worse* 15% yet stays harmless; a "cleaner" 8% transcript quietly turns one part number into another — the one word that matters, now wrong. **Low error rate ≠ safe.** Rule: a human verifies numbers and serials. |
+| 0:45–0:55 | **Keyword spotting** | Listening for a 4-command vocabulary inside messy transcripts — robust to stutters and filler, and it leaves the no-command line alone. Why hands-free shop-floor tools use wake-words, not dictation. |
+| 0:55–1:08 | **Where it works, where it breaks** | Hard by default (accents, jargon, radio noise), strong with domain data: a European air-traffic-control speech project reached >95% (controllers) / >90% (pilots) word recognition *after* domain training, ~97% on callsigns when fused with radar. Open ATC corpora exist (clean and noisy) for exactly this. |
+| 1:08–1:20 | **Discussion** | "Where do people *speak* information that never gets written down — handovers, inspections, calls? What's the one word in your world that must never be mis-heard?" |
+| 1:20–1:30 | **The day in one picture + close** | Numbers were always behind it: text counted into numbers, sound recorded as numbers, speech transcribed back to text — every session was the same five steps. The "neither magic nor nonsense" close: you can now *question* an AI claim. Hand off to the generative-AI sessions to come. |
+
+**Skeptic handling.** *"ASR is hype — it never gets my accent."* — Agree out loud, then show the WER demo and the domain-adaptation counter-evidence: out of the box it struggles; trained on your domain it gets strong. Honesty about the limit is what makes the capability believable.
 
 ---
 
@@ -199,12 +199,12 @@ The basics are **not** front-loaded as a glossary. Each term is introduced the m
 | MaintNet | 6,169 real aviation maintenance logbook entries + tools | S1–S2 "cleaning beats the model" | aclanthology.org/2020.coling-demos.2 |
 | FAA SDRS | ~1.7M service-difficulty records, free-text + structured | S1–S2 trend/routing | faa.gov/av-info/download_SDR |
 | 20 Newsgroups | ~18k real documents, one-line fetch | S2 real-data proof + the header-trap | built into scikit-learn |
-| ATCOSIM / ATCO2 | Clean / noisy air-traffic-control speech corpora | S3 realism | spsc.tugraz.at · arxiv.org/abs/2211.04054 |
-| Speech Commands | 1-sec spoken-word clips | S3 keyword spotting | arxiv.org/abs/1804.03209 |
-| CWRU Bearing | The bearing-fault benchmark | S4 "real, benchmarked field" | engineering.case.edu/bearingdatacenter |
-| MIMII | Real valve/pump/fan/slide-rail sound + factory noise | S4 anomaly detection | zenodo.org/records/3384388 |
-| MAFAULDA | 1,951 runs: imbalance/misalignment/bearing, incl. a mic channel | S4 maps to hand-diagnosed faults | www02.smt.ufrj.br/~offshore/mfs |
-| NASA C-MAPSS | *Simulated* turbofan run-to-failure (remaining useful life) | S4 regression bridge (label it simulated) | data.nasa.gov |
+| CWRU Bearing | The bearing-fault benchmark | S3 "real, benchmarked field" | engineering.case.edu/bearingdatacenter |
+| MIMII | Real valve/pump/fan/slide-rail sound + factory noise | S3 anomaly detection | zenodo.org/records/3384388 |
+| MAFAULDA | 1,951 runs: imbalance/misalignment/bearing, incl. a mic channel | S3 maps to hand-diagnosed faults | www02.smt.ufrj.br/~offshore/mfs |
+| NASA C-MAPSS | *Simulated* turbofan run-to-failure (remaining useful life) | S3 regression bridge (label it simulated) | data.nasa.gov |
+| ATCOSIM / ATCO2 | Clean / noisy air-traffic-control speech corpora | S4 realism | spsc.tugraz.at · arxiv.org/abs/2211.04054 |
+| Speech Commands | 1-sec spoken-word clips | S4 keyword spotting | arxiv.org/abs/1804.03209 |
 
 *Heavy downloads (CWRU, MIMII, MAFAULDA) stay out of the live lab — they are named and linked for credibility; the synthetic demos are the floor, not the ceiling.*
 
@@ -217,7 +217,7 @@ The five-step foundations — *dataset, feature, label, label column, train/test
 - A computer lab with **internet**, one machine per participant (pairs are fine), able to reach Google Colab.
 - A **Google account** per participant (personal works), or the upload fallback.
 - A projector for the framing slides and the money-shot charts.
-- **Pre-flight (day before):** run **Session 3** end-to-end once — its first cell installs the speech tools (~1 minute) and downloads a small model on first transcription; confirm the network allows it. Everything else needs no install.
+- **Pre-flight (day before):** run **Session 4** end-to-end once — its first cell installs the speech tools (~1 minute) and downloads a small model on first transcription; confirm the network allows it. Everything else needs no install.
 - **The one reset that fixes almost everything:** *Runtime → Restart and run all.* Say it often.
 
 # Sources & further reading (selected, verified)
