@@ -47,7 +47,7 @@ Session 4 speech-to-text is the finale):
 | # | Session | Notebook | What it teaches | Live result | Open |
 |---|---------|----------|-----------------|-------------|------|
 | 1 | Text I | `01_text_analytics.ipynb` | Words → numbers (bag-of-words, **TF-IDF**), then classify free-text notes as **URGENT vs ROUTINE**; **URGENT recall** as the number that matters; top clue-words per class | Flags the urgent reports; ~95% URGENT recall | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/zerotoprod-5/HAL-AI-Tutorial/blob/main/notebooks/01_text_analytics.ipynb) |
-| 2 | Text II | `02_text_predict_extract.ipynb` | Predict urgency (class) & downtime (regression); **recurring-fault detection**; embeddings + **k-means clustering**; part-number extraction; LDA topics; the header-trap | Similarity heatmap flags the same chronic fault, worded 5 ways | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/zerotoprod-5/HAL-AI-Tutorial/blob/main/notebooks/02_text_predict_extract.ipynb) |
+| 2 | Text II | `02_text_predict_extract.ipynb` | Predict urgency (class) & downtime (regression); **recurring-fault detection**; embeddings + **k-means clustering**; part-number extraction; LDA topics; the header-trap | Similarity heatmap flags the same chronic fault, worded three different ways | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/zerotoprod-5/HAL-AI-Tutorial/blob/main/notebooks/02_text_predict_extract.ipynb) |
 | 3 | Speech I | `03_sound_fault_prediction.ipynb` | Sound → numbers (**FFT**, spectrogram); classify a machine fault from its sound; **feature importance**; **unsupervised anomaly detection** without labels | Three faults separate by sound; anomaly AUC ~0.94 | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/zerotoprod-5/HAL-AI-Tutorial/blob/main/notebooks/03_sound_fault_prediction.ipynb) |
 | 4 | Speech II | `04_speech_analytics.ipynb` | **Speak → transcribe → predict** pipeline (Whisper ASR + text analytics); **Word Error Rate (WER)** and why a low error rate can still get the one critical word wrong; keyword spotting | Spoken note → category, live; a low-WER transcript that still gets one part number wrong | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/zerotoprod-5/HAL-AI-Tutorial/blob/main/notebooks/04_speech_analytics.ipynb) |
 
@@ -77,7 +77,7 @@ account, and run top to bottom with **Shift + Enter**.
 
 **Fallback (locked-down network, or repo still private): upload.**
 1. Each participant opens [colab.research.google.com](https://colab.research.google.com) and signs in.
-2. `File → Upload notebook` → pick the `.ipynb` for the current module.
+2. `File → Upload notebook` → pick the `.ipynb` for the current session.
 3. Run top to bottom with **Shift + Enter**.
 
 Share the four `.ipynb` files however is easiest in the lab (USB, shared drive, intranet link, email).
@@ -130,7 +130,7 @@ per class — proof it learned something human-readable.
 **Session 2 · Text II — predict, extract & recurring faults.**
 Beyond sorting. The same words-to-numbers front end now predicts a *category* (urgency) and a *number*
 (downtime hours — the fitted line *through* the dot cloud makes "it learned the relationship" visible).
-Then the unsupervised half: **cosine similarity** flags the same chronic fault worded five different
+Then the unsupervised half: **cosine similarity** flags the same chronic fault worded three different
 ways with no labels; **embeddings + k-means** group a logbook into families — be honest, agreement is
 a modest **~0.22**: Mechanical pops cleanly, the rest blend. Close with auditable **part-number
 extraction**, and if time, LDA topics and the "too-perfect score" data-leakage trap.

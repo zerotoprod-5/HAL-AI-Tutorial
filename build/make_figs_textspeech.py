@@ -8,7 +8,7 @@ Sessions 1-2, build/nb04.py for Session 4) so every chart matches what participa
     python3 build/make_figs_textspeech.py
 
 Honest metrics baked into the charts (printed at the end):
-  urgency accuracy ~0.81   downtime MAE ~1.5 h / R^2 ~0.6   clustering agreement ~0.45
+  urgency accuracy ~0.81   downtime MAE ~1.5 h / R^2 ~0.6   clustering agreement ~0.22
   sound classify ~0.88     anomaly AUC ~0.94                WER 0% / 15% / 8%-but-WRONG
 """
 import os, numpy as np, pandas as pd, matplotlib
@@ -203,10 +203,10 @@ cl_vec = TfidfVectorizer(stop_words='english'); M = cl_vec.fit_transform(log['re
 km = KMeans(n_clusters=5, random_state=0, n_init=10).fit(M)
 pts = TruncatedSVD(n_components=2, random_state=0).fit_transform(M)
 agree = adjusted_rand_score(log['system'], km.labels_)
-# NB: the notebook narrative cites ~0.45, but the exact code (seed 0) yields ~0.22 -- the
+# NB: the notebook narrative and the exact code (seed 0) both yield ~0.22 -- the
 # chart is a scatter and shows no number, so it stays faithful either way; reported honestly.
 metrics['cluster_scatter.svg'] = (f"clustering agreement (adjusted Rand) {agree:.2f} "
-    f"(notebook prose says ~0.45; its exact seed-0 code actually yields ~0.22 -- chart shows no number)")
+    f"(notebook prose and its exact seed-0 code both yield ~0.22 -- chart shows no number)")
 pal = [TEAL, AMBER, GREEN, RED, PURPLE]
 fig, ax = plt.subplots(figsize=(7.2, 5.4))
 for k in range(5):
@@ -249,7 +249,7 @@ lab = np.array([k for k in CLASSES for _ in range(100)])
 feat = pd.DataFrame([feats(c) for c in clips])
 cmap = {'healthy': GREEN, 'bearing': RED, 'imbalance': AMBER}
 
-# ============ FIG 6 . sound fault clusters (Session 4) ===============================
+# ============ FIG 6 . sound fault clusters (Session 3) ===============================
 fig, ax = plt.subplots(figsize=(7.2, 5.0))
 for k in CLASSES:
     m = lab == k
@@ -259,7 +259,7 @@ ax.set_xlabel("energy in the LOW rumble band"); ax.set_ylabel("energy in the HIG
 ax.legend(loc="upper right", frameon=False, labelcolor=PAPER, fontsize=12); base(ax)
 fig.tight_layout(); save(fig, "sound_clusters.svg")
 
-# ============ FIG 7 . sound feature importance (Session 4) ===========================
+# ============ FIG 7 . sound feature importance (Session 3) ===========================
 Xtr, Xte, ytr, yte = train_test_split(feat, lab, test_size=0.25, random_state=0, stratify=lab)
 model = RandomForestClassifier(n_estimators=200, random_state=0).fit(Xtr, ytr)
 snd_acc = accuracy_score(yte, model.predict(Xte))
@@ -276,7 +276,7 @@ ax.barh([nice[i] for i in imp.index], imp.values, color=barcol, edgecolor=INK, h
 ax.set_xlabel("How much the model relied on each sound feature")
 base(ax); ax.grid(axis="y", alpha=0); fig.tight_layout(); save(fig, "sound_importance.svg")
 
-# ============ FIG 8 . anomaly detection histogram (Session 4) ========================
+# ============ FIG 8 . anomaly detection histogram (Session 3) ========================
 det = IsolationForest(n_estimators=300, random_state=0).fit(feat[lab == 'healthy'])
 sur = -det.score_samples(feat)
 auc = roc_auc_score((lab != 'healthy').astype(int), sur)
@@ -356,7 +356,7 @@ metrics['spectrogram_bearing.svg'] = ("STFT spectrogram of a synthesized failing
 metrics['spectrogram_healthy.svg'] = ("STFT spectrogram of a synthesized healthy clip "
     "(steady low ~50 Hz hum + 2nd harmonic only, no high whine band); magma on dark, before/after pair")
 
-# ============ FIG 9 . Word Error Rate honesty (Session 3) ============================
+# ============ FIG 9 . Word Error Rate honesty (Session 4) ============================
 # Three labelled bars; the ~8% bar is flagged red because it got the PART NUMBER wrong.
 # The point: a low WER number is NOT the same as "safe".
 wer_lbl = ["Clean studio\naudio", "Shop-floor\nnoise", "Quiet, but\nmisheard the\npart number"]

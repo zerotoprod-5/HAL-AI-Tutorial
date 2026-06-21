@@ -235,7 +235,7 @@ code(
    "print('X is now a numeric table:', X.shape[0], 'notes x', X.shape[1], 'word-columns')\n"
    "print()\n"
    "\n"
-   "# Hide a quarter of the notes for a fair final test; keep the mix the same in both halves.\n"
+   "# Hide about a third (35%) of the notes for a fair final test; keep the mix the same in both halves.\n"
    "X_train, X_test, y_train, y_test = train_test_split(\n"
    "    X, y,\n"
    "    test_size=0.35,\n"

@@ -101,13 +101,13 @@
   <!-- ========== 7 · PREDICT WHICH WORDS IT MIS-HEARS (live) ========== -->
   <section class="slide"
     data-title="Predict the mis-hears — which words break"
-    data-note="Modality + activity reset, and the room PREDICTS before the reveal. 'So WHICH words does a transcriber fumble? You already have the instinct.' Hold up the spoken line on screen. 'I'm about to mark, in this real maintenance instruction, the words most at risk. On your cards, predict first: which word is the transcriber MOST likely to get wrong — the everyday English, or the part number bravo-seven-seven-four?' Take a show of hands. Then reveal the marked words one at a time: the common words — replace, the, bearing — it nails, because it heard them ten thousand times in training. The rare, info-dense tokens — the alphanumeric part code, the unusual unit — are exactly what it has the LEAST pattern for, and exactly what costs you when wrong. Land it: 'It mis-hears precisely the words that matter most to us. Rare and important are the same words — that's the cruel part.'">
+    data-note="Modality + activity reset, and the room PREDICTS before the reveal. 'So WHICH words does a transcriber fumble? You already have the instinct.' Hold up the spoken line on screen. 'I'm about to mark, in this real maintenance instruction, the words most at risk. On your cards, predict first: which word is the transcriber MOST likely to get wrong — the everyday English, or the part number mike-sierra-two-one-zero-four-two?' Take a show of hands. Then reveal the marked words one at a time: the common words — replace, the, bearing — it nails, because it heard them ten thousand times in training. The rare, info-dense tokens — the alphanumeric part code, the unusual unit — are exactly what it has the LEAST pattern for, and exactly what costs you when wrong. Land it: 'It mis-hears precisely the words that matter most to us. Rare and important are the same words — that's the cruel part.'">
     <div class="eyebrow">Watch the screen · you predict, then I reveal</div>
     <h2>It fumbles the <span class="r">rare</span> words — which are the ones that matter.</h2>
-    <p class="bullet">"Replace the bearing, part <span class="k">B-774</span>, on the number two pump." — which word is most at risk?</p>
+    <p class="bullet">"Replace the bearing, part <span class="k">MS21042</span>, on the number two pump." — which word is most at risk?</p>
     <ul class="frags" style="margin-top:16px">
       <li class="good"><span class="k">replace · the · bearing · pump</span> — heard ten-thousand times in training, nailed every time.</li>
-      <li class="warn"><span class="k">B-774</span> · the part number — rare, alphanumeric, almost no pattern to lean on. The first thing to break.</li>
+      <li class="warn"><span class="k">MS21042</span> · the part number — rare, alphanumeric, almost no pattern to lean on. The first thing to break.</li>
       <li class="warn">Rare and <span class="k">important</span> are the same words. It mis-hears exactly what costs you most.</li>
     </ul>
     <div class="cuerow"><span class="cue cards">Cards: which word breaks first? · then I reveal</span></div>
@@ -116,14 +116,14 @@
   <!-- ========== 8 · CONFIDENCE-CALIBRATION VOTE — confident-wrong ========== -->
   <section class="slide center"
     data-title="Confidence vote — how sure are you?"
-    data-note="A different vote type — calibration, not prediction. Read the transcript on screen as if it's gospel: 'The machine returns this line and prints, next to it, ninety-six percent confident. Here's the line: replace the bearing, part B-114, on the number two pump.' Now the vote: 'On your cards — how much would YOU trust that, knowing what we just learned? A: trust it, ninety-six is high. B: check the part number myself, trust the rest. C: don't trust the part number AT ALL until a human confirms it.' Cards up A/B/C. Tally honestly. Then the reveal that humbles the confidence score: the TRUE part number was B-774. The machine was ninety-six percent confident AND wrong, on the one token that matters. 'A confidence score tells you how sure the MODEL is. It does not tell you it's RIGHT. Confident-and-wrong is the most dangerous box in the room — and it's the box this whole day has been teaching you to distrust.' Most of the room should now be at B or C. Name that shift.">
+    data-note="A different vote type — calibration, not prediction. Read the transcript on screen as if it's gospel: 'The machine returns this line and prints, next to it, ninety-six percent confident. Here's the line: replace the bearing, part MS21052, on the number two pump.' Now the vote: 'On your cards — how much would YOU trust that, knowing what we just learned? A: trust it, ninety-six is high. B: check the part number myself, trust the rest. C: don't trust the part number AT ALL until a human confirms it.' Cards up A/B/C. Tally honestly. Then the reveal that humbles the confidence score: the TRUE part number was MS21042 — it swapped a single digit. The machine was ninety-six percent confident AND wrong, on the one token that matters. 'A confidence score tells you how sure the MODEL is. It does not tell you it's RIGHT. Confident-and-wrong is the most dangerous box in the room — and it's the box this whole day has been teaching you to distrust.' Most of the room should now be at B or C. Name that shift.">
     <div class="eyebrow">A different vote · how much do you trust it?</div>
     <h2>It says <span class="t">96% sure</span> — how much do you trust the part number?</h2>
     <div data-widget="predictReveal"
          data-head="Cards up A/B/C — I tally, then reveal. Confidence is not correctness."
          data-options='["Trust it — 96% is high","Trust all but the part #","Distrust the part # till a human checks"]'
          data-answer="2"
-         data-unit=" — the true part was B-774; it was confident AND wrong"></div>
+         data-unit=" — the true part was MS21042; it was confident AND wrong"></div>
   </section>
 
   <!-- ========== 9 · THINK-PAIR-SHARE — where mis-hearing costs at HAL ========== -->

@@ -82,8 +82,8 @@
   .farr{align-self:center;font-family:var(--disp);font-weight:900;color:var(--teal);font-size:22px}
   .split{display:flex;height:62px;border-radius:8px;overflow:hidden;border:1px solid var(--line);margin:14px 0}
   .split .s{display:flex;flex-direction:column;justify-content:center;padding:0 18px;color:#fff}
-  .split .learn{flex:3;background:var(--teal)}
-  .split .test{flex:1;background:var(--amber)}
+  .split .learn{flex:13;background:var(--teal)}
+  .split .test{flex:7;background:var(--amber)}
   .split .pc{font-family:var(--disp);font-weight:900;font-size:18px}
   .split .lb{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;opacity:.92}
   .cm{display:grid;grid-template-columns:auto 1fr 1fr;gap:5px;margin:12px 0;max-width:460px;font-size:12px}
@@ -180,8 +180,8 @@
   <p>We never judge a model on the data it studied — that would be like grading a student on the exact
   exam paper they revised from. We hold back a slice and score the model only on those unseen cases.</p>
   <div class="split">
-    <div class="s learn"><span class="pc">75%</span><span class="lb">Training set — the model learns from this</span></div>
-    <div class="s test"><span class="pc">25%</span><span class="lb">Test set — hidden, for an honest score</span></div>
+    <div class="s learn"><span class="pc">65%</span><span class="lb">Training set — the model learns from this</span></div>
+    <div class="s test"><span class="pc">35%</span><span class="lb">Test set — hidden, for an honest score</span></div>
   </div>
   <p class="muted" style="font-size:13px"><b>Accuracy</b> is then simply: out of those hidden cases, how
   many did it get right? A model that scores 100% on real data is usually cheating, not winning.</p>

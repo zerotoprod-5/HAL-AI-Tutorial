@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Render the participant reference guide (reference_guide.html) to a print-quality PDF using
 # headless Chrome. Run from the repo root:  bash build/make_pdf.sh
-# Prereqs: the light-theme charts must exist first (python build/make_print_figs.py).
+# Prereqs: the light-theme charts must exist first (python3 build/make_print_figs_textspeech.py).
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
