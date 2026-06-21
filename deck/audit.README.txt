@@ -1,0 +1,3 @@
+Interaction audit for the decks (drives every widget, asserts clicks land + nothing navigates wrongly).
+Run:  cd /tmp && mkdir -p dt && cd dt && npm init -y && npm i puppeteer-core && node /path/to/deck/audit.mjs
+Uses the system Chrome via puppeteer-core; node_modules NOT committed.

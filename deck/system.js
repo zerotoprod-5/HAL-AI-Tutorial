@@ -131,6 +131,8 @@
 
       // keyboard
       document.addEventListener('keydown', (e) => {
+        const ae = document.activeElement;
+        if (ae && (/^(input|textarea|select)$/i.test(ae.tagName) || ae.isContentEditable)) return;  // don't navigate while typing
         const k = e.key;
         if (k === 'ArrowRight' || k === 'PageDown' || k === ' ' || k === 'Spacebar') { e.preventDefault(); next(); }
         else if (k === 'ArrowLeft' || k === 'PageUp') { e.preventDefault(); prev(); }
@@ -143,8 +145,12 @@
       });
 
       // click / tap halves
-      $('#navNext', nav).addEventListener('click', next);
-      $('#navPrev', nav).addEventListener('click', prev);
+      document.addEventListener('click', function (e) {
+        if (ovOn || notesOn) return;
+        if (e.target.closest('.widget,.overview,.notes,.seasonmap,button,a,input,textarea,select,label,canvas,[data-widget]')) return;
+        (e.clientX < window.innerWidth * 0.5 ? prev : next)();
+      });
+      
 
       // boot widgets, then show
       HALWidgets.autoInit(document);
