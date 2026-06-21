@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Speech I · HAL · Predictive AI</title>
+<link rel="stylesheet" href="system.css" />
+</head>
+<body data-session="speech1">
+<div class="bg"></div>
+
+<div class="deck" id="deck">
+
+  <!-- ========== 1 · COLD OPEN — no preamble, PLAY a sound, guess-the-sound (dip-fighter) ========== -->
+  <section class="slide center"
+    data-title="Cold open — play the sound, guess it"
+    data-note="POST-LUNCH. Do NOT introduce the session, the agenda, or yourself — the room is full and sleepy, so hit them with a sound before a single word of theory. Walk in, press play on this widget, and let the synthesized clip run — it's a low hum with a rising whine. Then, cold: 'That is a machine running. One of these two is a HEALTHY machine, one is a bearing about to fail. No labels, no chart — just your ears. On your cards: A, this machine is FINE — or B, this machine is FAILING.' Cards up A/B — I tally, name the split honestly. DON'T resolve it yet — tell them the model votes too, later, and we'll see who was right. This is a pure modality switch — sound, not slides — to reset attention at the lowest-energy point of the day. Press play a second time if they ask. Then advance.">
+    <div class="eyebrow">Speech I · use your ears, not your eyes</div>
+    <h2>This machine is running. <span class="t">Healthy, or failing?</span></h2>
+    <div data-widget="spectroPlay"
+         data-head="Press play — listen. Then call it on your cards: A healthy · B failing."
+         data-kind="chirp" data-freq="180" data-dur="1.6"></div>
+    <div class="cuerow"><span class="cue cards">Cards up A / B — I tally, then we reveal later</span></div>
+  </section>
+
+  <!-- ========== 2 · DIVIDER — title lands, season map moves to dot 3, spine extends to SOUND ========== -->
+  <section class="slide divider"
+    data-title="Session 03 · Speech I"
+    data-note="NOW the title lands — after the sound, not before. 'Session three of four. This morning, two builds on TEXT — words into numbers it could sort. This afternoon, two on SOUND. Same machine, same idea, a brand-new sense.' Point at the rail top-right: 'Two dots done, we're on the third.' Then point at the glowing thread: 'Same thread as this morning — past examples, a pattern, a prediction. This morning it learned from past NOTES. This afternoon it learns from past SOUNDS. Watch the thread grow a new branch — words became numbers; now sound becomes numbers too.' Keep the energy UP — this is the dip.">
+    <div class="meta">Predictive AI · Session 03 of 04</div>
+    <div class="num">03</div>
+    <h1>Speech I<span class="em">sound becomes numbers.</span></h1>
+    <div class="spine ext" style="margin-top:30px;justify-content:center">
+      <span class="s">Past sounds</span>
+      <span class="s hot">a pattern</span>
+      <span class="s">predict the next</span>
+    </div>
+    <div class="open" style="margin-top:24px">◷ The 4pm question is still open — where does this AI break?</div>
+  </section>
+
+  <!-- ========== 3 · RETRIEVAL WARM-UP — recall the morning (spacing) ========== -->
+  <section class="slide"
+    data-title="Retrieval warm-up — recall the morning"
+    data-note="60-90 seconds, spacing across the lunch break. DON'T re-teach — make them retrieve. The first question is already up; ask each, take the answer OUT LOUD or on cards before you advance to reveal it. One: this morning, the words the machine read — were those features or labels? (features — the inputs). Two: a model that scored a high accuracy but caught ZERO of the rare urgent notes — what was the trap? (accuracy hides the rare costly class; recall is the real test). Three: where did Text II's model secretly CHEAT? (the header trap — a leaked giveaway feature). Quick, warm, done. This pulls the morning back into the room before we build on it.">
+    <div class="eyebrow">Before we build · you tell me</div>
+    <h2>Three things from this morning — <span class="t">say them back.</span></h2>
+    <p class="bullet">The words the machine read this morning — feature or label? <span class="k frag">→ feature (the input)</span></p>
+    <ul class="frags" style="margin-top:16px">
+      <li>A model that scored high but caught zero urgent notes — what's the trap? <span class="k frag">→ accuracy hides the rare, costly class</span></li>
+      <li>Where did Text II secretly cheat? <span class="k frag">→ the header trap — a leaked giveaway feature</span></li>
+    </ul>
+    <div class="cuerow"><span class="cue cards">Room answers first · then I reveal</span></div>
+  </section>
+
+  <!-- ========== 4 · SOUND IS JUST NUMBERS — reuse the spine idea (sample rate -> a list) ========== -->
+  <section class="slide"
+    data-title="Sound is just numbers — the sample rate"
+    data-note="The one piece of vocabulary this session needs, just-in-time. 'You all just sorted that sound with your ears. The machine can't hear — same as it couldn't read English this morning. So what does it DO with a sound? It MEASURES it.' Build the flow left to right: 'A microphone measures the air pressure, thousands of times a second — that rate is the SAMPLE RATE. Sixteen thousand measurements a second is normal. Each measurement is one number. So one second of sound is just a list of sixteen thousand numbers.' Land the callback to the morning: 'This morning, words became a list of numbers. This afternoon, sound becomes a list of numbers. Once it is numbers, it is the SAME machine — it sorts them exactly like it sorted the notes.' Point at the thread — same spine, new input. Nothing for the room to do — just follow.">
+    <div class="eyebrow">One idea · then it's the same machine as this morning</div>
+    <h2>A microphone turns sound into a <span class="t">list of numbers</span> — that's all.</h2>
+    <div class="flow" style="max-width:1100px">
+      <div class="node"><div class="k">Measure</div><div class="v">air pressure, 16,000×/sec</div></div>
+      <div class="arrow">→</div>
+      <div class="node hot"><div class="k">Becomes</div><div class="v">a long list of numbers</div></div>
+      <div class="arrow">→</div>
+      <div class="node"><div class="k">Sort</div><div class="v">the same machine as this morning</div></div>
+    </div>
+    <p class="small">Words became numbers this morning. Sound becomes numbers now. Once it's numbers, nothing about the machine changes.</p>
+  </section>
+
+  <!-- ========== 5 · SEE THE SOUND — spectroPlay reveals the bearing spectrogram (mechanism) ========== -->
+  <section class="slide"
+    data-title="See the sound — the spectrogram"
+    data-note="The literal mechanism: turn a list of numbers into a picture the room can read. 'A raw list of sixteen thousand numbers means nothing to your eye. So we draw it. Press play.' Press play on the widget — same failing clip — THEN it reveals the spectrogram. Read it for them, signal one thing at a time: 'Time runs left to right. Pitch — low to high — runs bottom to top. Bright means loud at that pitch.' Point: 'See the steady bright band along the BOTTOM? That's the slow rumble — the machine turning, fifty times a second. Now see this bright streak UP HERE, around two-and-a-half thousand hertz? That high WHINE is the bearing starting to fail. A healthy machine has the rumble but NOT the whine.' This is the FEATURE the machine will learn — the picture is the same numbers, just made legible. Don't over-explain the maths — it's a heat-map of sound. Advance to predict the accuracy.">
+    <div class="eyebrow">Press play · then we draw the sound</div>
+    <h2>Draw the numbers and the fault becomes <span class="t">a picture</span> — a spectrogram.</h2>
+    <div data-widget="spectroPlay"
+         data-head="Press play — then see the sound. Low rumble along the bottom · the failing whine up high."
+         data-img="../figs/spectrogram_bearing.svg"
+         data-kind="chirp" data-freq="180" data-dur="1.6"></div>
+    <div class="cuerow"><span class="cue">Time → across · pitch ↑ up · bright = loud at that pitch</span></div>
+  </section>
+
+  <!-- ========== 6 · THE SETUP — learn on past sounds, grade on held-out (the fair test) ========== -->
+  <section class="slide"
+    data-title="The setup — learn on past sounds, grade on held-out"
+    data-note="Show the shape of the experiment before the number — exactly like the morning's learn-on-some / grade-on-the-rest test (~260-learn / ~140-grade). 'We collected machine recordings engineers had already labelled — healthy, bearing fault, imbalance. We let the machine study most of them: the sound-pictures in, the labels in, find the pattern. Then we HIDE the labels on a held-out batch it never heard and ask it to name each one. We know the true answers, so we score it honestly.' Emphasise the fairness: graded only on sounds it never heard while learning — the only fair test, same rule as this morning. Next slide they commit a guess. Nothing to do here but follow.">
+    <div class="eyebrow">Same fair test as this morning · learn on some, grade on the rest</div>
+    <h2>Three sounds to tell apart: <span class="t">healthy, bearing, imbalance.</span></h2>
+    <div class="flow" style="max-width:1100px">
+      <div class="node"><div class="k">Learn</div><div class="v">labelled sound-pictures</div></div>
+      <div class="arrow">→</div>
+      <div class="node hot"><div class="k">Find</div><div class="v">a pattern in the pitches</div></div>
+      <div class="arrow">→</div>
+      <div class="node"><div class="k">Grade</div><div class="v">held-out clips it never heard</div></div>
+    </div>
+    <p class="small">It is scored only on recordings it never heard while learning. Anything else would be cheating — the same rule as the notes.</p>
+  </section>
+
+  <!-- ========== 7 · PREDICT-THEN-REVEAL — the classify accuracy (~0.88) — the signature ritual ========== -->
+  <section class="slide center"
+    data-title="Predict-then-reveal — the sorting accuracy"
+    data-note="THE signature ritual — the ROOM commits before the reveal, the post-lunch wake-up. 'Lock a guess on your CARDS. Three sounds — healthy, bearing, imbalance — on the held-out clips it never heard, what fraction does it name right? A — under fifty percent, basically guessing between three. B — sixty to seventy-five. C — eighty-five to ninety-five. D — a perfect hundred?' Cards up A/B/C/D; I tally on these buttons. Let everyone lock. THEN advance once to reveal: around 88%. Name the gap — the magic crowd who said 100 and the skeptics who said coin-toss are both a little wrong, and that gap is the lesson. Say it plainly: 'Nobody honest should pick 100 — and we'll see exactly which sounds it confuses.' Re-arm the loop. (PDF freezes to the ~88% reveal with the gap line.)">
+    <div class="eyebrow">Room locks a guess on cards · then I reveal</div>
+    <h2>Three sounds, told apart by ear-turned-numbers — <span class="t">how often right?</span></h2>
+    <div data-widget="predictReveal"
+         data-head="Cards up A/B/C/D — I tally, then reveal. The gap is the lesson."
+         data-options='["under 50%","60–75%","85–95%","a perfect 100%"]'
+         data-answer="2"
+         data-unit=" (real ≈ 88%)"></div>
+  </section>
+
+  <!-- ========== 8 · THE CLUSTERS — three sounds separate (sound_clusters.svg), run-the-cell ========== -->
+  <section class="slide"
+    data-title="The clusters — three sounds, three families"
+    data-note="Hands on Colab now — THIS is the one thing the room runs. 'Switch to your Colab tab and run the cell labelled SOUND MAP — shift-enter. It takes every recording, turns each into its numbers, and plots them.' Wait for the room; help the one or two who error. The chart is the SAME output — our offline backup if the wifi sulks. Read it, signal each blob: 'Three clouds. The HEALTHY clips land together here. The BEARING faults — the whine — cluster over here. The IMBALANCE — a heavy wobble — sit here. The machine pulled three families out of raw sound, on its own.' Land it: 'Same move as the morning — it found a pattern in the numbers. The eighty-eight percent is how cleanly these three clouds separate. Where they OVERLAP at the edges is exactly where it gets confused — hold that thought.' That overlap is the honesty beat coming up.">
+    <div class="eyebrow">Run the cell · your Colab tab</div>
+    <h2>It sorted raw sound into <span class="a">three families</span> — on its own.</h2>
+    <div class="ae">
+      <div>
+        <p class="lead">No one drew these clouds. It grouped the sounds by their numbers — healthy, bearing, imbalance.</p>
+        <div class="cuerow"><span class="cue">Run the SOUND MAP cell · Shift+Enter</span></div>
+      </div>
+      <div class="vwrap"><div class="evidence">
+        <img src="../figs/sound_clusters.svg" alt="Three clusters of machine sounds — healthy, bearing, imbalance" />
+        <div class="figcap">Each dot is one recording · three families separate · offline copy of your Colab output</div>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- ========== 9 · STAND-UP MOVEMENT VOTE (~mid-session reset, fight the dip) ========== -->
+  <section class="slide center"
+    data-title="Stand-up vote — trust your ears or the machine?"
+    data-note="Movement reset — get the bodies up, this is the post-lunch dip and they've been sitting. 'On your feet, everyone — yes, actually stand.' Wait until they're up. 'Here's the question. A machine on YOUR shop floor sounds a little off. Who do you trust more to catch it early — a trained ear walking past once a shift, or this model listening every second? If you trust the HUMAN ear more, step to MY LEFT. If you trust the MACHINE more, step to my RIGHT. On the fence — stay in the middle.' Let them move, look at the split, call it out, take ONE voice from each side — no judgement. The honest landing: 'The real answer is neither alone — the machine listens every second and never tires, the human knows what a wrong sound MEANS. Together they beat either one. Sit down.' Pure novelty + movement to re-oxygenate the room before feature-importance.">
+    <div class="eyebrow">On your feet · vote with your body</div>
+    <h2>A machine on your floor sounds off. <span class="t">Trust the ear, or the model?</span></h2>
+    <p class="lead wide">Step LEFT for the trained human ear · RIGHT for the model that listens every second · middle if you're torn.</p>
+    <div class="cuerow"><span class="cue cards">Everyone stands · move left / right · I read the room</span></div>
+  </section>
+
+  <!-- ========== 10 · FEATURE IMPORTANCE — the whine + the rumble it leaned on ========== -->
+  <section class="slide"
+    data-title="Feature importance — the whine and the rumble"
+    data-note="Open the box — show WHICH part of the sound it leaned on, the way the morning showed the clue WORDS. 'This morning we asked the model which WORDS pushed a note to urgent. Now we ask which PITCHES pushed a sound to bearing-fault.' Read the chart, signal the top bars: 'Top of the list — that high WHINE band, two-to-three thousand hertz. That single feature does most of the work. Second — the low RUMBLE, the rotation hum, which tells healthy from imbalance.' The landing is the same as the morning's clue-words: 'No one TOLD it the whine means a bad bearing. It found that, on its own, from past labelled sounds — and it's the EXACT thing your most experienced fitter listens for. The machine rediscovered the tell-tale whine.' That convergence — machine and veteran fitter agreeing — is the trust-builder. The room watches the screen.">
+    <div class="eyebrow">Which part of the sound did it lean on?</div>
+    <h2>It leaned on the <span class="a">whine</span> and the rumble — the same tells a veteran fitter listens for.</h2>
+    <div class="ae">
+      <div>
+        <p class="lead">No one told it the high whine means a failing bearing. It found that pattern itself, from past labelled sounds.</p>
+        <ul class="frags" style="margin-top:18px">
+          <li>The <span class="k">high whine</span> (~2–3 kHz) — does most of the work for bearing faults.</li>
+          <li>The <span class="k">low rumble</span> — the rotation hum — separates healthy from imbalance.</li>
+        </ul>
+      </div>
+      <div class="vwrap"><div class="evidence">
+        <img src="../figs/sound_importance.svg" alt="Which sound features mattered most — whine band and low rumble" />
+        <div class="figcap">Feature weights learned from past labelled sounds · offline copy of your Colab output</div>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- ========== 11 · MONEY SLIDE (session peak) — the engine that 'sounded wrong', big spectrogram ========== -->
+  <section class="slide money split"
+    data-title="MONEY — the engine that sounded wrong"
+    data-note="THE peak. Image-first is allowed here because the content IS the picture. Let the spectrogram fill the right half and BREATHE before you speak. Tell the story slow and quiet: 'A few years back, a ground crew signed off an engine as serviceable. One fitter — one — said it SOUNDED wrong. Couldn't point to a gauge, couldn't write it up. Just: it sounds wrong. He was overruled; nothing on any instrument backed him.' Beat. 'The bearing failed in flight. Everyone walked away — but only just.' Now point at the big spectrogram: 'THIS is what that fitter heard, drawn out. The steady rumble along the bottom — the engine turning. And THIS bright band up here, the whine — that is the bearing screaming, hours before any gauge moved. He couldn't prove it. The machine can — it sees that whine the instant it appears, every second, on every engine, and never gets overruled for being tired or junior.' This is the emotional high point and the picture-superiority money-shot — the room can HEAR it (replay the clip if you like) AND SEE it. Earn the silence. (PDF freezes with the spectrogram shown.)">
+    <div class="moneytext">
+      <div class="kicker">The money shot · what the fitter heard</div>
+      <h2>One fitter said it <span class="r">sounded wrong</span> — no gauge agreed. The bearing failed in flight.</h2>
+      <p class="small" style="margin-top:22px">This is that sound, drawn out. The steady rumble — the engine turning. The bright whine up high — the bearing failing, hours before any instrument moved. The machine sees it the instant it appears.</p>
+    </div>
+    <div class="moneyfig">
+      <div data-widget="spectroPlay"
+           data-head="Hear it, then see it — the failing bearing's whine"
+           data-img="../figs/spectrogram_bearing.svg"
+           data-kind="chirp" data-freq="180" data-dur="1.7"></div>
+    </div>
+  </section>
+
+  <!-- ========== 11a · CONSOLIDATION BEAT (calm, inverted-U) ========== -->
+  <section class="slide center"
+    data-title="Consolidation — sit with the whine no gauge caught"
+    data-note="Ten seconds of deliberate calm after the peak. Don't rush. Say it once, quietly, into the silence: 'A whine, hours early, that no instrument on that aircraft could see. One human ear heard it and was overruled. Sit with that for a moment.' Then, softly, set up the next idea: 'But here's the catch for a skeptic — that model was TRAINED on bearings and imbalance. What does it do with a fault it has never been TAUGHT? A failure mode nobody labelled? It can't name what it's never seen. So we change the question.' Advance. This breaks the intensity so the peak lands, and hands off to anomaly detection.">
+    <div class="eyebrow">Breathe · before we change the question</div>
+    <div class="callback" style="font-size:clamp(26px,4.2vw,54px);color:var(--paper)">A whine no <b>gauge</b> could catch.</div>
+    <p class="lead wide" style="margin-top:30px">That model knew bearings and imbalance. But what about a fault it was never taught — one nobody ever labelled? It can't name what it's never seen. So we change the question.</p>
+  </section>
+
+  <!-- ========== 12 · ANOMALY DETECTION — learn 'normal', flag the surprising (AUC ~0.94) ========== -->
+  <section class="slide"
+    data-title="Anomaly detection — learn normal, flag the strange"
+    data-note="The powerful twist — and it answers the skeptic's 'you can't label every failure'. 'Instead of teaching it every fault — impossible, you can't label a failure that hasn't happened yet — we teach it only ONE thing: what NORMAL sounds like. Hours and hours of healthy machines. It builds a tight picture of normal. Then anything that does not FIT — anything surprising — it flags. It doesn't need to know what's wrong. It only needs to know this isn't normal.' Show the chart, signal it: 'Most sounds pile up here, well inside normal. A few sit far out in the tail — the surprising ones. We don't have to have seen that exact fault before.' The honest number: 'How well does it separate normal from strange? AUC about ninety-four percent — strong, not perfect. A high AUC means: pick a random normal clip and a random strange one, and ninety-four times in a hundred it scores the strange one as more surprising. It will still cry wolf sometimes — but it catches faults nobody could have labelled in advance.' This is the genuinely awe-worthy-but-honest beat.">
+    <div class="eyebrow">Can't label every failure? Learn only NORMAL.</div>
+    <h2>Teach it only what <span class="t">normal</span> sounds like — then flag anything <span class="a">surprising</span>.</h2>
+    <div class="ae">
+      <div>
+        <p class="lead">It never sees the new fault in training. It just knows this doesn't fit normal — and flags it.</p>
+        <ul class="frags" style="margin-top:18px">
+          <li>Learn <span class="k">normal</span> from hours of healthy machines — no fault labels needed.</li>
+          <li>Anything far from normal gets <span class="k">flagged as surprising</span> — even faults nobody labelled.</li>
+          <li class="good">Separates normal from strange at <span class="k">AUC ≈ 0.94</span> — strong, honestly not perfect.</li>
+        </ul>
+      </div>
+      <div class="vwrap"><div class="evidence">
+        <img src="../figs/anomaly_hist.svg" alt="Distribution of surprise scores — most normal, a few surprising in the tail" />
+        <div class="figcap">Surprise score · most sound is normal · the flagged few sit in the tail · AUC ≈ 0.94</div>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- ========== 13 · WHERE IT BREAKS (honesty beat) — spine stress-tested ========== -->
+  <section class="slide"
+    data-title="Where it breaks — honesty beat"
+    data-note="Pay down a little of the open loop, honestly. 'You're skeptics — so here's where listening breaks, before you find it.' First is on screen; build the other two one at a time. One: NOISE — a noisy shop floor, a second machine running nearby, a dropped wrench, and the whine drowns in the racket; the sound-picture smears. Two: a NEW machine it never trained on — a different engine model hums at a different pitch, so 'normal' for THAT machine looks surprising to a model trained on another; it cries wolf. Three: a fault with NO sound — a slow crack, a software fault, a sensor drift — makes no whine at all, so an ear, human or machine, will never hear it. 'These aren't bugs we forgot to fix — they're the shape of LISTENING. A microphone only knows what reaches it. Knowing that is what keeps you the engineer in the loop.' Tease: next session is built around break number one — the noise.">
+    <div class="eyebrow">You're skeptics — so here's where listening fails</div>
+    <h2>Three ways the ear <span class="r">breaks</span>.</h2>
+    <p class="bullet warn"><span class="k">Noise drowns it</span> — a loud shop floor, a second machine, a dropped tool, and the tell-tale whine smears into the racket.</p>
+    <ul class="frags" style="margin-top:16px">
+      <li class="warn">A <span class="k">new machine</span> it never trained on hums at a different pitch — so its normal looks surprising, and it cries wolf.</li>
+      <li class="warn">A <span class="k">silent fault</span> — a slow crack, a sensor drift — makes no sound at all. No ear, human or machine, can hear what doesn't ring.</li>
+      <li class="good">These aren't bugs — they're the <span class="k">shape of listening</span>. A mic only knows what reaches it. Knowing that is your job.</li>
+    </ul>
+  </section>
+
+  <!-- ========== 14 · RETRIEVAL CLOSE — 3 recall questions ========== -->
+  <section class="slide"
+    data-title="Retrieval — three quick questions"
+    data-note="Ceremonial close, part one: make them retrieve, don't re-tell. The first question is up; ask each, get the room to answer OUT LOUD or on cards before you advance to reveal. One: what is a spectrogram? (a picture of a sound — time across, pitch up, bright = loud — the numbers made legible). Two: in anomaly detection, what is the ONLY thing we teach the model? (what NORMAL sounds like — it flags anything surprising). Three: name one place listening BREAKS. (noise drowns it / a new machine / a silent fault). Retrieval beats repetition — that's why we test, not summarise.">
+    <div class="eyebrow">You tell me · cards or out loud</div>
+    <h2>Three questions before the break.</h2>
+    <p class="bullet">What is a spectrogram? <span class="k frag">→ a picture of a sound (time × pitch, bright = loud)</span></p>
+    <ul class="frags" style="margin-top:16px">
+      <li>In anomaly detection, what's the only thing we teach it? <span class="k frag">→ what NORMAL sounds like — flag the rest</span></li>
+      <li>Name one place listening breaks. <span class="k frag">→ noise · a new machine · a silent fault</span></li>
+    </ul>
+    <div class="cuerow"><span class="cue cards">Room answers first · then I reveal</span></div>
+  </section>
+
+  <!-- ========== 15 · CALLBACK LINE — spine re-retrieved, now grown a sound branch ========== -->
+  <section class="slide center"
+    data-title="Callback — it learns a pattern from the past"
+    data-note="Let this land in silence. Same line, same delivery as every session — that's the point, it's the spine of the whole day. Say it once, slowly, and point at the thread: 'Same sentence as this morning. It learned a pattern — the whine — from the past, from sounds engineers had already labelled, and used it to predict the next machine. This morning it was words; this afternoon it was sound. Same machine, same thread — it just grew a new sense.' Deliver it identically each session so it becomes the day's refrain.">
+    <div class="eyebrow">The one line that carries all day</div>
+    <div class="callback" style="font-size:clamp(28px,4.6vw,60px)">It learns a <b>pattern</b> from the past.</div>
+    <div class="spine ext" style="margin-top:48px;justify-content:center">
+      <span class="s">Past labelled sounds</span>
+      <span class="s hot">the whine pattern</span>
+      <span class="s">predict the next machine</span>
+    </div>
+  </section>
+
+  <!-- ========== 16 · CLIFFHANGER (peak-end, never on logistics) ========== -->
+  <section class="slide center"
+    data-title="Cliffhanger — how often does it mis-hear?"
+    data-note="End on the hook, never on logistics. 'Today the machine listened and SORTED — healthy, bearing, imbalance. But listening isn't only sorting sounds. Sometimes we ask it to listen to a VOICE and write down the words — a part number read aloud, an instruction over a radio.' Beat. 'So the question for the last session — pin it next to the 4pm one: how OFTEN does it mis-hear? And here's the sting — does a small error even matter? Because mis-hearing one digit of a part number could be the most dangerous mistake of the day.' Point at the rail: dot three done, dot four next — the last one. 'Grab water — back in ten.' Walk off on the question.">
+    <div class="eyebrow">Speech I → Speech II · the rail moves to the last dot</div>
+    <h2>How OFTEN does it mis-hear — and <span class="t">does that even matter?</span></h2>
+    <p class="lead wide">Today it sorted sounds. Last session: it listens to a voice and writes the words — and a single misheard digit could be the most dangerous error of the day.</p>
+    <div class="divider open" style="margin-top:36px">◷ The 4pm question is still open — where does this AI break?</div>
+  </section>
+
+</div>
+
+<style>
+  /* static first bullet (un-gated so the slide never renders blank) —
+     matches ul.frags li but is always visible, not a fragment.
+     Local to this deck, identical to the flagship's pattern. */
+  .bullet{font-size:clamp(15px,1.8vw,21px);color:var(--paper);line-height:1.45;
+    padding-left:30px;position:relative;max-width:48ch;margin-top:28px}
+  .bullet::before{content:"";position:absolute;left:0;top:.5em;width:11px;height:11px;
+    border-radius:3px;background:var(--accent)}
+  .bullet.warn::before{background:var(--red)}
+  .bullet.good::before{background:var(--green)}
+  .bullet .k{color:var(--accent);font-weight:600}
+  .bullet.warn .k{color:var(--paper)}
+</style>
+
+<script src="system.js"></script>
+<script>HALDeck.init({ session:'speech1', brand:'HAL · Predictive AI · Speech I' });</script>
+</body>
+</html>

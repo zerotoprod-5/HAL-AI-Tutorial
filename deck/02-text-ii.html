@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Text II · HAL · Predictive AI</title>
+<link rel="stylesheet" href="system.css" />
+</head>
+<body data-session="text2">
+<div class="bg"></div>
+
+<div class="deck" id="deck">
+
+  <!-- ========== 1 · RETRIEVAL WARM-UP (60-90s recall of Text I) ========== -->
+  <section class="slide"
+    data-title="Warm-up — recall Text I in 60 seconds"
+    data-note="No re-teaching — make them RETRIEVE. We just came back from the break. 'Sixty seconds, on your cards or out loud. Last session, the words the machine read off a note — crack, smoke, grounding — were those the FEATURE or the LABEL?' Let them answer, then reveal: feature, the input. 'And the urgent-or-routine call it predicted?' Reveal: label, the answer. Point at the thread as you say the third one: 'And the one sentence that carried all of it?' Let the room say it — it learns a pattern from the past. Don't lecture; the act of pulling it back is what makes it stick. Then straight into reopening the day-loop on the next slide.">
+    <div class="eyebrow">Back from the break · you tell me</div>
+    <h2>Before we build again — <span class="t">what stuck?</span></h2>
+    <p class="bullet">The words the machine reads off a note — feature or label? <span class="k frag">→ feature (the input)</span></p>
+    <ul class="frags" style="margin-top:16px">
+      <li>The urgent-vs-routine call it predicts — which one? <span class="k frag">→ label (the answer)</span></li>
+      <li>The one sentence that carried the whole session? <span class="k frag">→ "it learns a pattern from the past"</span></li>
+    </ul>
+    <div class="cuerow"><span class="cue cards">Room answers first · then I reveal</span></div>
+  </section>
+
+  <!-- ========== 2 · DIVIDER (spine returns, visibly extended one stub) ========== -->
+  <section class="slide divider"
+    data-title="Session 02 · Text II"
+    data-note="Title lands, and the rail moves. Point top-right: 'Text two. Dot two of four — text one is behind us.' Then point at the thread under the title: 'Same thread as this morning — past notes, a pattern, a prediction — but watch what changes. This morning humans had already written the label on every note. This session, NOBODY did. No urgent, no routine, no answer key. We hand the machine 300 snags and ask it to find the families on its own. Same thread, the label end goes dark.' That reframe — supervised this morning, UN-supervised now — is the whole session in one sentence.">
+    <div class="meta">Predictive AI · Session 02 of 04</div>
+    <div class="num">02</div>
+    <h1>Text II<span class="em">structure nobody labelled.</span></h1>
+    <div class="spine ext" style="margin-top:30px;justify-content:center">
+      <span class="s">Past notes — no labels</span>
+      <span class="s hot">a hidden pattern</span>
+      <span class="s">name the families</span>
+    </div>
+    <div class="open" style="margin-top:24px">◷ Open loop still running — where does this AI break?</div>
+  </section>
+
+  <!-- ========== 3 · REOPEN THE LOOP + THE GAP (the curiosity question) ========== -->
+  <section class="slide center"
+    data-title="The gap — group 300 snags nobody labelled"
+    data-note="Reopen the day-long loop and plant THIS session's gap. 'This morning we had an answer key — engineers had labelled every note urgent or routine. Real life is messier: most of the 300 snags were never sorted into anything. No failure modes, no categories, nobody had the time.' Beat. 'So here's the question for this session — and lock it in the back of your mind like the 4pm one: can a machine read 300 snags that NOBODY organised, and group them into the failure modes on its own? And — same as always — where will it get that wrong?' Don't answer. Walk into the productive-failure beat where THEY try it first.">
+    <div class="eyebrow">No answer key this time</div>
+    <h2>Can it group 300 snags <span class="t">nobody ever sorted?</span></h2>
+    <p class="lead wide">This morning every note had a label. Now none do. No urgent, no routine — just 300 snags and a question: what failure modes are hiding in here, and <span class="accent">where will it get them wrong?</span></p>
+    <div class="divider open" style="margin-top:34px">◷ This session's loop · the 4pm loop still open underneath</div>
+  </section>
+
+  <!-- ========== 4 · PRODUCTIVE FAILURE (group BEFORE teaching) ========== -->
+  <section class="slide"
+    data-title="Productive failure — you group 6 notes"
+    data-note="They struggle first, on purpose — no method yet. 'Six more lines from that folder. This time there's NO urgent/routine to assign. Instead: group them. Which notes belong together — same kind of failure — even if the words differ? Ninety seconds. Use the numbers.' Start the timer, walk, stay quiet. The trap is built in: 1, 2 and 5 are all the SAME gearbox-bearing fault written three different ways (grinding / noisy / worn); 3 and 6 are the same hydraulic leak; 4 is electrical, alone. At ~75s work the disagreement: 'Who put 1 and 5 together? They share almost no words — grinding versus worn — but they're the same failure.' THAT is the point: same fault, different words. Don't resolve how a machine could spot it — we name that next as cosine similarity.">
+    <div class="eyebrow">90 seconds · no method yet, just you</div>
+    <h2>No labels now — just <span class="a">group what belongs together.</span></h2>
+    <table class="mini" style="min-width:min(960px,90vw);font-size:clamp(15px,1.7vw,20px)">
+      <thead><tr><th class="labelcol">#</th><th>Maintenance note (verbatim style)</th><th>Group?</th></tr></thead>
+      <tbody>
+        <tr><td class="labelcol">1</td><td style="text-align:left">"Grinding noise from the accessory gearbox bearing under load."</td><td>?</td></tr>
+        <tr><td class="labelcol">2</td><td style="text-align:left">"Accessory gearbox bearing very noisy under load, grinding."</td><td>?</td></tr>
+        <tr><td class="labelcol">3</td><td style="text-align:left">"Hydraulic oil leaking from the main gear actuator seal."</td><td>?</td></tr>
+        <tr><td class="labelcol">4</td><td style="text-align:left">"Transponder drops off intermittently in flight."</td><td>?</td></tr>
+        <tr><td class="labelcol">5</td><td style="text-align:left">"Loud grinding from the worn accessory gearbox bearing."</td><td>?</td></tr>
+        <tr><td class="labelcol">6</td><td style="text-align:left">"Fluid leak at the main gear hydraulic actuator seal."</td><td>?</td></tr>
+      </tbody>
+    </table>
+    <div class="cuerow"><span class="cue cards">Group by hand · hands up where you disagree on 1, 2 and 5</span></div>
+  </section>
+
+  <!-- ========== 5 · JUST-IN-TIME: similarity (the one new term) — spine NAMED ========== -->
+  <section class="slide"
+    data-title="Just-in-time — similarity, not a label"
+    data-note="Now name the one idea this session needs — because they just DID it. 'You just grouped 1, 2 and 5 together even though one says grinding, one says noisy, one says worn. You weren't matching exact words — you were judging how SIMILAR two notes are in meaning. That's the whole new idea: similarity. We measure how much two notes overlap, score it nought to one, and notes that score high get pulled into the same family.' Two beats only. Then point along the thread: 'No labels feed in this time — just the notes. The machine measures similarity, the similar ones clump into families, and only AT THE END do we humans read each family and name it. Same thread, the label end is gone.' This is the vocabulary for the rest of the session.">
+    <div class="eyebrow">One new idea · the whole session</div>
+    <h2>It doesn't match words — it scores how <span class="t">similar</span> two notes are.</h2>
+    <div class="grid2" style="max-width:1000px">
+      <div class="card frag"><div class="ic">Similarity</div><h3>Same fault, different words</h3><p>"grinding" · "noisy" · "worn gearbox" — scored close to 1. Overlap in meaning, not exact spelling.</p></div>
+      <div class="card frag"><div class="ic">Family</div><h3>The group it forms</h3><p>Notes that score similar get pulled together — a failure mode nobody labelled, that we name afterwards.</p></div>
+    </div>
+    <div class="spine frag">
+      <span class="s">300 snags — no labels</span>
+      <span class="s hot">Similarity → families</span>
+      <span class="s">We name them</span>
+    </div>
+  </section>
+
+  <!-- ========== 6 · COSINE HEATMAP worked example (run the cell) — spine FILLED ========== -->
+  <section class="slide"
+    data-title="Cosine heatmap — same fault lights up"
+    data-note="Hands on Colab — the one cell they run this session. 'Switch to your Colab tab, run the cell labelled RECURRING FAULTS — shift-enter. It takes the six notes you just grouped, scores every pair for similarity, and paints the grid: bright teal is near-identical, dark is unrelated.' Wait for the room; the chart on screen is the same output, our offline backup. Read it as a worked example — point at the cells: 'The diagonal is always bright — every note is identical to itself. But look at the OFF-diagonal block, notes one, two and five — bright, even though they share barely a word. The machine scored grinding and worn as the SAME failure. Three and six light up too — the hydraulic leak. Four sits alone, dark — the transponder, its own thing.' That bright block IS the family forming. Then the predict on the next slide.">
+    <div class="eyebrow">Run the cell · your Colab tab</div>
+    <h2>Same fault, different words — and the grid <span class="a">lights up.</span></h2>
+    <div class="ae">
+      <div>
+        <p class="lead">No one matched the words. It scored "grinding" and "worn gearbox" as the same failure — a bright off-diagonal block.</p>
+        <div class="cuerow"><span class="cue">Run the RECURRING FAULTS cell · Shift+Enter</span></div>
+      </div>
+      <div class="vwrap"><div class="evidence">
+        <img src="../figs/cosine_heatmap.svg" alt="Cosine-similarity heatmap of six maintenance notes" />
+        <div class="figcap">Pairwise similarity, 0 → 1 · bright = same fault in different words · offline copy of your Colab output</div>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- ========== 7 · PREDICT-THEN-REVEAL : how many families? ========== -->
+  <section class="slide center"
+    data-title="Predict-then-reveal — how many clusters emerge"
+    data-note="THE signature ritual — the room commits before the scatter. 'Now we let it loose on all 300 snags, not six. It scores every pair, and lets the notes clump into families on their own. Lock a guess on your CARDS: how many distinct, clean failure-mode families do you think actually emerge? A — just two or three. B — around five. C — about a dozen. D — fifty or more, one per part?' Cards up A/B/C/D; I tally. Let everyone lock. THEN advance once to reveal: about five families surface — but it's MESSY. A few are clean and nameable; a big one is a catch-all. Name the gap: the believers who guessed fifty crisp clusters and the skeptics who guessed two are both a little off. 'Five-ish, and not all of them clean — that mess is this session's honesty. We look at it next.' (PDF freezes to the reveal.)">
+    <div class="eyebrow">Room locks a guess on cards · then I reveal</div>
+    <h2>300 snags — <span class="t">how many families emerge?</span></h2>
+    <div data-widget="predictReveal"
+         data-head="Cards up A/B/C/D — I tally, then reveal. The mess is the lesson."
+         data-options='["just 2–3","around 5","about a dozen","50+ — one per part"]'
+         data-answer="1"
+         data-unit=" (≈ 5 — and not all clean)"></div>
+  </section>
+
+  <!-- ========== 8 · CLUSTER SCATTER (the honest ~0.22 result) — spine DRAWN ========== -->
+  <section class="slide"
+    data-title="The cluster scatter — a few clean families + a catch-all"
+    data-note="The honest result, drawn as a picture — DON'T oversell it. 'Here's what came out. Every dot is one of the 300 snags, placed so similar notes sit close; colour is the family the machine assigned.' Point at the tight blobs: 'Three of these are genuinely clean and I can name them on sight — a Mechanical family, gearboxes and rotors; an Electrical one, generators and fuel pumps; an Avionics one, displays and transponders. That's real, useful structure it found with NO labels.' Then point at the big smeared cluster: 'But this one — it's a catch-all. A grab-bag of leftovers that didn't fit cleanly anywhere. If I score how well its grouping matches the real systems, it's about nought-point-two-two — a weak-to-moderate agreement, not a triumph. A few clean families plus a mess.' Say the number honestly. That candour is what earns the room. Set up the next predict: which two families does it confuse?">
+    <div class="eyebrow">The honest result · name the clean ones, own the mess</div>
+    <h2>A few families it nailed — and one big <span class="r">catch-all.</span></h2>
+    <div class="ae">
+      <div>
+        <ul class="frags">
+          <li class="good"><span class="k">Mechanical</span> · gearboxes, rotors, APU — a clean, tight family.</li>
+          <li class="good"><span class="k">Electrical</span> &amp; <span class="k">Avionics</span> · generators, displays, transponders — two more it found alone.</li>
+          <li class="warn">One big <span class="k">catch-all</span> · leftovers that fit nowhere cleanly — agreement only <span class="k">≈ 0.22</span>.</li>
+        </ul>
+        <p class="small">No labels went in. A few clean families plus a mess is the honest shape of unsupervised grouping — not a triumph, but real structure for free.</p>
+      </div>
+      <div class="vwrap"><div class="evidence">
+        <img src="../figs/cluster_scatter.svg" alt="2D scatter of clustered maintenance notes coloured by family" />
+        <div class="figcap">300 snags placed by similarity · colour = the family it assigned · offline copy of your Colab output</div>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- ========== 9 · drawBoundary interlude (room calls the accuracy) ========== -->
+  <section class="slide"
+    data-title="Draw the boundary — you call the accuracy"
+    data-note="Modality switch to a hands-on demo I drive and the ROOM calls. 'Forget the messy real data for a second — here's a clean toy version: two kinds of note, two colours, scattered. I'm going to drop a single straight line to separate them. Before I draw — cards: can ONE straight line split these cleanly? Yes or no?' Take the vote. Then I click two points to draw it, and read my accuracy off the widget. Drag it deliberately wrong first — 'call it: better or worse than my last line?' — let them eyeball the score climb and fall. Then hit Show model line: 'The machine's best line — and notice it ISN'T a hundred percent either. A few dots always fall the wrong side.' The landing: grouping and separating are the same move — draw a line, some points always sit wrong. That imperfection is honest, and it sets up why one clean number can still lie.">
+    <div class="eyebrow">I draw the line · you call the score</div>
+    <h2>One straight line to split them — <span class="t">how good can it get?</span></h2>
+    <div data-widget="drawBoundary"
+         data-head="I click two points to drop a boundary — you call my accuracy, then we reveal the model's best line"
+         data-n="40" data-sep="0.5"></div>
+    <div class="cuerow"><span class="cue cards">Cards first: can ONE line split them cleanly? · then I draw</span></div>
+  </section>
+
+  <!-- ========== 10 · PREDICT which two clusters confuse (back to cosine) ========== -->
+  <section class="slide center"
+    data-title="Predict — which two families does it confuse?"
+    data-note="A quick second predict-then-reveal, on the cosine worked example again. 'Back to similarity. Of the families it found, which TWO do you think it most often mixes up — scores as similar when they're really different? Cards: A — Mechanical and Electrical, because both mention bearings and load. B — Electrical and Avionics, because both live in the bay and mention generators. C — Mechanical and Avionics, because they share almost nothing.' Let them lock. Reveal: B — Electrical and Avionics — because the words overlap, generator, bay, power, even though the failures are unrelated. 'Shared vocabulary fools a similarity score. That's exactly the crack we walk into on the peak — a model that looks brilliant because of a word it shouldn't be trusting.' Hand off straight into the header trap.">
+    <div class="eyebrow">Room locks a guess on cards · then I reveal</div>
+    <h2>Which two families does it <span class="t">mix up?</span></h2>
+    <div data-widget="predictReveal"
+         data-head="Cards up A/B/C — I tally, then reveal. Shared words are the trap."
+         data-options='["Mechanical × Electrical","Electrical × Avionics","Mechanical × Avionics"]'
+         data-answer="1"
+         data-unit=" — overlapping words (generator · bay · power)"></div>
+  </section>
+
+  <!-- ========== 11 · SET UP THE PEAK (the 95% that looks too good) ========== -->
+  <section class="slide center"
+    data-title="Set up the trap — a model that looks brilliant"
+    data-note="Lower the lights on this one — it's the run-up to the peak. 'Now a different, labelled model — back to urgent-vs-routine, but a NEW one a team built to triage these notes. They ran it and it scored ninety-five percent. Ninety-five. This morning's honest model managed eighty-eight, and we were pleased with that.' Beat. Let the believers lean in. 'Ninety-five percent on maintenance triage. If a vendor showed you that number, would you sign? On your cards — A: ship it, that's brilliant. B: too good, I smell something. C: need to see how.' Take the vote — name how many smelled it. Then, quietly: 'The skeptics are right. Let me show you exactly what it was doing.' Walk into the money slide.">
+    <div class="eyebrow">A new model · it scores 95%</div>
+    <h2>Ninety-five percent on triage — <span class="t">would you sign?</span></h2>
+    <p class="lead wide">This morning's honest model managed 88, and we were glad of it. A new one scores <span class="accent">95</span>. Too good to question — or too good to trust?</p>
+    <div class="cuerow"><span class="cue cards">Cards: A ship it · B I smell something · C show me how</span></div>
+  </section>
+
+  <!-- ========== 12 · MONEY SLIDE (PEAK — the header trap) — spine BROKEN ========== -->
+  <section class="slide money split"
+    data-title="MONEY — the header trap (data leakage)"
+    data-note="THE peak. The credibility-winning 'where it breaks'. Let it breathe. BEAT 1 is already showing the bars at 95: 'Here it is — ninety-five percent. Beautiful. But when we opened it up, the model was barely reading the note at all. Every record had a header field the team forgot to strip — a STATUS tag, set by a clerk AFTER the engineer had already decided how urgent it was. The model learned one rule: read the clerk's tag, echo it back. It wasn't predicting urgency. It was COPYING the answer off the top of the page.' Let that land — that's data leakage. Then ADVANCE for beat 2: the 95 bar dims and the honest 84 ignites. Drop your voice: 'Strip that one leaked field — the giveaway it should never have seen — and the SAME model drops to eighty-four percent. Below this morning's honest eighty-eight. Ninety-five was never real. It was cheating on a field that won't exist on a brand-new note.' This is the emotional high point — the moment the skeptics trust you. Earn it. (PDF freezes BOTH beats.)">
+    <div class="moneytext">
+      <div class="kicker">The money shot · where it breaks</div>
+      <h2>It scored 95% by <span class="r">cheating</span> on a field it should never have read.</h2>
+      <p class="small" style="margin-top:22px">A leaked status tag — set by a clerk after the call was already made. Strip it, and the same model tells the honest truth: 84%.</p>
+    </div>
+    <div class="moneyfig">
+      <div class="leak">
+        <div class="leakhead">Same model · same notes · one leaked field removed</div>
+        <div class="lbgroup">
+          <div class="lblabel">Accuracy <i>before</i> — reading the leaked tag</div>
+          <div class="lbrow"><span class="lbname">"95% model"</span><div class="lbtrack"><i class="lbfill teal" style="width:95%"></i></div><b class="lbval">95%</b></div>
+          <div class="lbnote">Looks brilliant — it was copying the answer.</div>
+        </div>
+        <div class="lbgroup beat2">
+          <div class="lblabel">Accuracy <i>after</i> — the leak removed</div>
+          <div class="lbrow"><span class="lbname">Same model</span><div class="lbtrack"><i class="lbfill red" style="width:84%"></i></div><b class="lbval">84%</b></div>
+          <div class="lbnote">The honest number — below this morning's 90%.</div>
+        </div>
+        <div class="leakcallout frag">95% was never real — the leaked field won't exist on a new note.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 12a · CONSOLIDATION BEAT (calm after the peak) ========== -->
+  <section class="slide center"
+    data-title="Consolidation — sit with the 95 that lied"
+    data-note="Ten seconds of deliberate calm after the peak. Don't rush. Say it once, quietly: 'Eleven points of accuracy — ninety-five down to eighty-four — were pure illusion. Not a bug in the code. A field in the data the model was never meant to see. Sit with that for a moment: the more impressive the number, the harder you should look for the leak.' Then softly: 'This has a name, and once you know it you'll see it everywhere. Let me give it to you.' Advance. This breaks the dense analytical run so the peak gets room to breathe.">
+    <div class="eyebrow">Breathe · before we name it</div>
+    <div class="callback" style="font-size:clamp(26px,4.2vw,54px);color:var(--paper)">Eleven points were <b>illusion.</b></div>
+    <p class="lead wide" style="margin-top:30px">Not a bug in the code — a field in the data it should never have seen. The more impressive the number, the harder you look for the leak.</p>
+  </section>
+
+  <!-- ========== 13 · NAME IT : leakage & overfitting (just-in-time term) ========== -->
+  <section class="slide"
+    data-title="Name it — leakage and overfitting"
+    data-note="Give the two names now that they've FELT both. 'The header trap has a name: data leakage. The model is fed a clue at training time that it will never have when it matters — like grading a student who can see the answer key. Strip the leaked field and the truth comes out.' Build the second: 'Its cousin is overfitting — when a model memorises quirks of the notes it studied instead of the real pattern, so it dazzles on familiar notes and falls apart on a fresh one. Both are the same failure dressed differently: a number that looks better than the model really is.' Land it: 'Your job as the engineer isn't to chase the highest number. It's to ask what the model is ACTUALLY reading — and whether that field will exist tomorrow.' That sentence is the session.">
+    <div class="eyebrow">Two names you'll now see everywhere</div>
+    <h2>The trap has a name: <span class="r">leakage.</span> Its cousin is overfitting.</h2>
+    <p class="bullet warn"><span class="k">Data leakage</span> — the model sees a clue at training that won't exist when it matters. Like grading a test with the answer key visible.</p>
+    <ul class="frags" style="margin-top:16px">
+      <li class="warn"><span class="k">Overfitting</span> — it memorises the quirks of the notes it studied, dazzles on those, then falls apart on a fresh one.</li>
+      <li class="warn">Both are <span class="k">one number that lies</span> — looking better than the model truly is.</li>
+      <li class="good">Your job: ask what it's <span class="k">actually reading</span> — and whether that field exists tomorrow.</li>
+    </ul>
+  </section>
+
+  <!-- ========== 14 · WHERE IT BREAKS (honesty beat, pays down the loop) ========== -->
+  <section class="slide"
+    data-title="Where it breaks — unsupervised grouping"
+    data-note="Pay down the loop honestly without closing it. 'You're skeptics, so here's where THIS method — grouping without labels — breaks, before you find it.' First is up; build the rest one at a time. One: it can only group on the WORDS — two unrelated faults that share vocabulary (generator in the bay) get pulled together, exactly the Electrical-Avionics mix-up you predicted. Two: the catch-all — when notes don't cluster cleanly it dumps them in one grab-bag, and a grab-bag isn't a finding. Three: it gives you families but NEVER names them or tells you which matter — that judgement is yours; the machine has no idea a gearbox crack is worse than a flickering light. Land it: 'Nought-point-two-two agreement isn't a failure of the machine — it's an honest map of where the words alone run out, and you take over.' Tease: next session the data stops being words entirely.">
+    <div class="eyebrow">You're skeptics — so here's where it fails</div>
+    <h2>Three ways grouping-without-labels <span class="r">breaks.</span></h2>
+    <p class="bullet warn">It groups on <span class="k">words alone</span> — two unrelated faults that share vocabulary get pulled together. Exactly the Electrical–Avionics mix-up.</p>
+    <ul class="frags" style="margin-top:16px">
+      <li class="warn">The <span class="k">catch-all</span> — notes that don't cluster cleanly land in one grab-bag, and a grab-bag isn't a finding.</li>
+      <li class="warn">It never <span class="k">names or ranks</span> the families — it can't know a gearbox crack matters more than a flickering light.</li>
+      <li class="good">0.22 isn't the machine failing — it's an honest map of <span class="k">where words run out</span> and you take over.</li>
+    </ul>
+  </section>
+
+  <!-- ========== 15 · RETRIEVAL CLOSE — 3 recall questions ========== -->
+  <section class="slide"
+    data-title="Retrieval — three quick questions"
+    data-note="Ceremonial close, part one — make them retrieve, don't re-tell. First question is up; ask each, get the room to answer out loud or on cards BEFORE you advance to reveal it. One: this morning every note had a label; this session — what was different? (no labels — it grouped on its own). Two: the ninety-five-percent model — what was it really doing? (cheating on a leaked field / data leakage). Three: when a number looks too good, what's your first move? (look for the leak — ask what it's actually reading). Retrieval beats repetition for memory — that's why we test instead of summarise.">
+    <div class="eyebrow">You tell me · cards or out loud</div>
+    <h2>Three questions before you go.</h2>
+    <p class="bullet">This morning every note had a label — what was different now? <span class="k frag">→ no labels; it grouped on its own</span></p>
+    <ul class="frags" style="margin-top:16px">
+      <li>The 95% model — what was it really doing? <span class="k frag">→ cheating on a leaked field (data leakage)</span></li>
+      <li>A number looks too good — your first move? <span class="k frag">→ look for the leak; ask what it's reading</span></li>
+    </ul>
+    <div class="cuerow"><span class="cue cards">Room answers first · then I reveal</span></div>
+  </section>
+
+  <!-- ========== 16 · CALLBACK LINE — spine re-retrieved & extended ========== -->
+  <section class="slide center"
+    data-title="Callback — it learns a pattern from the past"
+    data-note="Let it land in silence — same line, same delivery as Text I, point at the thread. 'Same sentence as this morning. It learned a pattern from the past — but this time we never told it the answer. It found the families itself, and the danger wasn't too little learning, it was learning the WRONG thing — a leaked field instead of the fault. Same thread: notes in, a pattern, a prediction. We just watched it learn a pattern that lied, and we caught it.' Deliver it identically every session — it's the spine of the whole day.">
+    <div class="eyebrow">The one line that carries all day</div>
+    <div class="callback" style="font-size:clamp(28px,4.6vw,60px)">It learns a <b>pattern</b> from the past.</div>
+    <div class="spine ext" style="margin-top:48px;justify-content:center">
+      <span class="s">300 snags — no labels</span>
+      <span class="s hot">a pattern it found alone</span>
+      <span class="s">families we named</span>
+    </div>
+  </section>
+
+  <!-- ========== 17 · CLIFFHANGER (peak-end, into Speech I) ========== -->
+  <section class="slide center"
+    data-title="Cliffhanger — the data stops being words"
+    data-note="End on the hook, never on logistics. 'Two sessions on text — words an engineer typed. But half of what a machine HEARS at HAL was never written down. The grind of a failing bearing. The whine before a part lets go. Nobody types those.' Beat. 'So here's the question for after lunch — pin it: can a machine learn a fault it can only HEAR? Turn a sound into a picture and read the failure off it?' Point at the rail: dots one and two done, dot three next. 'That's Speech one. Go eat — back after lunch, and we fight the food coma with sound.' Walk off on the question.">
+    <div class="eyebrow">Text II → Speech I · the rail moves one dot</div>
+    <h2>Next, the data isn't words anymore — <span class="t">it's sound.</span></h2>
+    <p class="lead wide">Half of what a machine hears at HAL was never typed. The grind of a failing bearing, the whine before a part lets go — can a machine learn a fault it can only <span class="accent">hear?</span></p>
+    <div class="divider open" style="margin-top:36px">◷ The 4pm question is still open — where does this AI break?</div>
+  </section>
+
+</div>
+
+<style>
+  /* static first bullet (un-gated so the slide never renders blank) —
+     matches ul.frags li but is always visible, not a fragment.
+     Local to this deck, identical to the flagship's. */
+  .bullet{font-size:clamp(15px,1.8vw,21px);color:var(--paper);line-height:1.45;
+    padding-left:30px;position:relative;max-width:48ch;margin-top:28px}
+  .bullet::before{content:"";position:absolute;left:0;top:.5em;width:11px;height:11px;
+    border-radius:3px;background:var(--accent)}
+  .bullet.warn::before{background:var(--red)}
+  .bullet.good::before{background:var(--green)}
+  .bullet .k{color:var(--accent);font-weight:600}
+  .bullet.warn .k{color:var(--paper)}
+
+  /* leak before/after bars (s12 PEAK) — local to this deck, rides on the
+     system palette. Two beats: beat 1 shows only the 95% "before"; the
+     first slide fragment reveals the 84% "after" + the callout. freeze()
+     for export is handled by un-gating .frag in the engine, and the .beat2
+     block is shown for export via the body.export rule below. */
+  .leak{display:flex;flex-direction:column;gap:26px;max-width:560px;width:100%}
+  .leak .leakhead{font-family:var(--mono);font-size:clamp(11px,1.3vw,14px);letter-spacing:.16em;
+    text-transform:uppercase;color:var(--muted)}
+  .leak .lblabel{font-family:var(--mono);font-size:clamp(11px,1.25vw,14px);letter-spacing:.1em;
+    text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+  .leak .lblabel i{font-style:italic;color:var(--paper);text-transform:none;letter-spacing:0}
+  .leak .lbrow{display:flex;align-items:center;gap:14px}
+  .leak .lbname{font-family:var(--mono);font-size:clamp(12px,1.3vw,14px);color:var(--faint);
+    width:9ch;flex:0 0 auto;text-align:right}
+  .leak .lbtrack{flex:1;height:26px;border-radius:7px;background:rgba(125,182,196,.10);overflow:hidden}
+  .leak .lbfill{display:block;height:100%;border-radius:7px;transition:width .6s ease}
+  .leak .lbfill.teal{background:linear-gradient(90deg,var(--teal-deep),var(--teal))}
+  .leak .lbfill.red{background:linear-gradient(90deg,#8a3f38,var(--red))}
+  .leak .lbval{font-family:var(--disp);font-weight:900;font-size:clamp(22px,2.6vw,32px);
+    width:3.4ch;flex:0 0 auto;color:var(--paper)}
+  .leak .lbnote{font-family:var(--mono);font-size:clamp(10px,1.1vw,12.5px);color:var(--faint);
+    margin-top:7px;padding-left:calc(9ch + 14px)}
+  /* beat 2 ("after") + callout stay hidden until the slide's first fragment;
+     the engine reveals fragments, and .beat2 is gated by an inner .frag-driven
+     class toggle through the shared fragment system: we make the whole group a
+     fragment by reusing .frag on the callout, and dim the beat2 group until the
+     diagonal-style reveal. Simpler: gate beat2 visibility on the callout's .on. */
+  .leak .beat2{opacity:.18;filter:grayscale(.5);transition:opacity .5s ease,filter .5s ease}
+  .leak .leakcallout{font-family:var(--mono);font-size:clamp(12px,1.45vw,16px);color:var(--red);
+    display:flex;align-items:center;gap:10px;padding-top:4px}
+  .leak .leakcallout::before{content:"";width:26px;height:1px;background:var(--red);flex:0 0 auto}
+  /* when the callout fragment turns on, light up the "after" group too */
+  .leak .leakcallout.on ~ * {}
+  .slide:has(.leakcallout.on) .leak .beat2{opacity:1;filter:none}
+  /* export / print: show both beats fully (the whole lesson on paper) */
+  body.export .leak .beat2{opacity:1!important;filter:none!important}
+  @media print{ .leak .beat2{opacity:1!important;filter:none!important} }
+</style>
+
+<script src="system.js"></script>
+<script>HALDeck.init({ session:'text2', brand:'HAL · Predictive AI · Text II' });</script>
+</body>
+</html>
