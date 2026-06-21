@@ -194,7 +194,7 @@
 <div class="strip">
   <div class="wrap">
     <span><b>HAL</b> · CORE ENGINEERING</span>
-    <span><span class="dot"></span>SESSION BRIEF — PREDICTIVE AI · 6 MODULES · HANDS-ON</span>
+    <span><span class="dot"></span>SESSION BRIEF — PREDICTIVE AI · 4 SESSIONS · HANDS-ON</span>
     <span>NO-CODE LAB // GOOGLE COLAB</span>
   </div>
 </div>
@@ -203,17 +203,17 @@
   <div class="wrap">
     <div class="kicker">Predictive &amp; Analytics Track — Full-day Lab</div>
     <h1>Predictive AI<span class="em">for engineers.</span></h1>
-    <p class="lede">Six hands-on notebooks that take one idea all the way through:
+    <p class="lede">Four hands-on notebooks that take one idea all the way through:
       <span class="hl">learn the pattern from past examples, then predict the next case</span> —
-      from tables of sensor numbers, to written reports, to the spoken word.</p>
+      from written reports, to a machine's sound, to the spoken word.</p>
     <p class="mindset">Not the AI that <i>writes</i> essays. This is the older, quieter workhorse that has run
       inside banks, factories and airlines for decades — and it is neither magic nor hype. You will watch it work, step by step,
       and leave able to reason about what it can and cannot do.</p>
     <div class="stats">
-      <div class="stat"><div class="n">06</div><div class="l">Notebooks</div></div>
+      <div class="stat"><div class="n">04</div><div class="l">Sessions</div></div>
       <div class="stat"><div class="n">0<span class="u"> lines</span></div><div class="l">You write</div></div>
       <div class="stat"><div class="n">100<span class="u">%</span></div><div class="l">In the browser</div></div>
-      <div class="stat"><div class="n">3<span class="u"> kinds</span></div><div class="l">Numbers · Text · Speech</div></div>
+      <div class="stat"><div class="n">3<span class="u"> kinds</span></div><div class="l">Text · Sound · Speech</div></div>
     </div>
   </div>
 </header>
@@ -229,7 +229,7 @@
     <div class="step">
       <div class="sn">RUN / 02</div>
       <h3>Upload the notebook</h3>
-      <p>Choose <code>File &rarr; Upload notebook</code> and pick the <code>.ipynb</code> for the module you are on.</p>
+      <p>Choose <code>File &rarr; Upload notebook</code> and pick the <code>.ipynb</code> for the session you are on.</p>
     </div>
     <div class="step">
       <div class="sn">RUN / 03</div>
@@ -237,59 +237,43 @@
       <p>Click a cell and press <code>Shift + Enter</code>. Read the coloured boxes. Re-run after each <code>Your turn</code>.</p>
     </div>
   </div>
-  <div class="note-line"><b>Only Module 05 (Speech)</b> installs anything — its first cell pulls two libraries and takes about a minute. Every other notebook runs instantly with no setup, no keys, no downloads.</div>
+  <div class="note-line"><b>Only Session 4 (Speech II)</b> installs anything — its first cell pulls two libraries and takes about a minute. Every other notebook runs instantly with no setup, no keys, no downloads.</div>
 </section>
 
 <section class="wrap">
-  <div class="sec"><span class="idx">B.</span><h2>The six modules</h2><span class="rule"></span></div>
+  <div class="sec"><span class="idx">B.</span><h2>The four sessions</h2><span class="rule"></span></div>
   <div class="grid">
 
-    <article class="card" data-n="00" style="animation-delay:.04s">
-      <div class="mod">Module 00 · Foundation</div>
-      <h3>What is Predictive AI?</h3>
-      <p>The mindset, and every word everyone keeps using — taught on one tiny equipment example.</p>
-      <div class="tags"><span class="tag">dataset</span><span class="tag">label column</span><span class="tag">train / test split</span><span class="tag">accuracy</span></div>
-      <div class="meta"><span class="metric"><span class="tk">&#10003;</span>tree model · 87% on unseen machines</span><span class="file">00_intro_predictive_ai.ipynb</span></div>
+    <article class="card" data-n="01" style="animation-delay:.04s">
+      <div class="mod">Session 1 · Text I</div>
+      <h3>Flag the urgent reports</h3>
+      <p>Turn free-text maintenance notes into numbers, then flag the urgent ones automatically — the foundations, taught here.</p>
+      <div class="tags"><span class="tag">words &rarr; numbers (TF-IDF)</span><span class="tag">the accuracy trap</span><span class="tag">URGENT recall</span><span class="tag">clue-words</span></div>
+      <div class="meta"><span class="metric"><span class="tk">&#10003;</span>~90% acc · ~95% urgent recall</span><span class="file">01_text_analytics.ipynb</span></div>
     </article>
 
-    <article class="card" data-n="01" style="animation-delay:.1s">
-      <div class="mod">Module 01 · Supervised</div>
-      <h3>Classification</h3>
-      <p>Sorting cases into categories — and why a high accuracy score can still be completely useless.</p>
-      <div class="tags"><span class="tag">classes</span><span class="tag">confusion matrix</span><span class="tag">precision / recall</span><span class="tag">the accuracy trap</span></div>
-      <div class="meta"><span class="metric"><span class="tk">&#10003;</span>93% acc · catches the rare rejects</span><span class="file">01_classification.ipynb</span></div>
+    <article class="card" data-n="02" style="animation-delay:.1s">
+      <div class="mod">Session 2 · Text II</div>
+      <h3>Predict, extract &amp; recurring faults</h3>
+      <p>From the same words: predict downtime hours, find the same fault worded five ways, group snags into families, and pull part numbers.</p>
+      <div class="tags"><span class="tag">regression</span><span class="tag">cosine similarity</span><span class="tag">clustering</span><span class="tag">entity extraction</span></div>
+      <div class="meta"><span class="metric"><span class="tk">&#10003;</span>downtime &plusmn;~1.5 h · finds duplicates</span><span class="file">02_text_predict_extract.ipynb</span></div>
     </article>
 
-    <article class="card" data-n="02" style="animation-delay:.16s">
-      <div class="mod">Module 02 · Supervised</div>
-      <h3>Regression &amp; Forecasting</h3>
-      <p>Predicting numbers and trends, not just yes / no — fit a line, then forecast forward in time.</p>
-      <div class="tags"><span class="tag">line of best fit</span><span class="tag">error (MAE)</span><span class="tag">trend</span><span class="tag">seasonality</span></div>
-      <div class="meta"><span class="metric"><span class="tk">&#10003;</span>cost &plusmn;&#8377;1,100 · 6-month forecast</span><span class="file">02_regression_forecasting.ipynb</span></div>
+    <article class="card" data-n="03" style="animation-delay:.16s">
+      <div class="mod">Session 3 · Speech I</div>
+      <h3>Predicting from the sound</h3>
+      <p>No words at all — split a machine's sound into pitches (FFT), classify the fault, and flag the unusual with no labels.</p>
+      <div class="tags"><span class="tag">FFT / spectrogram</span><span class="tag">feature importance</span><span class="tag">anomaly detection</span><span class="tag">no labels</span></div>
+      <div class="meta"><span class="metric"><span class="tk">&#10003;</span>~0.88 classify · anomaly AUC ~0.94</span><span class="file">03_sound_fault_prediction.ipynb</span></div>
     </article>
 
-    <article class="card" data-n="03" style="animation-delay:.22s">
-      <div class="mod">Module 03 · Capstone</div>
-      <h3>Predictive Maintenance</h3>
-      <p>Catch failures before they happen — then ask the model which signal mattered most, and meet AI with no labels at all.</p>
-      <div class="tags"><span class="tag">random forest</span><span class="tag">recall</span><span class="tag">feature importance</span><span class="tag">anomaly detection</span></div>
-      <div class="meta"><span class="metric"><span class="tk">&#10003;</span>flags failures · ranks the sensors</span><span class="file">03_predictive_maintenance.ipynb</span></div>
-    </article>
-
-    <article class="card" data-n="04" style="animation-delay:.28s">
-      <div class="mod">Module 04 · Language</div>
-      <h3>Text Analytics</h3>
-      <p>Teaching the computer to read free-text maintenance reports and route each one to the right team.</p>
-      <div class="tags"><span class="tag">words &rarr; numbers</span><span class="tag">bag of words</span><span class="tag">TF-IDF</span><span class="tag">auto-routing</span></div>
-      <div class="meta"><span class="metric"><span class="tk">&#10003;</span>sorts reports by team, with reasons</span><span class="file">04_text_analytics.ipynb</span></div>
-    </article>
-
-    <article class="card" data-n="05" style="animation-delay:.34s">
-      <div class="mod">Module 05 · Finale</div>
-      <h3>Speech Analytics</h3>
-      <p>Speak a report aloud; the computer transcribes it and routes it — the speak &rarr; transcribe &rarr; predict pipeline, live.</p>
-      <div class="tags"><span class="tag">speech-to-text (ASR)</span><span class="tag">Whisper</span><span class="tag">pipeline</span><span class="tag">numbers&rarr;text&rarr;speech</span></div>
-      <div class="meta"><span class="metric"><span class="tk">&#10003;</span>spoken note &rarr; category, in seconds</span><span class="file">05_speech_analytics.ipynb</span></div>
+    <article class="card" data-n="04" style="animation-delay:.22s">
+      <div class="mod">Session 4 · Speech II · Finale</div>
+      <h3>Voice &rarr; text &rarr; decision</h3>
+      <p>Speak a report aloud; the computer transcribes it (ASR) and routes it — the speak &rarr; transcribe &rarr; predict pipeline, live.</p>
+      <div class="tags"><span class="tag">speech-to-text (ASR)</span><span class="tag">Whisper</span><span class="tag">Word Error Rate</span><span class="tag">keyword spotting</span></div>
+      <div class="meta"><span class="metric"><span class="tk">&#10003;</span>spoken note &rarr; category, in seconds</span><span class="file">04_speech_analytics.ipynb</span></div>
     </article>
 
   </div>
@@ -298,18 +282,18 @@
 <section class="wrap">
   <div class="sec"><span class="idx">C.</span><h2>Vocabulary you will own by the end</h2><span class="rule"></span></div>
   <div class="gloss">
-    <div class="term"><div class="t">Dataset</div><div class="d">A table. Rows are cases, columns are what we measured.</div><div class="src">Module 00</div></div>
-    <div class="term"><div class="t">Label column</div><div class="d">The single column holding the answer we want to predict.</div><div class="src">Module 00</div></div>
-    <div class="term"><div class="t">Train / test split</div><div class="d">Learn from one part, judge honestly on a hidden part.</div><div class="src">Module 00</div></div>
-    <div class="term"><div class="t">Confusion matrix</div><div class="d">True hits, false alarms, and the dangerous missed faults.</div><div class="src">Module 01</div></div>
-    <div class="term"><div class="t">Precision &amp; recall</div><div class="d">How often a flag is real vs. how many real cases we caught.</div><div class="src">Module 01</div></div>
-    <div class="term"><div class="t">Regression</div><div class="d">Predicting a number on a scale, not a category.</div><div class="src">Module 02</div></div>
-    <div class="term"><div class="t">Forecasting</div><div class="d">Predicting how a value moves forward in time.</div><div class="src">Module 02</div></div>
-    <div class="term"><div class="t">Feature importance</div><div class="d">Which signal the model leaned on most — insight, not just a verdict.</div><div class="src">Module 03</div></div>
-    <div class="term"><div class="t">Anomaly detection</div><div class="d">Finding the unusual cases with no labels at all.</div><div class="src">Module 03</div></div>
-    <div class="term"><div class="t">Vectorizing (TF-IDF)</div><div class="d">Turning words into numbers a model can work with.</div><div class="src">Module 04</div></div>
-    <div class="term"><div class="t">Speech-to-text (ASR)</div><div class="d">Turning the spoken word into text, automatically.</div><div class="src">Module 05</div></div>
-    <div class="term"><div class="t">Supervised vs. unsupervised</div><div class="d">Learning with answers vs. finding structure without them.</div><div class="src">Modules 00–03</div></div>
+    <div class="term"><div class="t">Dataset</div><div class="d">A table. Rows are cases, columns are what we measured.</div><div class="src">Session 1</div></div>
+    <div class="term"><div class="t">Label column</div><div class="d">The single column holding the answer we want to predict.</div><div class="src">Session 1</div></div>
+    <div class="term"><div class="t">Train / test split</div><div class="d">Learn from one part, judge honestly on a hidden part.</div><div class="src">Session 1</div></div>
+    <div class="term"><div class="t">Vectorizing (TF-IDF)</div><div class="d">Turning words into numbers a model can work with.</div><div class="src">Session 1</div></div>
+    <div class="term"><div class="t">Confusion matrix</div><div class="d">True hits, false alarms, and the dangerous missed cases.</div><div class="src">Session 1</div></div>
+    <div class="term"><div class="t">Precision &amp; recall</div><div class="d">How often a flag is real vs. how many real cases we caught.</div><div class="src">Session 1</div></div>
+    <div class="term"><div class="t">Regression</div><div class="d">Predicting a number on a scale (downtime hours), not a category.</div><div class="src">Session 2</div></div>
+    <div class="term"><div class="t">Cosine similarity</div><div class="d">How alike two reports are once they are numbers — finds recurring faults.</div><div class="src">Session 2</div></div>
+    <div class="term"><div class="t">Clustering</div><div class="d">Grouping cases into families with no labels.</div><div class="src">Session 2</div></div>
+    <div class="term"><div class="t">FFT / feature importance</div><div class="d">Splitting a sound into pitches; which part the model leaned on.</div><div class="src">Session 3</div></div>
+    <div class="term"><div class="t">Anomaly detection</div><div class="d">Finding the unusual cases with no labels at all.</div><div class="src">Session 3</div></div>
+    <div class="term"><div class="t">Speech-to-text (ASR) &amp; WER</div><div class="d">Turning the spoken word into text — and how much it got wrong.</div><div class="src">Session 4</div></div>
   </div>
 </section>
 
