@@ -16,8 +16,9 @@ speech-to-text).
 - `index.html` — the session **landing page** (a one-screen overview to project or share).
 
 **For the participants (take-home):**
-- `Predictive-AI-Field-Guide.pdf` — a **12-page illustrated reference** to keep: the ideas, the
-  charts, a glossary, and "where to use this" notes. Rendered from `reference_guide.html`.
+- `Predictive-AI-Field-Guide.pdf` — an **illustrated reference** to keep, one part per session: the
+  ideas, the charts, a glossary, and "where to use this" notes. Rendered from `reference_guide.html`
+  (light-theme charts from `build/make_print_figs_textspeech.py`).
 - `handout.html` — a one-page quick-reference cheat-sheet (print it).
 
 ### Presenting the deck (`slides.html`)
