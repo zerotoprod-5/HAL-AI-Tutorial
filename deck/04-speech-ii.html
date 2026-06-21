@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Speech II · HAL · Predictive AI</title>
+<link rel="stylesheet" href="system.css" />
+</head>
+<body data-session="speech2">
+<div class="bg"></div>
+
+<div class="deck" id="deck">
+
+  <!-- ========== 1 · COLD OPEN — reopen the day-long loop for the LAST time ========== -->
+  <section class="slide center"
+    data-title="Cold open — the moment we promised at 9am"
+    data-note="No agenda, no 'final session' housekeeping. Walk in quiet. 'This morning, in the very first minute, I made you a promise. I said: today we will show you EXACTLY where this breaks — not the brochure version, the real one. And I told you the answer comes at 4pm.' Beat. Tap your watch. 'It is 4pm. This is the moment. For the last time today, hold that one question in your head — where does this AI break? — because in the next forty minutes we close that loop honestly, and then we do one more thing: we measure how much YOU moved.' Don't explain WER yet. Don't resolve anything. Just re-arm the open loop one final time and let the room feel that the day is about to pay off.">
+    <div class="eyebrow">Speech II · It learns a pattern from the past</div>
+    <h2>At 9am I promised you the moment <span class="t">it breaks</span>.</h2>
+    <p class="lead wide">It's 4pm. This is that moment — and then we measure how much <span class="accent">you</span> moved since this morning.</p>
+    <div class="divider open" style="margin-top:34px">◷ The 4pm question — where does this AI break? — closes today</div>
+  </section>
+
+  <!-- ========== 2 · DIVIDER — the spine reaches its FULL extension here ========== -->
+  <section class="slide divider"
+    data-title="Session 04 · Speech II"
+    data-note="The title lands. 'Session four of four. The last dot on the map.' Point at the rail — three done, this one lit. 'Speech one, you saw a machine HEAR a fault and draw it as a picture. Speech two is the honest sequel: when a machine listens to us TALK — a part number, an instruction, a report read aloud — how often does it mishear, and when does that mishearing actually hurt?' Then point at the thread — and say this deliberately: 'This is the same thread we drew at 9am and have carried all day. Past examples, a pattern, a prediction. Watch it now — today it reaches its full length. By the end of this session it's complete.'">
+    <div class="meta">Predictive AI · Session 04 of 04</div>
+    <div class="num">04</div>
+    <h1>Speech II<span class="em">how well does it hear us?</span></h1>
+    <div class="spine ext" style="margin-top:30px;justify-content:center">
+      <span class="s">Past speech + true words</span>
+      <span class="s hot">a pattern</span>
+      <span class="s">predict the transcript</span>
+    </div>
+    <div class="open" style="margin-top:24px">◷ Last dot on the rail · the day closes here</div>
+  </section>
+
+  <!-- ========== 3 · RETRIEVAL WARM-UP on Speech I ========== -->
+  <section class="slide"
+    data-title="Retrieval warm-up — recall Speech I"
+    data-note="Open with recall, not a recap — spacing makes it stick. The first question is already up; the room answers OUT LOUD or on cards BEFORE you advance to reveal each. One: in Speech one, before a machine could classify a sound, what did we turn the sound INTO? (a picture — a spectrogram — features.) Two: the failing-bearing tell — what stood out on that spectrogram? (the high whine band.) Three: the unsupervised detector that learned only what NORMAL sounds like — what was it built to catch? (the odd one out — an anomaly it had never been shown.) Don't lecture; just let them retrieve and confirm. Sixty seconds, then move.">
+    <div class="eyebrow">You tell me · cards or out loud · before I reveal</div>
+    <h2>Three from after lunch — <span class="t">what stuck?</span></h2>
+    <p class="bullet">Before it could classify a sound, what did we turn the sound into? <span class="k">→ a picture — a spectrogram (features)</span></p>
+    <ul class="frags" style="margin-top:16px">
+      <li>The failing-bearing tell on that spectrogram — what was it? <span class="k frag">→ the high whine band</span></li>
+      <li>The detector that learned only "normal" — what did it catch? <span class="k frag">→ the odd one out it was never shown</span></li>
+    </ul>
+    <div class="cuerow"><span class="cue cards">Room answers first · then I reveal each</span></div>
+  </section>
+
+  <!-- ========== 4 · JUST-IN-TIME: what WER is (the one new term) ========== -->
+  <section class="slide"
+    data-title="Just-in-time — what Word Error Rate means"
+    data-note="One new term, introduced right before we need it — nothing more. 'When a machine writes down what it heard, we score it the obvious way: count the words it got wrong — swapped, dropped, or invented — divide by the words that were actually said. That percentage is the Word Error Rate. WER. Zero percent is a perfect transcript. Fifteen percent means roughly one word in seven is wrong.' Build the two cards. Then plant the hook we spend the whole session on — say it slowly: 'Here's the trap we're walking into. A LOW error rate looks like good news. Keep one eye on whether low always MEANS good news. Hold that thought.' Don't resolve it — that's the money beat.">
+    <div class="eyebrow">One new word · the whole vocabulary this session</div>
+    <h2>Count the words it got wrong. That fraction is the <span class="t">error rate</span>.</h2>
+    <div class="grid2" style="max-width:1000px">
+      <div class="card frag"><div class="ic">Word Error Rate</div><h3>Wrong words ÷ words said</h3><p>Swapped, dropped, or invented words over the words actually spoken. 0% is perfect · 15% is roughly one word in seven wrong.</p></div>
+      <div class="card frag"><div class="ic">The trap ahead</div><h3>Low looks like good</h3><p>A small error rate reads like good news. Keep one eye on whether low <em>always</em> means safe — that's today's last lesson.</p></div>
+    </div>
+    <div class="spine frag">
+      <span class="s">Past speech + true words</span>
+      <span class="s hot">a pattern</span>
+      <span class="s">predict the transcript · score the misses</span>
+    </div>
+  </section>
+
+  <!-- ========== 5 · PRODUCTIVE-FAILURE / PREDICT-THE-WER (RESET A) ========== -->
+  <section class="slide center"
+    data-title="Predict-then-reveal — the three error rates"
+    data-note="The signature ritual — the room commits before the reveal. Set the scene: 'We fed the same spoken line into the transcriber three times, in three conditions. A quiet studio. A shop floor with machine noise. And a quiet room where it simply MISHEARD a part number. Lock a guess on your cards: which condition produces the WORST error rate? A — the studio. B — the shop-floor noise. C — the mishear. D — they're all about the same.' Cards up A/B/C/D; I tally on these buttons. Let them lock. THEN advance to reveal: the WORST raw number is the shop-floor noise. Most rooms pick B and they're RIGHT on the number — and that's exactly the trap, because the number is about to lie to us. Name the gap, then move to the chart. (PDF freezes to the reveal.)">
+    <div class="eyebrow">Room locks a guess on cards · then I reveal</div>
+    <h2>Same sentence, three conditions — <span class="t">which scores worst?</span></h2>
+    <div data-widget="predictReveal"
+         data-head="Cards up A/B/C/D — I tally, then reveal. Watch which number you should actually fear."
+         data-options='["Quiet studio","Shop-floor noise","It misheard a part #","All about the same"]'
+         data-answer="1"
+         data-unit=" — worst raw WER (15%)"></div>
+  </section>
+
+  <!-- ========== 6 · THE WER CHART — the harmless 15% vs the dangerous 8% ========== -->
+  <section class="slide"
+    data-title="The WER chart — low error can still be dangerous"
+    data-note="This is the heart of the session — read the chart left to right, building each bar as you speak it (it's an offline copy of the Colab cell, here as our backup). Bar one, GREEN: 'Clean studio audio — zero percent. Perfect. It heard every word.' Bar two, AMBER: 'Add real shop-floor noise — error climbs to fifteen percent. One word in seven wrong. That's the worst number on the chart — and yet it is HARMLESS. Why? Because the words it fumbles are the filler — the and a um — the part numbers still come through. A messy transcript you can still act on.' Now drop your voice and point at bar three, RED, with the arrow: 'This one. A quiet room. Only EIGHT percent error — half the noise bar, looks far safer. But the one word it got wrong was the PART NUMBER. Eight percent on paper, and it has just told you to pull the wrong component off the shelf. Low error. Wrong part. THAT is the danger — not the big number, the small one in the wrong place.' Let it land. This is the whole session.">
+    <div class="eyebrow">Run the WER cell · your Colab tab · chart is the offline copy</div>
+    <h2>The worst number is harmless — the <span class="r">dangerous</span> one is small.</h2>
+    <div class="ae">
+      <div>
+        <p class="lead">15% in noise is just fumbled filler words. 8% that drops a part number sends the wrong component to the floor.</p>
+        <div class="cuerow"><span class="cue">Run the WER cell · Shift+Enter</span></div>
+      </div>
+      <div class="vwrap"><div class="evidence">
+        <img src="../figs/wer.svg" alt="Word error rate: clean 0%, shop-floor noise 15% harmless, misheard part number 8% dangerous" />
+        <div class="figcap">Same sentence, three conditions · the red 8% misheard the part number — offline copy of your Colab output</div>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- ========== 7 · PREDICT WHICH WORDS IT MIS-HEARS (live) ========== -->
+  <section class="slide"
+    data-title="Predict the mis-hears — which words break"
+    data-note="Modality + activity reset, and the room PREDICTS before the reveal. 'So WHICH words does a transcriber fumble? You already have the instinct.' Hold up the spoken line on screen. 'I'm about to mark, in this real maintenance instruction, the words most at risk. On your cards, predict first: which word is the transcriber MOST likely to get wrong — the everyday English, or the part number bravo-seven-seven-four?' Take a show of hands. Then reveal the marked words one at a time: the common words — replace, the, bearing — it nails, because it heard them ten thousand times in training. The rare, info-dense tokens — the alphanumeric part code, the unusual unit — are exactly what it has the LEAST pattern for, and exactly what costs you when wrong. Land it: 'It mis-hears precisely the words that matter most to us. Rare and important are the same words — that's the cruel part.'">
+    <div class="eyebrow">Watch the screen · you predict, then I reveal</div>
+    <h2>It fumbles the <span class="r">rare</span> words — which are the ones that matter.</h2>
+    <p class="bullet">"Replace the bearing, part <span class="k">B-774</span>, on the number two pump." — which word is most at risk?</p>
+    <ul class="frags" style="margin-top:16px">
+      <li class="good"><span class="k">replace · the · bearing · pump</span> — heard ten-thousand times in training, nailed every time.</li>
+      <li class="warn"><span class="k">B-774</span> · the part number — rare, alphanumeric, almost no pattern to lean on. The first thing to break.</li>
+      <li class="warn">Rare and <span class="k">important</span> are the same words. It mis-hears exactly what costs you most.</li>
+    </ul>
+    <div class="cuerow"><span class="cue cards">Cards: which word breaks first? · then I reveal</span></div>
+  </section>
+
+  <!-- ========== 8 · CONFIDENCE-CALIBRATION VOTE — confident-wrong ========== -->
+  <section class="slide center"
+    data-title="Confidence vote — how sure are you?"
+    data-note="A different vote type — calibration, not prediction. Read the transcript on screen as if it's gospel: 'The machine returns this line and prints, next to it, ninety-six percent confident. Here's the line: replace the bearing, part B-114, on the number two pump.' Now the vote: 'On your cards — how much would YOU trust that, knowing what we just learned? A: trust it, ninety-six is high. B: check the part number myself, trust the rest. C: don't trust the part number AT ALL until a human confirms it.' Cards up A/B/C. Tally honestly. Then the reveal that humbles the confidence score: the TRUE part number was B-774. The machine was ninety-six percent confident AND wrong, on the one token that matters. 'A confidence score tells you how sure the MODEL is. It does not tell you it's RIGHT. Confident-and-wrong is the most dangerous box in the room — and it's the box this whole day has been teaching you to distrust.' Most of the room should now be at B or C. Name that shift.">
+    <div class="eyebrow">A different vote · how much do you trust it?</div>
+    <h2>It says <span class="t">96% sure</span> — how much do you trust the part number?</h2>
+    <div data-widget="predictReveal"
+         data-head="Cards up A/B/C — I tally, then reveal. Confidence is not correctness."
+         data-options='["Trust it — 96% is high","Trust all but the part #","Distrust the part # till a human checks"]'
+         data-answer="2"
+         data-unit=" — the true part was B-774; it was confident AND wrong"></div>
+  </section>
+
+  <!-- ========== 9 · THINK-PAIR-SHARE — where mis-hearing costs at HAL ========== -->
+  <section class="slide center"
+    data-title="Think-pair-share — your own costly mishear"
+    data-note="Discussion reset, anchored in their world. 'Turn to your neighbour. Sixty seconds. Name ONE place at HAL where a machine mishearing a single token — a part number, a torque value, a tail number, a runway — would actually cost money or safety, not just look untidy.' Let them talk; walk the room. Take two or three out loud, don't evaluate — collect. This makes the abstract WER trap concrete in their job and earns the buy-in right before the day's peak. Then: 'Hold those examples. Every one of them is the 8%-dangerous case, not the 15%-harmless one.'">
+    <div class="eyebrow">Turn to your neighbour · 60 seconds</div>
+    <h2>Where would one misheard token <span class="r">cost</span> HAL?</h2>
+    <p class="lead wide">Part numbers · torque values · tail numbers · runway or taxiway calls · dictated inspection reports — where does the small error in the wrong place hurt?</p>
+    <div class="cuerow"><span class="cue">Think · Pair · Share — two or three out loud</span></div>
+  </section>
+
+  <!-- ========== 10 · FINAL SYNTHESIS RETRIEVAL — reassemble the whole spine ========== -->
+  <section class="slide"
+    data-title="Synthesis — reassemble the day's spine"
+    data-note="The capstone retrieval: the room rebuilds the WHOLE day in one thread, out loud, before the peak. Point at the empty spine. 'One question, the biggest of the day. All four sessions — text, text, speech, speech — were the SAME three steps. Tell me the thread. What's the first node?' Let them say it: PAST EXAMPLES — labelled notes, machine sounds, spoken lines. Advance — node lights. 'The middle?' A PATTERN — clue words, clusters, the whine band, the normal hum. Advance — the hot node lights. 'The last?' A PREDICTION on something NEW — a new note, a new sound, a new transcript. Advance — final node lights, thread complete and glowing full length. 'That is the entire day. Four sessions, one sentence. You just rebuilt it from memory — which means it's yours now, not mine.' This is the day's intellectual close, right before its emotional peak.">
+    <div class="eyebrow">You rebuild it · out loud · I light each node</div>
+    <h2>All four sessions were the <span class="t">same three steps</span>.</h2>
+    <p class="bullet">First node — what does it always start from? <span class="k">→ past examples (notes · sounds · spoken lines)</span></p>
+    <ul class="frags" style="margin-top:16px">
+      <li>The middle — what does it find? <span class="k frag">→ a pattern (clue words · clusters · the whine · "normal")</span></li>
+      <li>The last — what does it produce? <span class="k frag">→ a prediction on something new it never saw</span></li>
+    </ul>
+    <div class="spine ext frag" style="margin-top:34px">
+      <span class="s">Past examples</span>
+      <span class="s hot">the pattern</span>
+      <span class="s">predict the next case</span>
+    </div>
+    <div class="cuerow"><span class="cue cards">Room says each node first · then I light it</span></div>
+  </section>
+
+  <!-- ========== 11 · MONEY SLIDE (the day's PEAK) — belief-shift bookend ========== -->
+  <section class="slide money split"
+    data-title="MONEY — the 9am vs 4pm belief shift"
+    data-note="THE peak of the session AND the day — and the most honest one, because it isn't about the AI, it's about THEM. First, RE-RUN the morning poll, live, before this lands: 'Cards up one more time — exactly the same question as 9am. Where do you sit on machine learning RIGHT NOW? A: it can do anything. B: show me, on the fence. C: mostly hype.' Tally it out loud. THEN reveal this slide — the two distributions side by side, their own 9am shape on the left, their 4pm shape on the right. BEAT 1 (already showing): the 9am bars — a room that walked in mostly skeptical, weighted to C. Sit in it: 'This is who walked in this morning. Honest skeptics. That was the right instinct.' ADVANCE for beat 2: the 4pm bars rise alongside — the mass has slid toward B, 'show me' becoming 'I've seen some'. Deliver the landing quietly: 'Almost nobody moved to A — it can do anything. Good. We didn't sell you magic. What moved is the middle: fewer of you think it's pure hype, more of you have seen exactly what it can and can't do. THAT shift — earned by honest, imperfect numbers all day — is the most truthful result on any slide today. It's not my chart. It's yours.' This is the emotional high point of the entire day. Earn it, then hold the silence. (PDF freezes BOTH beats side by side.)">
+    <div class="moneytext">
+      <div class="kicker">The money shot · your own change, measured</div>
+      <h2>The honest peak isn't the AI. It's <span class="t">how far you moved.</span></h2>
+      <p class="small" style="margin-top:22px">Same poll, 9am and now. Almost nobody slid to "it can do anything" — the middle moved off "hype" toward "I've seen what it can and can't do." Earned, not sold.</p>
+    </div>
+    <div class="moneyfig">
+      <div class="beliefshift" data-widget="beliefShift"></div>
+    </div>
+  </section>
+
+  <!-- ========== 11a · CONSOLIDATION BEAT (10s calm after the peak) ========== -->
+  <section class="slide center"
+    data-title="Consolidation — sit with your own shift"
+    data-note="Ten seconds of deliberate calm after the day's biggest beat. Don't rush, don't summarise. Say it once, softly: 'You came in skeptical. Most of you are still skeptical — but it's a SHARPER skepticism now. You know where it works. You know where it breaks. That's not a smaller belief in AI. It's a more useful one.' Let it breathe. Then set up the honest close: 'So let's name those breaks plainly, one last time, and shut the loop I opened at 9am.' Advance.">
+    <div class="eyebrow">Breathe · before we close the loop</div>
+    <div class="callback" style="font-size:clamp(26px,4.2vw,54px);color:var(--paper)">You didn't lose the skepticism. You <b>sharpened</b> it.</div>
+    <p class="lead wide" style="margin-top:30px">You know where it works and where it breaks. That's a more useful belief than the one you walked in with.</p>
+  </section>
+
+  <!-- ========== 12 · CLOSE THE OPEN LOOP — the named failure modes ========== -->
+  <section class="slide"
+    data-title="Close the loop — where it breaks, named"
+    data-note="Pay the day-long loop in FULL, honestly. 'At 9am I asked: where does this AI break? You've now SEEN every answer. Let me name them, plainly, so you walk out with the list.' Build one at a time. One: words and sounds it never saw in training — a new part name, a new fault — it has no pattern for, so it shrugs or guesses. Two: the calm-sounding emergency and the messy unlabelled middle — the clusters and notes that don't fit a clean family. Three: confident-and-wrong — a high score on the one token that matters, the misheard part number we just watched. 'These are not bugs we forgot to fix. They are the SHAPE of learning a pattern from the past — it can only know what the past showed it. Knowing this list is exactly what makes YOU the engineer in the loop, not the machine. The loop I opened this morning is now closed — and you closed it.'">
+    <div class="eyebrow">The 4pm answer · the loop closes here</div>
+    <h2>Where it breaks — <span class="r">named</span>, every one.</h2>
+    <p class="bullet warn">A <span class="k">word or sound it never saw</span> in training — a new part, a new fault — no pattern, so it guesses.</p>
+    <ul class="frags" style="margin-top:16px">
+      <li class="warn">The <span class="k">messy, unlabelled middle</span> — the calm emergency, the cluster that fits no clean family.</li>
+      <li class="warn"><span class="k">Confident and wrong</span> — a high score on the one token that matters. The misheard part number.</li>
+      <li class="good">Not bugs — the <span class="k">shape of the method</span>. It only knows what the past showed it. Knowing that is your job.</li>
+    </ul>
+  </section>
+
+  <!-- ========== 13 · CALLBACK PAYOFF — the spine, full length, one last time ========== -->
+  <section class="slide center"
+    data-title="Callback payoff — a pattern from the past"
+    data-note="The final payoff of the recurring line. Deliver it the SAME way you have all day — once, slowly, pointing at the full-length thread. 'Everything — all four sessions, every demo, every honest miss — was this one sentence. It learns a pattern from the past. Nothing more. Nothing magic. A machine that has seen many examples, found the recurring shape, and used it to guess the next case — and that is genuinely powerful, and genuinely limited, and now you know both halves.' Let the completed spine glow. This is the sentence that carried the whole day; this is the last time you say it. Hold the silence before the final slide.">
+    <div class="eyebrow">The one line that carried the whole day</div>
+    <div class="callback" style="font-size:clamp(28px,4.6vw,60px)">It learns a <b>pattern</b> from the past — <br>nothing more, nothing magic.</div>
+    <div class="spine ext" style="margin-top:48px;justify-content:center">
+      <span class="s">All the past examples</span>
+      <span class="s hot">the recurring pattern</span>
+      <span class="s">a prediction you can question</span>
+    </div>
+  </section>
+
+  <!-- ========== 14 · CEREMONIAL CLOSE — 10s, no Q&A, no logistics ========== -->
+  <section class="slide center"
+    data-title="Close — 10 seconds, then lights up"
+    data-note="The 10-second ceremonial close. NOT Q&A, NOT logistics, NOT a thank-you-for-attending bullet list. Let this single line sit on the dark screen. Say it once and stop talking: 'You walked in this morning able to be sold anything. You walk out able to ask the one question that matters — where does it break? — and to answer it yourselves. That's the whole day. That's the win.' Beat. Point at the full rail — four dots, all lit. 'Four sessions. One sentence. Done. Thank you.' Then bring the lights up. Walk off on the idea, not on a logistics slide.">
+    <div class="eyebrow">Speech I → II → done · the rail is full</div>
+    <h2>You can now ask the one question that <span class="t">matters.</span></h2>
+    <p class="lead wide">Where does it break? — and you can answer it yourselves. That's the day.</p>
+    <div class="spine ext" style="margin-top:44px;justify-content:center">
+      <span class="s">Text I</span>
+      <span class="s">Text II</span>
+      <span class="s">Speech I</span>
+      <span class="s hot">Speech II — complete</span>
+    </div>
+    <div class="divider open" style="margin-top:30px;color:var(--accent)">◷ Loop closed · pattern from the past · thank you</div>
+  </section>
+
+</div>
+
+<style>
+  /* static first bullet (un-gated so the slide never renders blank) —
+     mirrors the flagship's local .bullet so Speech II reads identically */
+  .bullet{font-size:clamp(15px,1.8vw,21px);color:var(--paper);line-height:1.45;
+    padding-left:30px;position:relative;max-width:52ch;margin-top:28px}
+  .bullet::before{content:"";position:absolute;left:0;top:.5em;width:11px;height:11px;
+    border-radius:3px;background:var(--accent)}
+  .bullet.warn::before{background:var(--red)}
+  .bullet.good::before{background:var(--green)}
+  .bullet .k{color:var(--accent);font-weight:600}
+  .bullet.warn .k{color:var(--paper)}
+
+  /* belief-shift twin-distribution (the day's PEAK) — local to this deck,
+     rides entirely on the system palette. Two side-by-side vote columns
+     (A/B/C) drawn as stacked bars; beat 1 shows 9am, beat 2 raises 4pm. */
+  .beliefshift{width:100%;max-width:640px}
+  .bs-head{font-family:var(--mono);font-size:clamp(11px,1.3vw,14px);letter-spacing:.16em;
+    text-transform:uppercase;color:var(--muted);margin-bottom:22px;text-align:center}
+  .bs-pair{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+  .bs-col{display:flex;flex-direction:column;gap:14px}
+  .bs-when{font-family:var(--mono);font-size:clamp(12px,1.4vw,16px);letter-spacing:.12em;
+    text-transform:uppercase;color:var(--faint);text-align:center;margin-bottom:4px}
+  .bs-9am .bs-when{color:var(--muted)}
+  .bs-4pm .bs-when{color:var(--accent)}
+  .bs-bar{display:flex;align-items:center;gap:12px}
+  .bs-bar .bs-lbl{font-family:var(--mono);font-size:clamp(11px,1.2vw,13px);color:var(--faint);
+    width:8.5ch;flex:0 0 auto;text-align:right}
+  .bs-bar .bs-track{flex:1;height:20px;border-radius:6px;background:rgba(125,182,196,.10);overflow:hidden}
+  .bs-bar .bs-fill{display:block;height:100%;border-radius:6px;width:0;
+    transition:width .9s cubic-bezier(.2,.7,.2,1)}
+  .bs-bar .bs-val{font-family:var(--disp);font-weight:800;font-size:clamp(14px,1.7vw,19px);
+    width:3.4ch;flex:0 0 auto;color:var(--paper);text-align:left}
+  /* A = "can do anything" amber · B = "show me" teal · C = "hype" faint */
+  .bs-fill.a{background:var(--amber)} .bs-fill.b{background:var(--teal)} .bs-fill.c{background:var(--faint)}
+  /* 9am column paints on beat>=1; 4pm column holds at 0 until beat 2 */
+  .beliefshift[data-beat="0"] .bs-9am .bs-fill,
+  .beliefshift[data-beat="1"] .bs-9am .bs-fill,
+  .beliefshift[data-beat="2"] .bs-9am .bs-fill{width:var(--w)}
+  .beliefshift[data-beat="2"] .bs-4pm .bs-fill{width:var(--w)}
+  .bs-cap{font-family:var(--mono);font-size:clamp(11px,1.2vw,13px);color:var(--faint);
+    text-align:center;margin-top:20px;opacity:0;transition:opacity .5s ease}
+  .beliefshift[data-beat="2"] .bs-cap{opacity:1}
+  /* export: paint both columns at full state */
+  body.export .beliefshift .bs-9am .bs-fill,
+  body.export .beliefshift .bs-4pm .bs-fill{width:var(--w)!important}
+  body.export .beliefshift .bs-cap{opacity:1!important}
+</style>
+
+<script src="system.js"></script>
+<script>
+  /* ----------------------------------------------------------------
+     beliefShift — the day's PEAK money widget (local to Speech II).
+     Two A/B/C vote columns (9am vs 4pm) drawn as stacked bars on the
+     shared palette. Presenter-driven two-beat build, identical grammar
+     to cmatrix: beat 1 = 9am distribution; beat 2 = 4pm rises alongside.
+     freeze() (export) paints BOTH. Honest, imperfect numbers — a room
+     that walked in skeptical and moved off "hype" toward "show me", with
+     almost nobody sliding to "it can do anything".
+     ---------------------------------------------------------------- */
+  (function(){
+    function beliefShift(node){
+      // honest 30-ish-person room, percentages (sum ~100 each column)
+      var nine = { a: 10, b: 30, c: 60 };   // 9am: weighted to skeptic/hype
+      var four = { a: 14, b: 56, c: 30 };   // 4pm: middle slid to "show me"
+      var rows = [
+        ['A · can do anything','a'],
+        ['B · show me','b'],
+        ['C · mostly hype','c']
+      ];
+      function col(when, cls, data){
+        var h = '<div class="bs-col bs-'+cls+'"><div class="bs-when">'+when+'</div>';
+        rows.forEach(function(r){
+          var pct = data[r[1]];
+          h += '<div class="bs-bar"><span class="bs-lbl">'+r[0]+'</span>'+
+               '<span class="bs-track"><i class="bs-fill '+r[1]+'" style="--w:'+pct+'%"></i></span>'+
+               '<b class="bs-val">'+pct+'</b></div>';
+        });
+        return h + '</div>';
+      }
+      node.innerHTML =
+        '<div class="bs-head">Same poll · 9am vs 4pm · the room’s own shift</div>' +
+        '<div class="bs-pair">' + col('9am', '9am', nine) + col('4pm', '4pm', four) + '</div>' +
+        '<div class="bs-cap">Almost nobody moved to A · the middle left “hype” for “show me”</div>';
+      node.setAttribute('data-beat','0');
+      var beat = 0;
+      function setBeat(b){ beat = Math.max(0, Math.min(2, b)); node.setAttribute('data-beat', String(beat)); }
+      node.setBeat = setBeat;
+      node.freeze = function(){ setBeat(2); };
+      var slide = node.closest('.slide');
+      if (slide) slide.addEventListener('fragment', function(){ setBeat(beat + 1); });
+      // first advance on the slide lights the 9am column (beat 1)
+    }
+    // register on the shared widget library so autoInit + export freeze() pick it up
+    if (window.HALWidgets) window.HALWidgets.beliefShift = beliefShift;
+  })();
+
+  HALDeck.init({ session:'speech2', brand:'HAL · Predictive AI · Speech II' });
+</script>
+</body>
+</html>
