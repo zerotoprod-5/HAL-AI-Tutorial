@@ -14,7 +14,7 @@
   <!-- ========== 1 · COLD OPEN — no preamble, PLAY a sound, guess-the-sound (dip-fighter) ========== -->
   <section class="slide center"
     data-title="Cold open — play the sound, guess it"
-    data-note="POST-LUNCH. Do NOT introduce the session, the agenda, or yourself — the room is full and sleepy, so hit them with a sound before a single word of theory. Walk in, press play on this widget, and let the synthesized clip run — it's a low hum with a rising whine. Then, cold: 'That is a machine running. One of these two is a HEALTHY machine, one is a bearing about to fail. No labels, no chart — just your ears. On your cards: A, this machine is FINE — or B, this machine is FAILING.' Cards up A/B — I tally, name the split honestly. DON'T resolve it yet — tell them the model votes too, later, and we'll see who was right. This is a pure modality switch — sound, not slides — to reset attention at the lowest-energy point of the day. Press play a second time if they ask. Then advance.">
+    data-note="POST-LUNCH. Do NOT introduce the session, the agenda, or yourself — the room is full and sleepy, so hit them with a sound before a single word of theory. Walk in, press play on this widget, and let the stand-in tone run — a low hum with a rising whine. (This widget is a quick SYNTH attention-hook; the REAL factory recordings live in their Colab — don't call this clip 'the data'.) Then, cold: 'That is a machine running. One of these two is HEALTHY, one is FAILING. No labels, no chart — just your ears. On your cards: A, this machine is FINE — or B, this machine is FAILING.' Cards up A/B — I tally, name the split honestly. DON'T resolve it yet — tell them the model votes too, later, and we'll see who was right. This is a pure modality switch — sound, not slides — to reset attention at the lowest-energy point of the day. Press play a second time if they ask. Then advance.">
     <div class="eyebrow">Speech I · use your ears, not your eyes</div>
     <h2>This machine is running. <span class="t">Healthy, or failing?</span></h2>
     <div data-widget="spectroPlay"
@@ -55,11 +55,11 @@
   <!-- ========== 4 · SOUND IS JUST NUMBERS — reuse the spine idea (sample rate -> a list) ========== -->
   <section class="slide"
     data-title="Sound is just numbers — the sample rate"
-    data-note="The one piece of vocabulary this session needs, just-in-time. 'You all just sorted that sound with your ears. The machine can't hear — same as it couldn't read English this morning. So what does it DO with a sound? It MEASURES it.' Build the flow left to right: 'A microphone measures the air pressure, thousands of times a second — that rate is the SAMPLE RATE. Sixteen thousand measurements a second is normal. Each measurement is one number. So one second of sound is just a list of sixteen thousand numbers.' Land the callback to the morning: 'This morning, words became a list of numbers. This afternoon, sound becomes a list of numbers. Once it is numbers, it is the SAME machine — it sorts them exactly like it sorted the notes.' Point at the thread — same spine, new input. Nothing for the room to do — just follow.">
+    data-note="The one piece of vocabulary this session needs, just-in-time. 'You all just sorted that sound with your ears. The machine can't hear — same as it couldn't read English this morning. So what does it DO with a sound? It MEASURES it.' Build the flow left to right: 'A microphone measures the air pressure, thousands of times a second — that rate is the SAMPLE RATE. Eight thousand measurements a second — that's what today's recordings use. Each measurement is one number. So one second of sound is just a list of eight thousand numbers.' Land the callback to the morning: 'This morning, words became a list of numbers. This afternoon, sound becomes a list of numbers. Once it is numbers, it is the SAME machine — it sorts them exactly like it sorted the notes.' Point at the thread — same spine, new input. Nothing for the room to do — just follow.">
     <div class="eyebrow">One idea · then it's the same machine as this morning</div>
     <h2>A microphone turns sound into a <span class="t">list of numbers</span> — that's all.</h2>
     <div class="flow" style="max-width:1100px">
-      <div class="node"><div class="k">Measure</div><div class="v">air pressure, 16,000×/sec</div></div>
+      <div class="node"><div class="k">Measure</div><div class="v">air pressure, 8,000×/sec</div></div>
       <div class="arrow">→</div>
       <div class="node hot"><div class="k">Becomes</div><div class="v">a long list of numbers</div></div>
       <div class="arrow">→</div>
@@ -71,7 +71,7 @@
   <!-- ========== 5 · SEE THE SOUND — spectroPlay reveals the bearing spectrogram (mechanism) ========== -->
   <section class="slide"
     data-title="See the sound — the spectrogram"
-    data-note="The literal mechanism: turn a list of numbers into a picture the room can read. 'A raw list of sixteen thousand numbers means nothing to your eye. So we draw it. Press play.' Press play on the widget — same failing clip — THEN it reveals the spectrogram. Read it for them, signal one thing at a time: 'Time runs left to right. Pitch — low to high — runs bottom to top. Bright means loud at that pitch.' Point: 'See the steady bright band along the BOTTOM? That's the slow rumble — the machine turning, fifty times a second. Now see this bright streak UP HERE, around two-and-a-half thousand hertz? That high WHINE is the bearing starting to fail. A healthy machine has the rumble but NOT the whine.' This is the FEATURE the machine will learn — the picture is the same numbers, just made legible. Don't over-explain the maths — it's a heat-map of sound. Advance to predict the accuracy.">
+    data-note="The literal mechanism: turn a list of numbers into a picture the room can read. 'A raw list of eight thousand numbers means nothing to your eye. So we draw it. Press play.' Press play on the widget — same failing clip — THEN it reveals the spectrogram. Read it for them, signal one thing at a time: 'Time runs left to right. Pitch — low to high — runs bottom to top. Bright means loud at that pitch.' Point: 'See the steady bright band along the BOTTOM? That's the slow rumble — the machine turning, fifty times a second. Now see this bright streak UP HERE, around two-and-a-half thousand hertz? That high WHINE is the bearing starting to fail. A healthy machine has the rumble but NOT the whine.' This is the FEATURE the machine will learn — the picture is the same numbers, just made legible. Don't over-explain the maths — it's a heat-map of sound. Advance to predict the accuracy.">
     <div class="eyebrow">Press play · then we draw the sound</div>
     <h2>Draw the numbers and the fault becomes <span class="t">a picture</span> — a spectrogram.</h2>
     <div data-widget="spectroPlay"
@@ -84,9 +84,9 @@
   <!-- ========== 6 · THE SETUP — learn on past sounds, grade on held-out (the fair test) ========== -->
   <section class="slide"
     data-title="The setup — learn on past sounds, grade on held-out"
-    data-note="Show the shape of the experiment before the number — exactly like the morning's learn-on-some / grade-on-the-rest test (~260-learn / ~140-grade). 'We collected machine recordings engineers had already labelled — healthy, bearing fault, imbalance. We let the machine study most of them: the sound-pictures in, the labels in, find the pattern. Then we HIDE the labels on a held-out batch it never heard and ask it to name each one. We know the true answers, so we score it honestly.' Emphasise the fairness: graded only on sounds it never heard while learning — the only fair test, same rule as this morning. Next slide they commit a guess. Nothing to do here but follow.">
+    data-note="Show the shape of the experiment before the number — exactly like the morning's learn-on-some / grade-on-the-rest test (~260-learn / ~140-grade). 'We collected fan recordings engineers had already labelled — healthy or faulty (an unbalanced or clogged fan). We let the machine study most of them: the sound-pictures in, the labels in, find the pattern. Then we HIDE the labels on a held-out batch it never heard and ask it to name each one. We know the true answers, so we score it honestly.' Emphasise the fairness: graded only on sounds it never heard while learning — the only fair test, same rule as this morning. Next slide they commit a guess. Nothing to do here but follow.">
     <div class="eyebrow">Same fair test as this morning · learn on some, grade on the rest</div>
-    <h2>Three sounds to tell apart: <span class="t">healthy, bearing, imbalance.</span></h2>
+    <h2>Two sounds to tell apart: <span class="t">healthy, or faulty.</span></h2>
     <div class="flow" style="max-width:1100px">
       <div class="node"><div class="k">Learn</div><div class="v">labelled sound-pictures</div></div>
       <div class="arrow">→</div>
@@ -100,30 +100,30 @@
   <!-- ========== 7 · PREDICT-THEN-REVEAL — the classify accuracy (~0.88) — the signature ritual ========== -->
   <section class="slide center"
     data-title="Predict-then-reveal — the sorting accuracy"
-    data-note="THE signature ritual — the ROOM commits before the reveal, the post-lunch wake-up. 'Lock a guess on your CARDS. Three sounds — healthy, bearing, imbalance — on the held-out clips it never heard, what fraction does it name right? A — under fifty percent, basically guessing between three. B — sixty to seventy-five. C — eighty-five to ninety-five. D — a perfect hundred?' Cards up A/B/C/D; I tally on these buttons. Let everyone lock. THEN advance once to reveal: around 88%. Name the gap — the magic crowd who said 100 and the skeptics who said coin-toss are both a little wrong, and that gap is the lesson. Say it plainly: 'Nobody honest should pick 100 — and we'll see exactly which sounds it confuses.' Re-arm the loop. (PDF freezes to the ~88% reveal with the gap line.)">
+    data-note="THE signature ritual — the ROOM commits before the reveal, the post-lunch wake-up. 'Lock a guess on your CARDS. Two sounds — healthy or faulty — on the held-out clips it never heard, what fraction does it name right? A — under fifty percent, basically a coin toss. B — sixty to seventy-five. C — eighty-five to ninety-five. D — a perfect hundred?' Cards up A/B/C/D; I tally on these buttons. Let everyone lock. THEN advance once to reveal: around 92%. Name the gap — the magic crowd who said 100 and the skeptics who said coin-toss are both a little wrong, and that gap is the lesson. Say it plainly: 'Nobody honest should pick 100 — and we'll see exactly which sounds it confuses.' Re-arm the loop. (PDF freezes to the ~92% reveal with the gap line.)">
     <div class="eyebrow">Room locks a guess on cards · then I reveal</div>
-    <h2>Three sounds, told apart by ear-turned-numbers — <span class="t">how often right?</span></h2>
+    <h2>Two sounds, told apart by ear-turned-numbers — <span class="t">how often right?</span></h2>
     <div data-widget="predictReveal"
          data-head="Cards up A/B/C/D — I tally, then reveal. The gap is the lesson."
          data-options='["under 50%","60–75%","85–95%","a perfect 100%"]'
          data-answer="2"
-         data-unit=" (real ≈ 88%)"></div>
+         data-unit=" (real ≈ 92%)"></div>
   </section>
 
-  <!-- ========== 8 · THE CLUSTERS — three sounds separate (sound_clusters.svg), run-the-cell ========== -->
+  <!-- ========== 8 · THE SCATTER — healthy vs faulty overlap (sound_clusters.svg), run-the-cell ========== -->
   <section class="slide"
-    data-title="The clusters — three sounds, three families"
-    data-note="Hands on Colab now — THIS is the one thing the room runs. 'Switch to your Colab tab and run the cell labelled SOUND MAP — shift-enter. It takes every recording, turns each into its numbers, and plots them.' Wait for the room; help the one or two who error. The chart is the SAME output — our offline backup if the wifi sulks. Read it, signal each blob: 'Three clouds. The HEALTHY clips land together here. The BEARING faults — the whine — cluster over here. The IMBALANCE — a heavy wobble — sit here. The machine pulled three families out of raw sound, on its own.' Land it: 'Same move as the morning — it found a pattern in the numbers. The eighty-eight percent is how cleanly these three clouds separate. Where they OVERLAP at the edges is exactly where it gets confused — hold that thought.' That overlap is the honesty beat coming up.">
+    data-title="The scatter — healthy vs faulty, and they overlap"
+    data-note="Hands on Colab now — THIS is the one thing the room runs. 'Switch to your Colab tab and run the Step 4 chart cell — shift-enter. It takes every recording, turns each into its numbers, and plots two of them — colouring each dot by its TRUE label.' Wait for the room; help the one or two who error. The chart is the SAME output — our offline backup if the wifi sulks. Read it, signal each cloud: 'Two clouds. The HEALTHY clips lean low-and-left; the FAULTY ones ride higher — more energy in the high whine band. But look at the MIDDLE, where they overlap — that's real data, no clean line to draw by hand.' Land it: 'Same move as the morning — see the pattern in the numbers. The ~92% is how well the model separates them once it weighs ALL the numbers, not just these two. Where the clouds OVERLAP is exactly where it gets confused — hold that thought.' That overlap is the honesty beat coming up.">
     <div class="eyebrow">Run the cell · your Colab tab</div>
-    <h2>It sorted raw sound into <span class="a">three families</span> — on its own.</h2>
+    <h2>Healthy vs faulty by eye — two clouds that <span class="a">overlap</span>.</h2>
     <div class="ae">
       <div>
-        <p class="lead">No one drew these clouds. It grouped the sounds by their numbers — healthy, bearing, imbalance.</p>
-        <div class="cuerow"><span class="cue">Run the SOUND MAP cell · Shift+Enter</span></div>
+        <p class="lead">No clean line by hand. Each dot is one recording, coloured by its true label — healthy low, faulty high, and a messy middle where they overlap.</p>
+        <div class="cuerow"><span class="cue">Run the Step 4 chart cell · Shift+Enter</span></div>
       </div>
       <div class="vwrap"><div class="evidence">
-        <img src="../figs/sound_clusters.svg" alt="Three clusters of machine sounds — healthy, bearing, imbalance" />
-        <div class="figcap">Each dot is one recording · three families separate · offline copy of your Colab output</div>
+        <img src="../figs/sound_clusters.svg" alt="Scatter of fan recordings — healthy vs faulty, overlapping" />
+        <div class="figcap">Each dot is one recording · healthy vs faulty · they overlap · offline copy of your Colab output</div>
       </div></div>
     </div>
   </section>
@@ -141,15 +141,15 @@
   <!-- ========== 10 · FEATURE IMPORTANCE — the whine + the rumble it leaned on ========== -->
   <section class="slide"
     data-title="Feature importance — the whine and the rumble"
-    data-note="Open the box — show WHICH part of the sound it leaned on, the way the morning showed the clue WORDS. 'This morning we asked the model which WORDS pushed a note to urgent. Now we ask which PITCHES pushed a sound to bearing-fault.' Read the chart, signal the top bars: 'Top of the list — that high WHINE band, two-to-three thousand hertz. That single feature does most of the work. Second — the low RUMBLE, the rotation hum, which tells healthy from imbalance.' The landing is the same as the morning's clue-words: 'No one TOLD it the whine means a bad bearing. It found that, on its own, from past labelled sounds — and it's the EXACT thing your most experienced fitter listens for. The machine rediscovered the tell-tale whine.' That convergence — machine and veteran fitter agreeing — is the trust-builder. The room watches the screen.">
+    data-note="Open the box — show WHICH part of the sound it leaned on, the way the morning showed the clue WORDS. 'This morning we asked the model which WORDS pushed a note to urgent. Now we ask which PITCHES pushed a sound to FAULTY.' Read the chart, signal the top bars: 'Top of the list — the high WHINE bands around two-to-three thousand hertz AND the low RUMBLE of the rotation hum, neck and neck. Those two carry the load.' The landing is the same as the morning's clue-words: 'No one TOLD it the whine means a bad fan. It found that, on its own, from past labelled sounds — and it's the EXACT thing your most experienced fitter listens for. The machine rediscovered the tell-tale whine.' That convergence — machine and veteran fitter agreeing — is the trust-builder. The room watches the screen.">
     <div class="eyebrow">Which part of the sound did it lean on?</div>
     <h2>It leaned on the <span class="a">whine</span> and the rumble — the same tells a veteran fitter listens for.</h2>
     <div class="ae">
       <div>
-        <p class="lead">No one told it the high whine means a failing bearing. It found that pattern itself, from past labelled sounds.</p>
+        <p class="lead">No one told it the high whine means a failing fan. It found that pattern itself, from past labelled sounds.</p>
         <ul class="frags" style="margin-top:18px">
-          <li>The <span class="k">high whine</span> (~2–3 kHz) — does most of the work for bearing faults.</li>
-          <li>The <span class="k">low rumble</span> — the rotation hum — separates healthy from imbalance.</li>
+          <li>The <span class="k">high whine</span> (~2–3 kHz) — a top cue for spotting a faulty fan.</li>
+          <li>The <span class="k">low rumble</span> (~50 Hz) — the rotation hum — carries just as much weight.</li>
         </ul>
       </div>
       <div class="vwrap"><div class="evidence">
@@ -179,16 +179,16 @@
   <!-- ========== 11a · CONSOLIDATION BEAT (calm, inverted-U) ========== -->
   <section class="slide center"
     data-title="Consolidation — sit with the whine no gauge caught"
-    data-note="Ten seconds of deliberate calm after the peak. Don't rush. Say it once, quietly, into the silence: 'A whine, hours early, that no instrument on that aircraft could see. One human ear heard it and was overruled. Sit with that for a moment.' Then, softly, set up the next idea: 'But here's the catch for a skeptic — that model was TRAINED on bearings and imbalance. What does it do with a fault it has never been TAUGHT? A failure mode nobody labelled? It can't name what it's never seen. So we change the question.' Advance. This breaks the intensity so the peak lands, and hands off to anomaly detection.">
+    data-note="Ten seconds of deliberate calm after the peak. Don't rush. Say it once, quietly, into the silence: 'A whine, hours early, that no instrument on that aircraft could see. One human ear heard it and was overruled. Sit with that for a moment.' Then, softly, set up the next idea: 'But here's the catch for a skeptic — that model learned from labelled faulty fans. What does it do with a fault nobody ever labelled — a failure mode it has never been TAUGHT? It can't name what it's never seen. So we change the question.' Advance. This breaks the intensity so the peak lands, and hands off to anomaly detection.">
     <div class="eyebrow">Breathe · before we change the question</div>
     <div class="callback" style="font-size:clamp(26px,4.2vw,54px);color:var(--paper)">A whine no <b>gauge</b> could catch.</div>
-    <p class="lead wide" style="margin-top:30px">That model knew bearings and imbalance. But what about a fault it was never taught — one nobody ever labelled? It can't name what it's never seen. So we change the question.</p>
+    <p class="lead wide" style="margin-top:30px">That model learned faulty fans from labelled examples. But what about a fault nobody ever labelled — a failure mode it was never taught? It can't name what it's never seen. So we change the question.</p>
   </section>
 
-  <!-- ========== 12 · ANOMALY DETECTION — learn 'normal', flag the surprising (AUC ~0.94) ========== -->
+  <!-- ========== 12 · ANOMALY DETECTION — learn 'normal', flag the surprising (AUC ~0.74) ========== -->
   <section class="slide"
     data-title="Anomaly detection — learn normal, flag the strange"
-    data-note="The powerful twist — and it answers the skeptic's 'you can't label every failure'. 'Instead of teaching it every fault — impossible, you can't label a failure that hasn't happened yet — we teach it only ONE thing: what NORMAL sounds like. Hours and hours of healthy machines. It builds a tight picture of normal. Then anything that does not FIT — anything surprising — it flags. It doesn't need to know what's wrong. It only needs to know this isn't normal.' Show the chart, signal it: 'Most sounds pile up here, well inside normal. A few sit far out in the tail — the surprising ones. We don't have to have seen that exact fault before.' The honest number: 'How well does it separate normal from strange? AUC about ninety-four percent — strong, not perfect. A high AUC means: pick a random normal clip and a random strange one, and ninety-four times in a hundred it scores the strange one as more surprising. It will still cry wolf sometimes — but it catches faults nobody could have labelled in advance.' This is the genuinely awe-worthy-but-honest beat.">
+    data-note="The powerful twist — and it answers the skeptic's 'you can't label every failure'. 'Instead of teaching it every fault — impossible, you can't label a failure that hasn't happened yet — we teach it only ONE thing: what NORMAL sounds like. Hours and hours of healthy machines. It builds a tight picture of normal. Then anything that does not FIT — anything surprising — it flags. It doesn't need to know what's wrong. It only needs to know this isn't normal.' Show the chart, signal it: 'Most sounds pile up here, well inside normal. A few sit far out in the tail — the surprising ones. We don't have to have seen that exact fault before.' The honest number: 'How well does it separate normal from strange? AUC about zero-point-seven-four — useful, and HONESTLY harder than the labelled version at ninety-two. A high AUC means: pick a random normal clip and a random strange one, and seventy-four times in a hundred it scores the strange one as more surprising. It will still cry wolf sometimes — but it catches faults nobody could have labelled in advance, and public MIMII/DCASE fan scores sit right in this range.' This is the honest-but-still-useful beat.">
     <div class="eyebrow">Can't label every failure? Learn only NORMAL.</div>
     <h2>Teach it only what <span class="t">normal</span> sounds like — then flag anything <span class="a">surprising</span>.</h2>
     <div class="ae">
@@ -197,12 +197,12 @@
         <ul class="frags" style="margin-top:18px">
           <li>Learn <span class="k">normal</span> from hours of healthy machines — no fault labels needed.</li>
           <li>Anything far from normal gets <span class="k">flagged as surprising</span> — even faults nobody labelled.</li>
-          <li class="good">Separates normal from strange at <span class="k">AUC ≈ 0.94</span> — strong, honestly not perfect.</li>
+          <li class="good">Separates normal from strange at <span class="k">AUC ≈ 0.74</span> — clearly harder than the labelled ~92%; a useful first filter, not magic.</li>
         </ul>
       </div>
       <div class="vwrap"><div class="evidence">
         <img src="../figs/anomaly_hist.svg" alt="Distribution of surprise scores — most normal, a few surprising in the tail" />
-        <div class="figcap">Surprise score · most sound is normal · the flagged few sit in the tail · AUC ≈ 0.94</div>
+        <div class="figcap">Surprise score · most sound is normal · the flagged few sit in the tail · AUC ≈ 0.74</div>
       </div></div>
     </div>
   </section>
@@ -251,7 +251,7 @@
   <!-- ========== 16 · CLIFFHANGER (peak-end, never on logistics) ========== -->
   <section class="slide center"
     data-title="Cliffhanger — how often does it mis-hear?"
-    data-note="End on the hook, never on logistics. 'Today the machine listened and SORTED — healthy, bearing, imbalance. But listening isn't only sorting sounds. Sometimes we ask it to listen to a VOICE and write down the words — a part number read aloud, an instruction over a radio.' Beat. 'So the question for the last session — pin it next to the 4pm one: how OFTEN does it mis-hear? And here's the sting — does a small error even matter? Because mis-hearing one digit of a part number could be the most dangerous mistake of the day.' Point at the rail: dot three done, dot four next — the last one. 'Grab water — back in ten.' Walk off on the question.">
+    data-note="End on the hook, never on logistics. 'Today the machine listened and SORTED — healthy vs faulty. But listening isn't only sorting sounds. Sometimes we ask it to listen to a VOICE and write down the words — a part number read aloud, an instruction over a radio.' Beat. 'So the question for the last session — pin it next to the 4pm one: how OFTEN does it mis-hear? And here's the sting — does a small error even matter? Because mis-hearing one digit of a part number could be the most dangerous mistake of the day.' Point at the rail: dot three done, dot four next — the last one. 'Grab water — back in ten.' Walk off on the question.">
     <div class="eyebrow">Speech I → Speech II · the rail moves to the last dot</div>
     <h2>How OFTEN does it mis-hear — and <span class="t">does that even matter?</span></h2>
     <p class="lead wide">Today it sorted sounds. Last session: it listens to a voice and writes the words — and a single misheard digit could be the most dangerous error of the day.</p>
