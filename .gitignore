@@ -34,3 +34,9 @@ SESSION_PLAN.md
 Predictive-AI-Lesson-Plan.docx
 Predictive-AI-Lesson-Plan.pdf
 Predictive-AI-Session-Plan.docx
+
+# Session-3 runtime download/extraction at the repo/working root ONLY.
+# The committed dataset lives at audio/fan_clips.zip and must stay tracked,
+# so these patterns are anchored with a leading slash.
+/fan_clips/
+/fan_clips.zip
