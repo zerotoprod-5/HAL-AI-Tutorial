@@ -473,6 +473,7 @@
     <div class="chartsplit">
       <div>
         <h2>Not a black box — it shows its <span class="t">clue-words.</span></h2>
+        <p class="sub" style="max-width:52ch;margin:8px 0 4px">The model is <b>logistic regression</b>: it scores each word (positive pushes URGENT, negative pushes ROUTINE), adds the scores up for a note, and decides — so its "clue-words" are simply those scores.</p>
         <ul class="frags">
           <li>The top urgent words match what an engineer expects (crack, fuel, leak, pressure → URGENT)</li>
           <li>The honest number is <span class="k">urgent recall ~95%</span> — caught <span class="k">20 of 21</span>, missed 1; bare accuracy ~90% (always-routine already scores 85%)</li>
