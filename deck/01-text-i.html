@@ -128,6 +128,53 @@
     <div class="cuerow"><span class="cue cards">Cards: which word appears most? · then I type live</span></div>
   </section>
 
+  <!-- ========== 8b · VECTORISING — the notebook's exact two-note table ========== -->
+  <section class="slide"
+    data-title="Vectorising — two notes become two rows of numbers"
+    data-note="The freeze-frame of vectorising — and it is the EXACT table they run in the notebook, so it clicks. 'Two notes. We drop the filler words, then list every remaining word as a column — a shared vocabulary. Now each note is just a row across those columns: a number where its words appear, zero everywhere else. Look at the two rows — they light up totally different columns. THAT difference is all the model needs. You will run this exact cell in a moment and see the same table.' Keep it to forty seconds.">
+    <div class="eyebrow">Vectorising · words become a table of numbers</div>
+    <h2>Two notes &rarr; <span class="t">two rows of numbers</span>.</h2>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin:14px 0 6px;font-size:clamp(13px,1.4vw,17px)">
+      <div style="border:1px solid var(--line-2,rgba(125,182,196,.28));border-radius:8px;padding:8px 14px"><b style="color:var(--red)">urgent</b> &nbsp;"crack found in wing spar, aircraft grounded"</div>
+      <div style="border:1px solid var(--line-2,rgba(125,182,196,.28));border-radius:8px;padding:8px 14px"><b style="color:var(--green)">routine</b> &nbsp;"seat trim scuffed, within limits, monitor"</div>
+    </div>
+    <table style="border-collapse:collapse;font-family:var(--mono);font-size:clamp(10px,1.15vw,14px);margin-top:8px">
+      <thead><tr style="color:var(--muted)">
+        <th style="text-align:right;padding:4px 8px"></th>
+        <th style="padding:4px 7px">aircraft</th><th style="padding:4px 7px">crack</th><th style="padding:4px 7px">grounded</th><th style="padding:4px 7px">limits</th><th style="padding:4px 7px">monitor</th><th style="padding:4px 7px">scuffed</th><th style="padding:4px 7px">seat</th><th style="padding:4px 7px">spar</th><th style="padding:4px 7px">trim</th><th style="padding:4px 7px">wing</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td style="text-align:right;padding:5px 8px;color:var(--red)">urgent</td>
+          <td style="padding:5px 7px;text-align:center;background:var(--teal-deep);color:#fff;border-radius:4px">0.45</td>
+          <td style="padding:5px 7px;text-align:center;background:var(--teal-deep);color:#fff;border-radius:4px">0.45</td>
+          <td style="padding:5px 7px;text-align:center;background:var(--teal-deep);color:#fff;border-radius:4px">0.45</td>
+          <td style="padding:5px 7px;text-align:center;color:var(--faint,#5d7689)">0</td>
+          <td style="padding:5px 7px;text-align:center;color:var(--faint,#5d7689)">0</td>
+          <td style="padding:5px 7px;text-align:center;color:var(--faint,#5d7689)">0</td>
+          <td style="padding:5px 7px;text-align:center;color:var(--faint,#5d7689)">0</td>
+          <td style="padding:5px 7px;text-align:center;background:var(--teal-deep);color:#fff;border-radius:4px">0.45</td>
+          <td style="padding:5px 7px;text-align:center;color:var(--faint,#5d7689)">0</td>
+          <td style="padding:5px 7px;text-align:center;background:var(--teal-deep);color:#fff;border-radius:4px">0.45</td>
+        </tr>
+        <tr>
+          <td style="text-align:right;padding:5px 8px;color:var(--green)">routine</td>
+          <td style="padding:5px 7px;text-align:center;color:var(--faint,#5d7689)">0</td>
+          <td style="padding:5px 7px;text-align:center;color:var(--faint,#5d7689)">0</td>
+          <td style="padding:5px 7px;text-align:center;color:var(--faint,#5d7689)">0</td>
+          <td style="padding:5px 7px;text-align:center;background:var(--teal-deep);color:#fff;border-radius:4px">0.45</td>
+          <td style="padding:5px 7px;text-align:center;background:var(--teal-deep);color:#fff;border-radius:4px">0.45</td>
+          <td style="padding:5px 7px;text-align:center;background:var(--teal-deep);color:#fff;border-radius:4px">0.45</td>
+          <td style="padding:5px 7px;text-align:center;background:var(--teal-deep);color:#fff;border-radius:4px">0.45</td>
+          <td style="padding:5px 7px;text-align:center;color:var(--faint,#5d7689)">0</td>
+          <td style="padding:5px 7px;text-align:center;background:var(--teal-deep);color:#fff;border-radius:4px">0.45</td>
+          <td style="padding:5px 7px;text-align:center;color:var(--faint,#5d7689)">0</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="small" style="max-width:70ch">Each note becomes a row across the shared word-list — a number where its words appear, <b>0</b> elsewhere. The two rows light up <b>different columns</b>: that's the signal. <span style="color:var(--muted)">(The exact table you run in the notebook — TF-IDF; "found"/"within"/"in" are dropped as filler.)</span></p>
+  </section>
+
   <!-- ========== 9 · RUN-THE-CELL (Colab cue, fig as offline fallback) ========== -->
   <section class="slide"
     data-title="Run the cell — which words signal urgent"
@@ -143,6 +190,27 @@
         <img src="../figs/text_cluewords.svg" alt="Words weighted toward urgent vs routine" />
         <div class="figcap">Word weights learned from 260 past notes · offline copy of your Colab output</div>
       </div></div>
+    </div>
+  </section>
+
+  <!-- ========== 9b · HOW THE MODEL DECIDES (logistic-regression intuition) ========== -->
+  <section class="slide"
+    data-title="How the model decides — add up the scores"
+    data-note="The intuition, in plain words — no maths, say it slowly. 'Nobody wrote rules. Training learned a single SCORE for every word — the exact weights you just ran. Crack, grounded, fire: high and positive, push toward urgent. Cosmetic, scheduled, within-limits: negative, push toward routine. The, on, a: about zero. Now watch what it does with a NEW note — it just adds up the scores of the words in it. Crack plus grounded plus a couple of small ones; the total leans urgent, past the line, so it flags URGENT. That is the whole of logistic regression: weigh the evidence word by word, add it up, decide. The clue-words chart IS those scores — so you have already seen the model's entire brain.'">
+    <div class="eyebrow">The model · logistic regression</div>
+    <h2><span class="t">Logistic regression</span>: weigh each clue, add it up, decide.</h2>
+    <p style="font-size:clamp(15px,1.75vw,22px);color:var(--paper);max-width:72ch;margin-top:18px;line-height:1.5">
+      The standard, <b>see-through</b> classifier: it learns a <b>score for each word</b> — positive words push a note
+      toward <b>URGENT</b>, negative toward <b>ROUTINE</b>, filler words sit near zero. To judge a note it just
+      <b>adds up</b> the scores of the words in it; lean past a line &rarr; <b>URGENT</b>, with a confidence.
+      Those per-word scores <b>are</b> the clue-words you just saw — no rules written by hand.</p>
+    <div class="flow" style="max-width:1080px;flex-wrap:wrap;margin-top:22px">
+      <div class="node"><div class="k">"crack"</div><div class="v" style="color:var(--red)">+1.9</div></div>
+      <div class="node"><div class="k">"grounded"</div><div class="v" style="color:var(--red)">+1.5</div></div>
+      <div class="node"><div class="k">"the"</div><div class="v" style="color:var(--muted)">0.0</div></div>
+      <div class="node"><div class="k">"panel"</div><div class="v" style="color:var(--muted)">&minus;0.3</div></div>
+      <div class="arrow">&rarr;</div>
+      <div class="node hot"><div class="k">add them up</div><div class="v" style="color:var(--red)">+3.1 · URGENT</div></div>
     </div>
   </section>
 
