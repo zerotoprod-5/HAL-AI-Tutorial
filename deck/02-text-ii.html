@@ -52,28 +52,29 @@
 
   <!-- ========== 4 · PRODUCTIVE FAILURE (group BEFORE teaching) ========== -->
   <section class="slide"
-    data-title="Productive failure — you group 6 notes"
-    data-note="They struggle first, on purpose — no method yet. 'Six more lines from that folder. This time there's NO urgent/routine to assign. Instead: group them. Which notes belong together — same kind of failure — even if the words differ? Ninety seconds. Use the numbers.' Start the timer, walk, stay quiet. The trap is built in: 1, 2 and 5 are all the SAME gearbox-bearing fault written three different ways (grinding / noisy / worn); 3 and 6 are the same hydraulic leak; 4 is electrical, alone. At ~75s work the disagreement: 'Who put 1 and 5 together? They share almost no words — grinding versus worn — but they're the same failure.' THAT is the point: same fault, different words. Don't resolve how a machine could spot it — we name that next as cosine similarity.">
+    data-title="Productive failure — you group 7 notes"
+    data-note="They struggle first, on purpose — no method yet. 'Seven lines from that folder. This time there's NO urgent/routine to assign. Instead: group them. Which notes belong together — same kind of failure — even if the words differ? Ninety seconds.' Start the timer, walk, stay quiet. The trap is built in: 0, 1 and 2 are all the SAME gearbox-bearing fault written three ways (grinding / noisy / worn); 3 and 4 are the same hydraulic leak; 5 (transponder) and 6 (corrosion) each stand alone. At ~75s work the disagreement: 'Who put 0 and 2 together? They share almost no words — grinding noise versus worn bearing — but they're the same failure.' THAT is the point: same fault, different words. Don't resolve how a machine could spot it — we name that next as cosine similarity. (These are the exact #0–#6 snags they'll see in the notebook's heatmap.)">
     <div class="eyebrow">90 seconds · no method yet, just you</div>
     <h2>No labels now — just <span class="a">group what belongs together.</span></h2>
-    <table class="mini" style="min-width:min(960px,90vw);font-size:clamp(15px,1.7vw,20px)">
+    <table class="mini" style="min-width:min(980px,90vw);font-size:clamp(13px,1.5vw,18px)">
       <thead><tr><th class="labelcol">#</th><th>Maintenance note (verbatim style)</th><th>Group?</th></tr></thead>
       <tbody>
-        <tr><td class="labelcol">1</td><td style="text-align:left">"Grinding noise from the accessory gearbox bearing under load."</td><td>?</td></tr>
-        <tr><td class="labelcol">2</td><td style="text-align:left">"Accessory gearbox bearing very noisy under load, grinding."</td><td>?</td></tr>
+        <tr><td class="labelcol">0</td><td style="text-align:left">"Grinding noise from the accessory gearbox bearing under load."</td><td>?</td></tr>
+        <tr><td class="labelcol">1</td><td style="text-align:left">"Accessory gearbox bearing grinding and very noisy under load."</td><td>?</td></tr>
+        <tr><td class="labelcol">2</td><td style="text-align:left">"Loud grinding from the worn accessory gearbox bearing."</td><td>?</td></tr>
         <tr><td class="labelcol">3</td><td style="text-align:left">"Hydraulic oil leaking from the main gear actuator seal."</td><td>?</td></tr>
-        <tr><td class="labelcol">4</td><td style="text-align:left">"Transponder drops off intermittently in flight."</td><td>?</td></tr>
-        <tr><td class="labelcol">5</td><td style="text-align:left">"Loud grinding from the worn accessory gearbox bearing."</td><td>?</td></tr>
-        <tr><td class="labelcol">6</td><td style="text-align:left">"Fluid leak at the main gear hydraulic actuator seal."</td><td>?</td></tr>
+        <tr><td class="labelcol">4</td><td style="text-align:left">"Fluid leak at the main gear hydraulic actuator seal."</td><td>?</td></tr>
+        <tr><td class="labelcol">5</td><td style="text-align:left">"Transponder drops off intermittently in flight."</td><td>?</td></tr>
+        <tr><td class="labelcol">6</td><td style="text-align:left">"Corrosion found on the wing root lower skin."</td><td>?</td></tr>
       </tbody>
     </table>
-    <div class="cuerow"><span class="cue cards">Group by hand · hands up where you disagree on 1, 2 and 5</span></div>
+    <div class="cuerow"><span class="cue cards">Group by hand · hands up where you disagree on 0, 1 and 2</span></div>
   </section>
 
   <!-- ========== 5 · JUST-IN-TIME: similarity (the one new term) — spine NAMED ========== -->
   <section class="slide"
     data-title="Just-in-time — similarity, not a label"
-    data-note="Now name the one idea this session needs — because they just DID it. 'You just grouped 1, 2 and 5 together even though one says grinding, one says noisy, one says worn. You weren't matching exact words — you were judging how SIMILAR two notes are in meaning. That's the whole new idea: similarity. We measure how much two notes overlap, score it nought to one, and notes that score high get pulled into the same family.' Two beats only. Then point along the thread: 'No labels feed in this time — just the notes. The machine measures similarity, the similar ones clump into families, and only AT THE END do we humans read each family and name it. Same thread, the label end is gone.' This is the vocabulary for the rest of the session.">
+    data-note="Now name the one idea this session needs — because they just DID it. 'You just grouped 0, 1 and 2 together even though one says grinding, one says noisy, one says worn. You weren't matching exact words — you were judging how SIMILAR two notes are in meaning. That's the whole new idea: similarity. We measure how much two notes overlap, score it nought to one, and notes that score high get pulled into the same family.' Two beats only. Then point along the thread: 'No labels feed in this time — just the notes. The machine measures similarity, the similar ones clump into families, and only AT THE END do we humans read each family and name it. Same thread, the label end is gone.' This is the vocabulary for the rest of the session.">
     <div class="eyebrow">One new idea · the whole session</div>
     <h2>It doesn't match words — it scores how <span class="t">similar</span> two notes are.</h2>
     <div class="grid2" style="max-width:1000px">
@@ -90,7 +91,7 @@
   <!-- ========== 6 · COSINE HEATMAP worked example (run the cell) — spine FILLED ========== -->
   <section class="slide"
     data-title="Cosine heatmap — same fault lights up"
-    data-note="Hands on Colab — the one cell they run this session. 'Switch to your Colab tab, run the cell labelled RECURRING FAULTS — shift-enter. It takes the six notes you just grouped, scores every pair for similarity, and paints the grid: bright teal is near-identical, dark is unrelated.' Wait for the room; the chart on screen is the same output, our offline backup. Read it as a worked example — point at the cells: 'The diagonal is always bright — every note is identical to itself. But look at the OFF-diagonal block, notes one, two and five — bright, even though they share barely a word. The machine scored grinding and worn as the SAME failure. Three and six light up too — the hydraulic leak. Four sits alone, dark — the transponder, its own thing.' That bright block IS the family forming. Then the predict on the next slide.">
+    data-note="Hands on Colab — the one cell they run this session. 'Switch to your Colab tab, run the cell labelled RECURRING FAULTS — shift-enter. It takes the seven notes you just grouped, scores every pair for similarity, and paints the grid: bright teal is near-identical, dark is unrelated.' Wait for the room; the chart on screen is the same output, our offline backup. Read it as a worked example — point at the cells: 'The diagonal is always bright — every note is identical to itself. But look at the OFF-diagonal block, snags ZERO, ONE and TWO — bright, even though they share barely a word. The machine scored grinding and worn as the SAME failure. Three and four light up too — the hydraulic leak. Five (transponder) and six (corrosion) sit alone, dark — each its own thing.' That bright block IS the family forming. Then the predict on the next slide.">
     <div class="eyebrow">Run the cell · your Colab tab</div>
     <h2>Same fault, different words — and the grid <span class="a">lights up.</span></h2>
     <div class="ae">
@@ -99,7 +100,7 @@
         <div class="cuerow"><span class="cue">Run the RECURRING FAULTS cell · Shift+Enter</span></div>
       </div>
       <div class="vwrap"><div class="evidence">
-        <img src="../figs/cosine_heatmap.svg" alt="Cosine-similarity heatmap of six maintenance notes" />
+        <img src="../figs/cosine_heatmap.svg" alt="Cosine-similarity heatmap of seven maintenance notes" />
         <div class="figcap">Pairwise similarity, 0 → 1 · bright = same fault in different words · offline copy of your Colab output</div>
       </div></div>
     </div>
@@ -178,26 +179,26 @@
   <!-- ========== 12 · MONEY SLIDE (PEAK — the header trap) — spine BROKEN ========== -->
   <section class="slide money split"
     data-title="MONEY — the header trap (data leakage)"
-    data-note="THE peak. The credibility-winning 'where it breaks'. Let it breathe. BEAT 1 is already showing the bars at 95: 'Here it is — ninety-five percent. Beautiful. But when we opened it up, the model was barely reading the note at all. Every record had a header field the team forgot to strip — a STATUS tag, set by a clerk AFTER the engineer had already decided how urgent it was. The model learned one rule: read the clerk's tag, echo it back. It wasn't predicting urgency. It was COPYING the answer off the top of the page.' Let that land — that's data leakage. Then ADVANCE for beat 2: the 95 bar dims and the honest 84 ignites. Drop your voice: 'Strip that one leaked field — the giveaway it should never have seen — and the SAME model drops to eighty-four percent. Below this morning's honest eighty-eight. Ninety-five was never real. It was cheating on a field that won't exist on a brand-new note.' This is the emotional high point — the moment the skeptics trust you. Earn it. (PDF freezes BOTH beats.)">
+    data-note="THE peak. The credibility-winning 'where it breaks'. Let it breathe. BEAT 1 is already showing the bars at 95: 'Here's the test that wins the skeptics. We took the exact same pipeline and ran it on a REAL public dataset — eighteen thousand documents, each already tagged with its topic, nothing we cooked up. It scored ninety-five percent. Beautiful. But when we opened it up, the model was barely reading the writing at all. Every document still carried its HEADER — and the header literally named the topic. The model learned one rule: read the header, echo it back. It wasn't understanding the text. It was COPYING the answer off the top of the page.' Let that land — that's data leakage. Then ADVANCE for beat 2: the 95 bar dims and the honest 84 ignites. Drop your voice: 'Strip those headers — the giveaway it should never have seen — and the SAME model drops to eighty-four percent. The honest number, with the leak gone. Ninety-five was never real. It was cheating on a clue that won't exist on a brand-new document.' This is the emotional high point — and the data is real, not ours, which is exactly why the skeptics trust it. Earn it. (PDF freezes BOTH beats.)">
     <div class="moneytext">
       <div class="kicker">The money shot · where it breaks</div>
-      <h2>It scored 95% by <span class="r">cheating</span> on a field it should never have read.</h2>
-      <p class="small" style="margin-top:22px">A leaked status tag — set by a clerk after the call was already made. Strip it, and the same model tells the honest truth: 84%.</p>
+      <h2>It scored 95% by <span class="r">cheating</span> on a header it should never have read.</h2>
+      <p class="small" style="margin-top:22px">On a real 18,000-document public dataset, the leaked headers named the answer. Strip them, and the same model tells the honest truth: 84%.</p>
     </div>
     <div class="moneyfig">
       <div class="leak">
-        <div class="leakhead">Same model · same notes · one leaked field removed</div>
+        <div class="leakhead">Same model · real public data · the leaked headers removed</div>
         <div class="lbgroup">
-          <div class="lblabel">Accuracy <i>before</i> — reading the leaked tag</div>
+          <div class="lblabel">Accuracy <i>before</i> — reading the leaked header</div>
           <div class="lbrow"><span class="lbname">"95% model"</span><div class="lbtrack"><i class="lbfill teal" style="width:95%"></i></div><b class="lbval">95%</b></div>
           <div class="lbnote">Looks brilliant — it was copying the answer.</div>
         </div>
         <div class="lbgroup beat2">
-          <div class="lblabel">Accuracy <i>after</i> — the leak removed</div>
+          <div class="lblabel">Accuracy <i>after</i> — the headers removed</div>
           <div class="lbrow"><span class="lbname">Same model</span><div class="lbtrack"><i class="lbfill red" style="width:84%"></i></div><b class="lbval">84%</b></div>
-          <div class="lbnote">The honest number — below this morning's 90%.</div>
+          <div class="lbnote">The honest number — what it really earns.</div>
         </div>
-        <div class="leakcallout frag">95% was never real — the leaked field won't exist on a new note.</div>
+        <div class="leakcallout frag">95% was never real — the leaked headers won't exist on a new document.</div>
       </div>
     </div>
   </section>
