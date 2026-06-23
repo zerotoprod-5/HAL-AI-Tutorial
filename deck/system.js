@@ -681,4 +681,40 @@
 
   global.HALDeck = HALDeck;
   global.HALWidgets = HALWidgets;
+
+  /* ============================================================
+     THEME TOGGLE  —  dark (design default) <-> light (projector).
+     Default is LIGHT (projectors wash out dark). Flip live with the
+     T key or the ◐ button (top-left). Choice is remembered per browser.
+     ============================================================ */
+  function _applyTheme(t){
+    document.body.classList.toggle('light', t === 'light');
+    const b = document.getElementById('themeToggle');
+    if (b) b.textContent = (t === 'light') ? '◐ Light' : '◑ Dark';
+  }
+  function _toggleTheme(){
+    const next = document.body.classList.contains('light') ? 'dark' : 'light';
+    try { localStorage.setItem('halTheme', next); } catch(e){}
+    _applyTheme(next);
+  }
+  function _initTheme(){
+    let t; try { t = localStorage.getItem('halTheme'); } catch(e){}
+    if (t !== 'dark') t = 'light';                /* default: light for the projector */
+    if (!document.getElementById('themeToggle')){
+      const btn = document.createElement('div');
+      btn.id = 'themeToggle';
+      btn.title = 'Toggle light / dark theme  (press T)';
+      btn.addEventListener('click', _toggleTheme);
+      document.body.appendChild(btn);
+    }
+    _applyTheme(t);
+  }
+  global.HALtoggleTheme = _toggleTheme;
+  document.addEventListener('keydown', function(e){
+    const tag = (e.target && e.target.tagName || '').toLowerCase();
+    if (tag === 'input' || tag === 'textarea' || (e.target && e.target.isContentEditable)) return;
+    if ((e.key || '').toLowerCase() === 't'){ e.preventDefault(); _toggleTheme(); }
+  });
+  if (document.body) _initTheme();
+  else document.addEventListener('DOMContentLoaded', _initTheme);
 })(window);

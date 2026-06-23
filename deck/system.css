@@ -586,3 +586,54 @@ body.export .cmx .cmx-callout{opacity:1!important;transform:none!important}
   .cmx .cmx-cell.miss .num{color:var(--red)}
   .cmx .cmx-callout{opacity:1!important;transform:none!important}
 }
+
+/* ============================================================
+   THEME  —  DARK (default design) + LIGHT (projector-friendly).
+   Light applies only when <body class="light">. Toggle it live
+   with the T key, or the ◐ button (top-left). Choice is persisted.
+   In light mode the chart/photo "plates" stay dark so the dark
+   chart SVGs stay readable; accents darken for contrast on white.
+   ============================================================ */
+body.light{
+  --ink:#f4f7f9; --ink2:#e8eff3; --panel:#dde7ec; --panel2:#eaf1f5;
+  --line:rgba(31,55,69,.16); --line2:rgba(31,55,69,.30); --grid:#c2d2db;
+  --paper:#16242e; --muted:#465a68; --faint:#6c7f8d;
+  --teal:#0c7a8a; --teal-deep:#0b6e7a; --green:#2f9e63; --red:#c2392b; --amber:#b3720a;
+  --accent:var(--teal);
+  background:var(--ink); color:var(--paper);
+}
+body.light[data-session="speech1"], body.light[data-session="speech2"]{ --accent:var(--green); }
+
+body.light .bg::after{background:
+  radial-gradient(900px 560px at 80% -6%,rgba(12,122,138,.06),transparent 60%),
+  radial-gradient(760px 520px at 6% 100%,rgba(47,158,99,.05),transparent 62%)}
+body.light h1 .em{background:linear-gradient(92deg,var(--teal),#0b6e7a 60%,var(--amber) 130%);
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+body.light .divider .num{background:linear-gradient(180deg,#1f2d3d,#0c7a8a 130%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;opacity:1}
+body.light .accent{border-bottom-color:var(--teal)}
+
+/* keep chart/photo PLATES dark so the dark chart SVGs stay visible; light text on them */
+body.light .evidence,body.light .figure{background:#14202b;border-color:rgba(125,182,196,.30)}
+body.light .figcap{color:#9fb8c4}
+body.light .sp .spectro{background:#14202b}
+body.light .tc canvas,body.light .db canvas{background:#0f1a22}
+body.light .slide.money .moneytext .kicker{color:var(--amber)}
+body.light .slide.money .moneytext h2,body.light .slide.money .moneytext .assert,
+body.light .slide.money .moneytext .lead,body.light .slide.money .moneytext .small{color:#f3f7fa}
+
+/* dark pills / dark surfaces that hold now-dark text -> flip to light */
+body.light .spine .s{background:#eef4f7;box-shadow:0 0 0 4px #f4f7f9}
+body.light .spine .s.hot{box-shadow:0 0 0 4px #f4f7f9,0 0 26px -4px var(--accent)}
+body.light table.mini thead th{background:#e3ebf0;color:var(--muted)}
+body.light .lt input[type=text]{background:#ffffff;color:var(--paper)}
+body.light .db .btn,body.light .pr .btn,body.light .tc .btn,body.light .lt .btn,body.light .sp .btn{background:#e7eef2;color:var(--paper)}
+body.light .notes{background:rgba(244,247,249,.97)}body.light .notes .txt{color:var(--paper)}
+body.light .overview{background:rgba(244,247,249,.98)}
+
+/* the live theme-toggle button (injected by system.js) */
+#themeToggle{position:fixed;left:24px;top:18px;z-index:30;font-family:var(--mono);
+  font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);
+  background:rgba(125,182,196,.10);border:1px solid var(--line2);border-radius:999px;
+  padding:6px 13px;cursor:pointer;user-select:none;transition:color .2s,border-color .2s}
+#themeToggle:hover{color:var(--accent);border-color:var(--accent)}
