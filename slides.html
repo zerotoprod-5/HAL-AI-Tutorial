@@ -526,6 +526,7 @@
         <h2>Predict a <span class="t">bucket</span>, or predict a <span class="a">number.</span></h2>
         <ul class="frags">
           <li>Same TF-IDF in — swap the classifier for a regressor → predict downtime hours</li>
+          <li><b>Linear regression</b>: the same weigh-and-add as the classifier, but each word's weight is in <b>hours</b> — "gearbox" +4&nbsp;h, "minor" −2&nbsp;h, filler ≈ 0 — summed into the estimate (<code>Ridge</code> = linear regression with a steadying guardrail)</li>
           <li>Off by <span class="k">~1.5 h</span> on ~6 h jobs (<span class="k">R² ≈ 0.6</span>)</li>
           <li>Predicted-vs-actual makes "it learned the relationship" visible — and honest about big-job misses</li>
         </ul>
@@ -560,6 +561,7 @@
         <h2>Snags <span class="t">self-group</span> into families — no labels.</h2>
         <ul class="frags">
           <li>Each snag becomes a point in space (an embedding); k-means sorts all of them into 5 families</li>
+          <li><b>How k-means works</b>: drop 5 "centre" markers, send each snag to its <b>nearest</b> marker, slide every marker to the <b>middle</b> of its snags, repeat until they stop moving — the <b>k</b> is just that "5"</li>
           <li>A 2-D map shows the families; read each cluster's top words to name it</li>
           <li>Honest <span class="k">~0.22</span> agreement with the true systems — Mechanical pops cleanly, others blend</li>
         </ul>
