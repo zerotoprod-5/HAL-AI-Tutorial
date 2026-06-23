@@ -21,17 +21,17 @@
     <div class="divider open" style="margin-top:34px">◷ The 4pm question — where does this AI break? — closes today</div>
   </section>
 
-  <!-- ========== 2 · DIVIDER — session spine = the notebook pipeline: speak -> transcribe -> route ========== -->
+  <!-- ========== 2 · DIVIDER — session spine = the notebook pipeline: speak -> transcribe -> suggest the part ========== -->
   <section class="slide divider"
     data-title="Session 04 · Speech II"
-    data-note="Title lands. SAY: 'Session four of four — the last dot on the map. In Speech one you saw a machine HEAR a fault and draw it as a picture. Speech two is the honest sequel: when a machine listens to us TALK — a part number, an instruction read aloud — how often does it mishear, and when does that mishearing actually hurt?' Point at the rail (three done, this one lit) and at the thread. SAY: 'Watch this thread — it is the whole notebook in three words: SPEAK, TRANSCRIBE, ROUTE. By the end of this session it is complete, and so is the day.' ADVANCE.">
+    data-note="Title lands. SAY: 'Session four of four — the last dot on the map. In Speech one you saw a machine HEAR a fault and draw it as a picture. Speech two is the honest sequel: when a machine listens to us TALK — a part number, an instruction read aloud — how often does it mishear, and when does that mishearing actually hurt?' Point at the rail (three done, this one lit) and at the thread. SAY: 'Watch this thread — it is the whole notebook in three words: SPEAK, TRANSCRIBE, SUGGEST THE PART. By the end of this session it is complete, and so is the day.' ADVANCE.">
     <div class="meta">Predictive AI · Session 04 of 04</div>
     <div class="num">04</div>
     <h1>Speech II<span class="em">how well does it hear us?</span></h1>
     <div class="spine ext" style="margin-top:30px;justify-content:center">
-      <span class="s">A technician speaks</span>
+      <span class="s">A pilot reports a snag</span>
       <span class="s hot">transcribe to text</span>
-      <span class="s">route to the right team</span>
+      <span class="s">suggest the likely part</span>
     </div>
     <div class="open" style="margin-top:24px">◷ Last dot on the rail · the day closes here</div>
   </section>
@@ -50,20 +50,20 @@
     <div class="cuerow"><span class="cue cards">Room answers first</span></div>
   </section>
 
-  <!-- ========== 4 · THE PIPELINE — speak -> transcribe -> route (notebook Big Idea + scenario) ========== -->
+  <!-- ========== 4 · THE PIPELINE — speak -> transcribe -> suggest the part (notebook Big Idea + scenario) ========== -->
   <section class="slide"
-    data-title="The pipeline — speak, transcribe, route"
-    data-note="No cell to run yet — this is the map for the whole session, straight from the notebook's BIG IDEA. SAY: 'There is one kind of messy data left — the spoken word. A technician would rather SPEAK a quick report than stop and type. So: can the computer listen and act? Yes — in two moves it already knows. First it TRANSCRIBES the speech into text, that is the one new trick. Then it runs the SAME text analytics from this morning to ROUTE the report to the right team — Electrical, Mechanical, or Hydraulic.' Point along the flow. SAY: 'Our example all session is one spoken line — there is an oil leak near the hydraulic pump — and it should land on the Hydraulic desk, with nobody typing. Speech analytics is just two familiar pieces snapped together.' ADVANCE.">
+    data-title="The pipeline — speak, transcribe, suggest the part"
+    data-note="No cell to run yet — this is the map for the whole session, straight from the notebook's BIG IDEA. SAY: 'There is one kind of messy data left — the spoken word. A pilot would rather SPEAK a snag than stop and type. So: can the computer listen and act? Yes — in two moves it already knows. First it TRANSCRIBES the speech into text, that is the one new trick. Then it runs the SAME text analytics from this morning to suggest the LIKELY PART — antenna, coax cable, RF filter, or the radio box.' Point along the flow. SAY: 'Our example all session is one spoken snag — static on the radio, the signal drops when the aircraft shakes — and the top suggestion is the Cable, part CBL-221, with nobody typing. Speech analytics is just two familiar pieces snapped together.' ADVANCE.">
     <div class="eyebrow">The whole session in three steps</div>
-    <h2>A technician speaks. The computer <span class="t">writes it down</span>, then routes it.</h2>
+    <h2>A pilot reports a snag. The computer <span class="t">writes it down</span>, then names the likely part.</h2>
     <div class="flow" style="max-width:1100px">
-      <div class="node"><div class="k">Speak</div><div class="v">a quick spoken report</div></div>
+      <div class="node"><div class="k">Speak</div><div class="v">a pilot's spoken snag</div></div>
       <div class="arrow">→</div>
       <div class="node hot"><div class="k">Transcribe</div><div class="v">speech-to-text (ASR)</div></div>
       <div class="arrow">→</div>
-      <div class="node"><div class="k">Route</div><div class="v">Electrical · Mechanical · Hydraulic</div></div>
+      <div class="node"><div class="k">Suggest part</div><div class="v">Antenna · Cable · HPF · LRU</div></div>
     </div>
-    <p class="small">Our report — "oil leak near the hydraulic pump…" — should land on the Hydraulic desk. Speech analytics = speech-to-text + this morning's text analytics.</p>
+    <p class="small">Our snag — "static on the radio, drops when it shakes" — its top suggestion is the Cable (CBL-221). Speech analytics = speech-to-text + this morning's text analytics.</p>
   </section>
 
   <!-- ========== 5 · MAKE A CLIP + TRANSCRIBE — gTTS makes it, Whisper hears it (Step 2-3) ========== -->
@@ -73,7 +73,7 @@
     <div class="eyebrow">Run it live · speech becomes text</div>
     <h2>It turns the recording into <span class="t">text</span> — almost word-for-word.</h2>
     <div class="grid2" style="max-width:1000px">
-      <div class="card"><div class="ic">We spoke</div><h3>"…oil leak near the hydraulic pump…"</h3><p>gTTS fabricates the clip from a written line — no microphone, everyone gets the same recording.</p></div>
+      <div class="card"><div class="ic">We spoke</div><h3>"Static on the radio, signal drops when it shakes"</h3><p>gTTS fabricates the clip from a written line — no microphone, everyone gets the same recording.</p></div>
       <div class="card"><div class="ic">It heard</div><h3>Near-identical transcript</h3><p>Whisper "tiny" listens to the audio and writes the words. On a clear voice it is near-perfect — speech became text.</p></div>
     </div>
     <p class="small">Once it is text, nothing about the machine changes — it is the same words-to-numbers move as this morning.</p>
@@ -113,7 +113,7 @@
   <!-- ========== 8 · THE WER CHART — harmless 15% vs dangerous 8%; which word breaks folded in ========== -->
   <section class="slide"
     data-title="The WER chart — low error can still be dangerous"
-    data-note="The heart of the session — read the chart left to right; it is the offline copy of the WER cell you just ran. DO — make sure the WER cell has run. SEE on screen: clean studio voice 0.0%, some shop-floor noise 15.4%, misheard the part number 7.7% (say 'about 15' and 'about 8'). Bar 1 GREEN: 'Clean voice — zero percent, every word right.' Bar 2 AMBER: 'Add shop-floor noise — it climbs to ~15%, one word in seven wrong, the WORST number here — and yet it is HARMLESS, because the fumbles are filler: it added and dropped a the. The part number MS21042 still came through. A messy transcript you can still act on.' Drop your voice, point at bar 3 RED: 'This one. A quiet room, only ~8% — half the noise bar, looks far safer. But the one word it got wrong was the PART NUMBER — MS21042 came out MS21052. Eight percent on paper, and it just told you to pull the wrong component off the shelf.' Reveal the three frags as you land it. This is the whole lesson: the danger is the small number in the wrong place. ADVANCE.">
+    data-note="The heart of the session — read the chart left to right; it is the offline copy of the WER cell you just ran. DO — make sure the WER cell has run. SEE on screen: clean studio voice 0.0%, some shop-floor noise 15.4%, misheard the part number 7.7% (say 'about 15' and 'about 8'). Bar 1 GREEN: 'Clean voice — zero percent, every word right.' Bar 2 AMBER: 'Add shop-floor noise — it climbs to ~15%, one word in seven wrong, the WORST number here — and yet it is HARMLESS, because the fumbles are filler: it added and dropped a the. The part number CBL-221 still came through. A messy transcript you can still act on.' Drop your voice, point at bar 3 RED: 'This one. A quiet room, only ~8% — half the noise bar, looks far safer. But the one word it got wrong was the PART NUMBER — CBL-221 came out CBL-227. Eight percent on paper, and it just told you to pull the wrong component off the shelf.' Reveal the three frags as you land it. This is the whole lesson: the danger is the small number in the wrong place. ADVANCE.">
     <div class="eyebrow">Same sentence, three conditions</div>
     <h2>The worst number is harmless — the <span class="r">dangerous</span> one is small.</h2>
     <div class="ae">
@@ -121,7 +121,7 @@
         <p class="lead">15% in noise is just fumbled filler — the part number survives. 8% that swaps one digit of the part number sends the wrong component to the floor.</p>
         <ul class="frags" style="margin-top:18px">
           <li class="good">The common words — <span class="k">replace · the · on</span> — it nails every time.</li>
-          <li class="warn">The part number <span class="k">MS21042</span> — rare, alphanumeric — is the first thing to break.</li>
+          <li class="warn">The part number <span class="k">CBL-221</span> — rare, alphanumeric — is the first thing to break.</li>
           <li class="warn">Rare and important are the same words. <span class="k">Low WER, wrong part.</span></li>
         </ul>
       </div>
@@ -146,43 +146,43 @@
     </ul>
   </section>
 
-  <!-- ========== 10 · THE ROUTING PAYOFF — train + route the transcript -> Hydraulic (Step 4-5) ========== -->
+  <!-- ========== 10 · THE PAYOFF — suggest the likely part from the snag (Step 4-5) ========== -->
   <section class="slide"
-    data-title="The payoff — route the spoken report to a team"
-    data-note="The notebook calls this 'the payoff', and it is. DO — run the train cell (24 past reports, 8 each for Electrical / Mechanical / Hydraulic) then the route cell that feeds in the TRANSCRIPT from earlier. SEE — 'Routed to team: Hydraulic' with a little confidence bar chart, Hydraulic well ahead. SAY: 'Watch the whole pipeline close. The spoken report became text; now the SAME text analytics from this morning routes that text to a team — Hydraulic — because it saw the words oil, leak, hydraulic, pressure. Nobody typed, nobody sorted. And it shows its confidence per team, so it is a reason you can check, not a black box.' Reveal the frags. ADVANCE.">
-    <div class="eyebrow">The payoff · speech became a decision</div>
-    <h2>Text in, <span class="t">team out</span> — routed to Hydraulic, with a reason.</h2>
+    data-title="The payoff — suggest the likely part"
+    data-note="The notebook calls this 'the payoff', and it is — but it is honest about being hard. DO — run the train cell (it loads a small embedding model, the SAME embeddings from Session 2, and learns from 32 past snags, 8 each for Antenna / Cable / HPF / LRU) then the route cell that feeds in the TRANSCRIPT from earlier. SEE — 'Most likely part: Cable (P/N CBL-221)' with a ranked shortlist, Cable about 40 percent and the others trailing. SAY: 'Watch the pipeline close. The spoken snag became text; the embedding places it in meaning-space; the model returns a RANKED SHORTLIST of likely parts — Cable on top, antenna, filter and box close behind. Notice the modest confidence: a snag like static-and-drops genuinely could be more than one part, so it does not pretend to be certain. That is the honest answer — a prioritised starting point for the engineer, not a verdict. And it just handed you CBL-221, the very number we watched ASR mangle a moment ago, so the pilot never had to read it aloud.' Reveal the frags. ADVANCE.">
+    <div class="eyebrow">The payoff · speech became a shortlist</div>
+    <h2>Text in, a <span class="t">likely part</span> out — a ranked shortlist, with a reason.</h2>
     <div class="flow" style="max-width:1100px">
-      <div class="node"><div class="k">Learn</div><div class="v">24 past reports · 8 per team</div></div>
+      <div class="node"><div class="k">Learn</div><div class="v">32 past snags · 8 per part</div></div>
       <div class="arrow">→</div>
-      <div class="node hot"><div class="k">Match the words</div><div class="v">the same text analytics</div></div>
+      <div class="node hot"><div class="k">Match the meaning</div><div class="v">embeddings — like Session 2</div></div>
       <div class="arrow">→</div>
-      <div class="node"><div class="k">Route</div><div class="v">→ Hydraulic</div></div>
+      <div class="node"><div class="k">Suggest</div><div class="v">→ Cable · CBL-221</div></div>
     </div>
     <ul class="frags" style="margin-top:18px">
-      <li>"oil leak near the hydraulic pump" → <span class="k">Hydraulic</span> — the words oil, leak, hydraulic decide it.</li>
-      <li class="good">It shows <span class="k">confidence per team</span> — a reason you can check, not a black box.</li>
+      <li>"static on the radio, drops when it shakes" → top suggestion <span class="k">Cable (CBL-221)</span>, antenna &amp; filter close behind.</li>
+      <li class="good">A <span class="k">ranked shortlist with confidence</span> — a prioritised starting point, not a verdict.</li>
     </ul>
   </section>
 
   <!-- ========== 11 · YOUR TURN — change the sentence; confidence splits when unsure (Step 6) ========== -->
   <section class="slide"
-    data-title="Your turn — change the report, watch the team change"
-    data-note="The most hands-on moment — get the room driving. DO — in the route_spoken_report cell, change the sentence and rerun (Shift+Enter); the helper speaks it, transcribes it, routes it, all in one. SEE — 'circuit breaker… burning smell' lands on Electrical. SAY: 'One example could be luck, so try your own. Call one out — a gearbox grinding, a leaking hose — and watch the team follow the words.' Then the honest-confidence beat — this is where confidence really lives, and there is no confident-and-wrong here: 'Now mix two teams clues on purpose — sparks AND an oil leak — and the confidence SPLITS between Electrical and Hydraulic. That split is not a failure; it is the model telling you it is genuinely unsure. That honesty is exactly what makes it trustworthy.' ADVANCE.">
+    data-title="Your turn — change the snag, watch the part change"
+    data-note="The most hands-on moment — get the room driving, and this is where the embedding earns its keep. DO — in the identify_part cell, change the sentence and rerun (Shift+Enter); the helper speaks it, transcribes it, suggests the part, all in one. SAY: 'One example could be luck, so try your own. Call one out — the antenna is cracked, interference from the radar — and watch the shortlist follow the MEANING, not just the words: even a snag worded in a way it never saw, like the radio is all crackly, still leans the right way.' Then the honest beat: 'Now mix two parts clues on purpose — interference AND the reception keeps dropping — and the shortlist SPLITS between the filter and the antenna. That split is not a failure; it is the model telling you it is genuinely unsure. A snag rarely names one part on its own, which is exactly why the engineer stays in the loop.' ADVANCE.">
     <div class="eyebrow">The most hands-on minute of the day</div>
-    <h2>Change the sentence — <span class="t">watch the team change.</span></h2>
-    <p class="lead wide">Speak a different report and rerun: "circuit breaker tripping, burning smell" → Electrical. Mix two teams' clues — "sparks AND an oil leak" — and the confidence splits.</p>
+    <h2>Change the snag — <span class="t">watch the part change.</span></h2>
+    <p class="lead wide">Speak a different snag and rerun: "the antenna is cracked, reception poor in the rain" → Antenna. Mix two parts' clues — "interference AND reception dropping" — and the shortlist splits.</p>
     <ul class="frags" style="margin-top:18px">
-      <li>Edit the sentence in <span class="k">route_spoken_report( … )</span>, rerun — speak → transcribe → route, all in one.</li>
+      <li>Edit the sentence in <span class="k">identify_part( … )</span>, rerun — speak → transcribe → suggest, all in one.</li>
       <li class="good">A split confidence isn't a failure — it's the computer telling you it's <span class="k">genuinely unsure</span>. Honest behaviour.</li>
     </ul>
-    <div class="cuerow"><span class="cue cards">Try your own — call out a report</span></div>
+    <div class="cuerow"><span class="cue cards">Try your own — call out a snag</span></div>
   </section>
 
   <!-- ========== 12 · FINAL SYNTHESIS RETRIEVAL — reassemble the whole DAY spine (untouched) ========== -->
   <section class="slide"
     data-title="Synthesis — reassemble the day's spine"
-    data-note="Capstone retrieval — the room rebuilds the WHOLE day in one thread before the peak. Point at the empty spine. Ask each node; they say it, THEN you advance and it lights. Q1 (up): first node — what does it always start from? ANSWER: past examples (labelled notes, machine sounds, spoken lines). Q2: the middle — what does it find? ANSWER: a pattern (clue words, clusters, the whine, 'normal', the words that signal a team). Q3: the last — what does it produce? ANSWER: a prediction on something NEW it never saw. SAY: 'That is the entire day — four sessions, one sentence — and you just rebuilt it from memory, which means it is yours now, not mine.' ADVANCE.">
+    data-note="Capstone retrieval — the room rebuilds the WHOLE day in one thread before the peak. Point at the empty spine. Ask each node; they say it, THEN you advance and it lights. Q1 (up): first node — what does it always start from? ANSWER: past examples (labelled notes, machine sounds, spoken lines). Q2: the middle — what does it find? ANSWER: a pattern (clue words, clusters, the whine, 'normal', the words that signal a part). Q3: the last — what does it produce? ANSWER: a prediction on something NEW it never saw. SAY: 'That is the entire day — four sessions, one sentence — and you just rebuilt it from memory, which means it is yours now, not mine.' ADVANCE.">
     <div class="eyebrow">You rebuild it · out loud · node by node</div>
     <h2>All four sessions were the <span class="t">same three steps</span>.</h2>
     <p class="bullet">First node — what does it always start from?</p>
@@ -224,13 +224,13 @@
   <!-- ========== 15 · CLOSE THE OPEN LOOP — where it breaks, retied to the notebook ========== -->
   <section class="slide"
     data-title="Close the loop — where it breaks, named"
-    data-note="Pay the day-long loop in FULL, honestly, and tie every break to something they SAW in the notebook. SAY: 'At 9am I asked: where does this AI break? You have now seen every answer. Let me name them.' Build one at a time. One: a word or part name it never heard in training — no pattern, so it guesses. Two: noise, accents and jargon — the shop floor and the radio — smear the audio (the reason keyword spotting and domain training exist). Three: low error, wrong word — the ~8% WER that still swapped MS21042 to MS21052; the number looked safe, the part was not. SAY: 'These are not bugs we forgot to fix — they are the SHAPE of learning a pattern from the past. It only knows what the past showed it. Knowing this list is what makes YOU the engineer in the loop. The loop I opened this morning is now closed — and you closed it.' ADVANCE.">
+    data-note="Pay the day-long loop in FULL, honestly, and tie every break to something they SAW in the notebook. SAY: 'At 9am I asked: where does this AI break? You have now seen every answer. Let me name them.' Build one at a time. One: a word or part name it never heard in training — no pattern, so it guesses. Two: noise, accents and jargon — the shop floor and the radio — smear the audio (the reason keyword spotting and domain training exist). Three: low error, wrong word — the ~8% WER that still swapped CBL-221 to CBL-227; the number looked safe, the part was not. SAY: 'These are not bugs we forgot to fix — they are the SHAPE of learning a pattern from the past. It only knows what the past showed it. Knowing this list is what makes YOU the engineer in the loop. The loop I opened this morning is now closed — and you closed it.' ADVANCE.">
     <div class="eyebrow">The 4pm answer · the loop closes here</div>
     <h2>Where it breaks — <span class="r">named</span>, every one.</h2>
     <p class="bullet warn">A <span class="k">word or part name it never heard</span> in training — no pattern, so it guesses.</p>
     <ul class="frags" style="margin-top:16px">
       <li class="warn"><span class="k">Noise, accents, jargon</span> — the shop floor and the radio smear the audio. (Why keyword spotting and domain training exist.)</li>
-      <li class="warn"><span class="k">Low error, wrong word</span> — ~8% WER that still swapped MS21042. The number looked safe; the part wasn't.</li>
+      <li class="warn"><span class="k">Low error, wrong word</span> — ~8% WER that still swapped CBL-221. The number looked safe; the part wasn't.</li>
       <li class="good">Not bugs — the <span class="k">shape of the method</span>. It only knows what the past showed it. Knowing that is your job.</li>
     </ul>
   </section>
